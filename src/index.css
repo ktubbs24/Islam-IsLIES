@@ -16,6 +16,7 @@
 
     --primary: 142 65% 40%;
     --primary-foreground: 0 0% 98%;
+    --primary-rgb: 45, 166, 95;
 
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
@@ -43,11 +44,13 @@
     --sidebar-accent-foreground: 0 0% 9%;
     --sidebar-border: 0 0% 89.8%;
     --sidebar-ring: 142 65% 40%;
+    --background-rgb: 255, 255, 255;
   }
 
   .dark {
     --background: 0 0% 7%;
     --foreground: 0 0% 98%;
+    --background-rgb: 18, 18, 18;
 
     --card: 0 0% 7%;
     --card-foreground: 0 0% 98%;
@@ -57,6 +60,7 @@
 
     --primary: 142 65% 40%;
     --primary-foreground: 0 0% 98%;
+    --primary-rgb: 45, 166, 95;
 
     --secondary: 0 0% 14.9%;
     --secondary-foreground: 0 0% 98%;
@@ -88,6 +92,7 @@
 @layer base {
   * {
     @apply border-border;
+    scroll-behavior: smooth;
   }
 
   body {
@@ -144,6 +149,47 @@
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
   
+  /* Heading anchor links in docs */
+  .doc-content h2,
+  .doc-content h3,
+  .doc-content h4 {
+    scroll-margin-top: 100px;
+    position: relative;
+  }
+
+  .doc-content h2 .anchor,
+  .doc-content h3 .anchor,
+  .doc-content h4 .anchor {
+    @apply opacity-0 text-primary transition-opacity duration-150;
+    position: absolute;
+    left: -1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .doc-content h2:hover .anchor,
+  .doc-content h3:hover .anchor,
+  .doc-content h4:hover .anchor {
+    @apply opacity-100;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/30 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/50;
+  }
+  
   /* Grid background */
   .grid-background {
     position: fixed;
@@ -153,18 +199,50 @@
     bottom: 0;
     pointer-events: none;
     z-index: -1;
-    opacity: 0.07;
-    background-size: 50px 50px;
+    opacity: 0.17;
+    background-size: 40px 40px;
     background-image: 
-      linear-gradient(to right, hsla(142, 65%, 40%, 0.1) 1px, transparent 1px),
-      linear-gradient(to bottom, hsla(142, 65%, 40%, 0.1) 1px, transparent 1px);
+      linear-gradient(to right, hsla(142, 75%, 40%, 0.3) 1px, transparent 1px),
+      linear-gradient(to bottom, hsla(142, 75%, 40%, 0.3) 1px, transparent 1px);
   }
 
   .dark .grid-background {
-    opacity: 0.15;
+    opacity: 0.25;
     background-image: 
-      linear-gradient(to right, hsla(142, 65%, 60%, 0.2) 1px, transparent 1px),
-      linear-gradient(to bottom, hsla(142, 65%, 60%, 0.2) 1px, transparent 1px);
+      linear-gradient(to right, hsla(142, 75%, 60%, 0.4) 1px, transparent 1px),
+      linear-gradient(to bottom, hsla(142, 75%, 60%, 0.4) 1px, transparent 1px);
+  }
+  
+  /* Background gradient */
+  body.dark {
+    background: linear-gradient(135deg, rgba(0, 10, 5, 0.97) 0%, rgba(0, 20, 10, 0.95) 100%);
+  }
+
+  body.light {
+    background: url('https://png.pngtree.com/background/20210716/original/pngtree-light-grey-white-modern-gradient-fluid-background-picture-image_1338656.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+  }
+  
+  /* TOC styles */
+  .toc ul {
+    @apply space-y-1 pl-0 list-none;
+  }
+
+  .toc ul ul {
+    @apply pl-4 mt-1 border-l border-slate-200 dark:border-slate-700;
+  }
+
+  .toc li {
+    @apply text-sm;
+  }
+
+  .toc li a {
+    @apply block py-1 text-muted-foreground hover:text-primary no-underline transition-colors;
+  }
+
+  .toc li a.active {
+    @apply text-primary font-medium;
   }
 }
 
@@ -180,22 +258,49 @@
 @keyframes float {
   0% {
     opacity: 0;
-    transform: translate(50%, 20px);
+    transform: translate(-50%, 20px);
   }
   10% {
     opacity: 1;
-    transform: translate(50%, 0);
+    transform: translate(-50%, 0);
   }
   90% {
     opacity: 1;
-    transform: translate(50%, 0);
+    transform: translate(-50%, 0);
   }
   100% {
     opacity: 0;
-    transform: translate(50%, -20px);
+    transform: translate(-50%, -20px);
   }
+}
+
+@keyframes spin-half {
+  0% { transform: rotate(0); }
+  100% { transform: rotate(180deg); }
+}
+
+.animate-spin-half {
+  animation: spin-half 0.5s forwards;
 }
 
 .animate-float {
   animation: float 3s forwards;
+}
+
+/* Add a longer animation for gospel message */
+.animate-float-long {
+  animation: float 300s forwards;
+}
+
+/* Scrollbar styling */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thumb-sidebar-accent::-webkit-scrollbar-thumb {
+  background: hsl(var(--sidebar-accent));
+}
+
+.scrollbar-track-transparent::-webkit-scrollbar-track {
+  background: transparent;
 }

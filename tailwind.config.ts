@@ -157,6 +157,40 @@ export default {
 					'0%': { transform: 'translateY(0)' },
 					'100%': { transform: 'translateY(-20px)', opacity: '0' }
 				},
+				'spin-half': {
+					'0%': { transform: 'rotate(0deg)' },
+					'100%': { transform: 'rotate(180deg)' }
+				},
+				'heartbeat': {
+					'0%': { transform: 'scale(1)' },
+					'15%': { transform: 'scale(1.15)' },
+					'30%': { transform: 'scale(1)' },
+					'45%': { transform: 'scale(1.15)' },
+					'60%': { transform: 'scale(1)' }
+				},
+				'dripping': {
+					'0%': { height: '0', opacity: '0' },
+					'20%': { height: '0', opacity: '0' },
+					'30%': { height: '10px', opacity: '1' },
+					'40%': { height: '15px', opacity: '0', bottom: '-30px' },
+					'100%': { height: '0', opacity: '0', bottom: '-15px' }
+				},
+				'rocket-movement': {
+					'100%': { transform: 'translate(1200px,-600px)' }
+				},
+				'spin-earth': {
+					'100%': { transform: 'rotate(-360deg)' }
+				},
+				'move-astronaut': {
+					'100%': { transform: 'translate(-160px, -160px)' }
+				},
+				'rotate-astronaut': {
+					'100%': { transform: 'rotate(-720deg)' }
+				},
+				'glow-star': {
+					'40%': { opacity: '0.3' },
+					'90%,100%': { opacity: '1', transform: 'scale(1.2)' }
+				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -174,8 +208,46 @@ export default {
 				'glow': 'glow 2s infinite',
 				'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
 				'float': 'float 2s ease-out forwards',
-			}
+				'spin-half': 'spin-half 0.5s forwards',
+				'heartbeat': 'heartbeat 1.5s infinite',
+				'dripping': 'dripping 5s infinite',
+				'rocket-movement': 'rocket-movement 200s linear infinite both running',
+				'spin-earth': 'spin-earth 100s infinite linear both',
+				'move-astronaut': 'move-astronaut 50s infinite linear both alternate',
+				'rotate-astronaut': 'rotate-astronaut 200s infinite linear both alternate',
+				'glow-star': 'glow-star 2s infinite ease-in-out alternate'
+			},
+			typography: (theme: any) => ({
+				DEFAULT: {
+					css: {
+						'h1, h2, h3, h4, h5, h6': {
+							position: 'relative',
+							scrollMarginTop: '100px',
+							'&:hover .anchor': {
+								opacity: 1,
+							},
+						},
+						a: {
+							color: 'hsl(var(--primary))',
+							'&:hover': {
+								color: 'hsl(var(--primary))',
+							},
+						},
+						'pre code': {
+							backgroundColor: 'transparent',
+							padding: 0,
+							borderRadius: 0,
+						},
+						code: {
+							fontSize: '0.9em',
+							padding: '0.2em 0.4em',
+							borderRadius: '0.25rem',
+							backgroundColor: 'hsl(var(--muted))',
+						},
+					},
+				},
+			}),
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [require("tailwindcss-animate"), require('@tailwindcss/typography')],
 } satisfies Config;

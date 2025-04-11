@@ -10,7 +10,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-gradient-to-b from-primary to-primary/80 text-primary-foreground hover:from-primary/90 hover:-translate-y-0.5 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 border-b-2 border-primary-foreground/20 active:translate-y-1 active:shadow-sm transition-all duration-150",
+        default: "btn-3d",
         destructive:
           "bg-gradient-to-b from-destructive to-destructive/80 text-destructive-foreground hover:from-destructive/90 hover:-translate-y-0.5 shadow-lg shadow-destructive/20 hover:shadow-xl hover:shadow-destructive/30 border-b-2 border-destructive-foreground/20 active:translate-y-1 active:shadow-sm",
         outline:

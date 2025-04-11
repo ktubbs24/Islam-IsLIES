@@ -1,9 +1,10 @@
 
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { ArrowRight, BookOpen, FileText, Tag } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowRight, BookOpen, FileText, Tag, ArrowUp } from "lucide-react";
 import SubscribeEmbed from "@/components/SubscribeEmbed";
 import ImageModal from "@/components/ImageModal";
+import { Button } from "@/components/ui/button";
 
 const popularTags = [
   { name: "jesus-divinity", count: 2 },
@@ -13,6 +14,27 @@ const popularTags = [
 
 const Index = () => {
   const [showImageModal, setShowImageModal] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
 
   return (
     <div className="space-y-12">
@@ -38,9 +60,9 @@ const Index = () => {
 
         <div className="space-y-6">
           <p className="text-xl text-muted-foreground">
-            Revealing Biblical truths about Islam and Jesus Christ. Our documentation site provides analysis of scripture and clear evidence about the divinity of Jesus.
+            Revealing Biblical truths about Islam and Jesus Christ. My documentation site provides analysis of scripture and clear evidence about the divinity of Jesus.
             <Link to="/about" className="custom-link ml-1">
-              Learn more about our mission <ArrowRight className="inline h-4 w-4" />
+              Learn more about my mission <ArrowRight className="inline h-4 w-4" />
             </Link>
           </p>
         </div>
@@ -48,14 +70,14 @@ const Index = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Link
             to="/getting-started"
-            className="relative overflow-hidden rounded-lg border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
+            className="page-link-button relative overflow-hidden rounded-lg border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
           >
             <div className="flex h-full flex-col justify-between gap-4">
               <div className="space-y-2">
                 <BookOpen className="h-8 w-8 text-primary" />
-                <h3 className="font-bold">Getting Started</h3>
+                <h3 className="font-bold">Welcome</h3>
                 <p className="text-muted-foreground">
-                  Start here to learn about our mission and explore our documentation.
+                  Start here to learn about my mission and explore my documentation.
                 </p>
               </div>
               <div className="flex items-center text-sm">
@@ -67,7 +89,7 @@ const Index = () => {
           
           <Link
             to="/biblical-truths/jesus-doesnt-deny-himself"
-            className="relative overflow-hidden rounded-lg border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
+            className="page-link-button relative overflow-hidden rounded-lg border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
           >
             <div className="flex h-full flex-col justify-between gap-4">
               <div className="space-y-2">
@@ -117,7 +139,7 @@ const Index = () => {
         <div className="space-y-2">
           <h2 className="text-2xl font-bold tracking-tight">Recent Updates</h2>
           <p className="text-muted-foreground">
-            Latest additions and updates to our documentation
+            Latest additions and updates to my documentation
           </p>
         </div>
         
@@ -145,7 +167,7 @@ const Index = () => {
             <Link
               key={i}
               to={item.path}
-              className="flex flex-col sm:flex-row gap-4 items-start rounded-lg border p-4 hover:bg-muted/50 transition-colors"
+              className="flex flex-col sm:flex-row gap-4 items-start rounded-lg border p-4 hover:bg-muted/50 transition-colors page-link-button"
             >
               <div className="min-w-[120px] text-sm text-muted-foreground">
                 {item.date}
@@ -180,6 +202,15 @@ const Index = () => {
           onClose={() => setShowImageModal(false)}
         />
       )}
+
+      {/* Scroll to top button */}
+      <button
+        className={`scroll-to-top ${showScrollTop ? 'visible' : ''}`}
+        onClick={scrollToTop}
+        aria-label="Scroll to top"
+      >
+        <ArrowUp size={20} />
+      </button>
     </div>
   );
 };

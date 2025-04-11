@@ -1,10 +1,9 @@
-
 import DocPage from "./DocPage";
 
 const GetStartedPage = () => {
   return (
     <DocPage
-      title="Getting Started with Islam IsLIES"
+      title="Welcome to Islam IsLIES"
       publishDate="2025-04-01"
       imageSrc="https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9"
     >
