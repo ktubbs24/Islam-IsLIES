@@ -1,6 +1,6 @@
-
 import { Link } from "react-router-dom";
 import { ArrowRight, BookOpen, FileText, Tag } from "lucide-react";
+import SubscribeEmbed from "@/components/SubscribeEmbed";
 
 const popularTags = [
   { name: "jesus-divinity", count: 2 },
