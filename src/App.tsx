@@ -17,6 +17,8 @@ import RecentUpdatesPage from "./pages/RecentUpdatesPage";
 import FAQPage from "./pages/FAQPage";
 import TagPage from "./pages/TagPage";
 import NewsletterPage from "./pages/NewsletterPage";
+import GospelPage from "./pages/GospelPage";
+import SupportPage from "./pages/SupportPage";
 import NotFound from "./pages/NotFound";
 
 // Move this inside the component function to fix hook initialization issues
@@ -36,6 +38,8 @@ const App = () => {
                 <Route path="/" element={<Index />} />
                 <Route path="/getting-started" element={<GetStartedPage />} />
                 <Route path="/about" element={<AboutPage />} />
+                <Route path="/gospel" element={<GospelPage />} />
+                <Route path="/support" element={<SupportPage />} />
                 <Route path="/biblical-truths/jesus-doesnt-deny-himself" element={<JesusDenialPage />} />
                 <Route path="/comparative-studies/bible-vs-quran" element={<BibleVsQuranPage />} />
                 <Route path="/biblical-truths/scripture-analysis" element={<ScriptureAnalysisPage />} />

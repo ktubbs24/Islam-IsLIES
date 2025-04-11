@@ -13,7 +13,7 @@ const SubscribeEmbed = () => {
   const iframeSrc = `https://islamislies.substack.com/embed${theme === 'dark' ? '?background=1a1a1a&text=ffffff' : ''}`;
 
   return (
-    <div className="rounded-lg border bg-card p-6 shadow-sm">
+    <div className="rounded-lg border bg-card p-6 md:p-8 shadow-sm">
       <h3 className="text-lg font-semibold mb-4">Subscribe to our newsletter</h3>
       
       <div className="flex flex-col lg:flex-row gap-6">
@@ -34,7 +34,7 @@ const SubscribeEmbed = () => {
           </a>
         </div>
         
-        <div className="flex-1 overflow-hidden rounded-lg border">
+        <div className="flex-1 overflow-hidden rounded-lg border pt-6 md:pt-0">
           <iframe 
             src={iframeSrc}
             width="100%" 

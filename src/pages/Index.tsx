@@ -1,7 +1,9 @@
 
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import { ArrowRight, BookOpen, FileText, Tag } from "lucide-react";
 import SubscribeEmbed from "@/components/SubscribeEmbed";
+import ImageModal from "@/components/ImageModal";
 
 const popularTags = [
   { name: "jesus-divinity", count: 2 },
@@ -10,6 +12,8 @@ const popularTags = [
 ];
 
 const Index = () => {
+  const [showImageModal, setShowImageModal] = useState(false);
+
   return (
     <div className="space-y-12">
       <section className="space-y-8">
@@ -18,7 +22,8 @@ const Index = () => {
           <img 
             src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
             alt="Islam IsLIES banner" 
-            className="w-full h-64 object-cover"
+            className="w-full h-64 object-cover cursor-pointer"
+            onClick={() => setShowImageModal(true)}
           />
           <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
             <div className="grid grid-cols-12">
@@ -167,6 +172,14 @@ const Index = () => {
       <div className="border-t pt-8">
         <SubscribeEmbed />
       </div>
+
+      {showImageModal && (
+        <ImageModal 
+          src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
+          alt="Islam IsLIES Logo"
+          onClose={() => setShowImageModal(false)}
+        />
+      )}
     </div>
   );
 };
