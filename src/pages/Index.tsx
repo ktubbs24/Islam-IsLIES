@@ -1,6 +1,12 @@
 
 import { Link } from "react-router-dom";
-import { ArrowRight, BookOpen, FileText } from "lucide-react";
+import { ArrowRight, BookOpen, FileText, Tag } from "lucide-react";
+
+const popularTags = [
+  { name: "jesus-divinity", count: 2 },
+  { name: "scripture-analysis", count: 3 },
+  { name: "blog-threads", count: 1 },
+];
 
 const Index = () => {
   return (
@@ -53,6 +59,33 @@ const Index = () => {
               </div>
             </div>
           </Link>
+        </div>
+      </section>
+      
+      <section className="space-y-6">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2">
+            <Tag className="h-6 w-6" />
+            Topics
+          </h2>
+          <p className="text-muted-foreground">
+            Browse documents by topic
+          </p>
+        </div>
+        
+        <div className="flex flex-wrap gap-3">
+          {popularTags.map((tag, i) => (
+            <Link
+              key={i}
+              to={`/tags/${tag.name}`}
+              className="px-4 py-2 rounded-full bg-muted hover:bg-primary/10 hover:text-primary transition-colors flex items-center gap-2"
+            >
+              <span>{tag.name.replace('-', '/')}</span>
+              <span className="inline-flex items-center justify-center w-5 h-5 text-xs rounded-full bg-background">
+                {tag.count}
+              </span>
+            </Link>
+          ))}
         </div>
       </section>
       
@@ -111,6 +144,10 @@ const Index = () => {
           </Link>
         </div>
       </section>
+
+      <div className="border-t pt-8">
+        <SubscribeEmbed />
+      </div>
     </div>
   );
 };

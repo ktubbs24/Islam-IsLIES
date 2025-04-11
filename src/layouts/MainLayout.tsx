@@ -5,6 +5,7 @@ import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { cn } from "@/lib/utils";
+import "../styles.css";
 
 const MainLayout = () => {
   const [isEntering, setIsEntering] = useState(true);

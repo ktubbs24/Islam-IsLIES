@@ -4,6 +4,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import TableOfContents from "@/components/TableOfContents";
 import DocDownload from "@/components/DocDownload";
 import { Calendar } from "lucide-react";
+import SubscribeEmbed from "@/components/SubscribeEmbed";
 
 interface DocPageProps {
   title: string;
@@ -50,16 +51,10 @@ const DocPage = ({
     }
   }, [title]);
 
-  const handleTagClick = (tag: string) => {
-    console.log(`Tag clicked: ${tag}`);
-    // In a real app, this would navigate to a tag page
-    // navigate(`/tags/${tag}`);
-  };
-
   return (
     <div className="min-h-full flex flex-col">
       <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6">
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 max-w-4xl">
           <Breadcrumbs title={title} />
           
           <div className="flex flex-col gap-6">
@@ -75,6 +70,7 @@ const DocPage = ({
               {updateDate && updateDate !== 'n/a' && (
                 <div className="flex items-center gap-1">
                   <span>|</span>
+                  <Calendar className="h-4 w-4" />
                   <time dateTime={updateDate}>
                     Updated: {formattedDate(updateDate)}
                   </time>
@@ -93,12 +89,12 @@ const DocPage = ({
                 <img 
                   src={imageSrc} 
                   alt={`Cover image for ${title}`} 
-                  className="doc-image w-full max-h-[400px] object-cover"
+                  className="doc-image w-full max-h-[400px] object-cover rounded-lg shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 hover:shadow-primary/10"
                 />
               </div>
             )}
             
-            <article className="prose dark:prose-invert max-w-none doc-content">
+            <article className="prose dark:prose-invert max-w-3xl doc-content">
               {children}
             </article>
             
@@ -107,13 +103,13 @@ const DocPage = ({
                 <h3 className="text-sm font-medium mb-2">Tags:</h3>
                 <div className="flex flex-wrap gap-2">
                   {tags.map((tag, idx) => (
-                    <button
+                    <a
                       key={idx}
-                      onClick={() => handleTagClick(tag)}
-                      className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-xs font-medium hover:bg-muted/70"
+                      href={`/tags/${tag.replace('#', '').replace('/', '-')}`}
+                      className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-xs font-medium hover:bg-primary/10 hover:text-primary hover:shadow-sm hover:shadow-primary/20 transition-all"
                     >
                       {tag.replace('#', '')}
-                    </button>
+                    </a>
                   ))}
                 </div>
               </div>
@@ -121,6 +117,10 @@ const DocPage = ({
             
             <div className="mt-8 flex justify-end">
               <DocDownload documentTitle={title} contentId="doc-1" />
+            </div>
+            
+            <div className="mt-8 py-8 border-t">
+              <SubscribeEmbed />
             </div>
           </div>
         </div>

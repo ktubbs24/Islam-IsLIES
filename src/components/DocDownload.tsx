@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { FileDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -11,6 +11,7 @@ interface DocDownloadProps {
 const DocDownload = ({ documentTitle, contentId }: DocDownloadProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [downloadMessage, setDownloadMessage] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -23,9 +24,10 @@ const DocDownload = ({ documentTitle, contentId }: DocDownloadProps) => {
     console.log(`Downloading ${documentTitle} as ${format}`);
     
     // Play sound effect
-    const audio = new Audio("/download-sound.mp3");
-    audio.volume = 0.5;
-    audio.play().catch(e => console.log("Audio play failed:", e));
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(e => console.log("Audio play failed:", e));
+    }
     
     // Show notification
     setDownloadMessage(true);
@@ -38,6 +40,8 @@ const DocDownload = ({ documentTitle, contentId }: DocDownloadProps) => {
 
   return (
     <div className="relative">
+      <audio ref={audioRef} src="/download-sound.mp3" preload="auto" />
+      
       <button 
         onClick={toggleDropdown}
         className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-3 py-2 text-sm font-medium"
@@ -49,7 +53,7 @@ const DocDownload = ({ documentTitle, contentId }: DocDownloadProps) => {
       </button>
       
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-card border z-10">
+        <div className="absolute right-0 top-0 mt-[-120px] w-40 rounded-md shadow-lg bg-card border z-10">
           <div className="py-1" role="menu" aria-orientation="vertical">
             {["Markdown (.md)", "Text (.txt)", "PDF (.pdf)", "Word (.docx)"].map((format) => (
               <button

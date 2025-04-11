@@ -1,5 +1,6 @@
 
 import DocPage from "./DocPage";
+import { Link } from "react-router-dom";
 
 const JesusDenialPage = () => {
   return (
@@ -33,7 +34,7 @@ const JesusDenialPage = () => {
       </p>
 
       <p>
-        Because the man claimed to have kept the law but also boasted that man was "good" (calling Jesus in the flesh good teacher) which shows he thought that he/man/flesh was "good" and good enough to be able to "do" something to get to inherit eternal life, we see why Jesus spoke to him the way that he did while not revealing himself to the man because Jesus says Himself that He spoke in parables because the mysteries of the Kingdom and who He is was not for everyone to know especially those who are not His sheep.
+        Because the man claimed to have kept the law but also boasted that man was "good" (calling Jesus in the flesh good teacher) which shows he thought that he/man/flesh was "good" and good enough to be able to "do" something to get to inherit eternal life, we see why Jesus spoke to him the way that he did while not revealing himself to the man because Jesus says Himself that He spoke in parables because the mysteries of the Kingdom and who He is was not for everyone to know especially those who are not His sheep. Learn more about <Link to="/biblical-truths/scripture-analysis" className="custom-link">Jesus's divinity in scripture analysis</Link>.
       </p>
 
       <h3 id="sheep-followers">Jesus's Sheep Hear His Voice</h3>
@@ -42,7 +43,7 @@ const JesusDenialPage = () => {
       </p>
 
       <p>
-        This is the issue the Muslims fail to "see". Why would Jesus reveal Himself to Muslims as God when Muslims don't believe in who He says He is when Jesus didn't reveal Himself to certain Jews as God when certain Jews didn't/don't believe in who He says He is.
+        This is the issue the Muslims fail to "see". Why would Jesus reveal Himself to Muslims as God when Muslims don't believe in who He says He is when Jesus didn't reveal Himself to certain Jews as God when certain Jews didn't/don't believe in who He says He is. Read more about <Link to="/comparative-studies/bible-vs-quran" className="custom-link">Bible vs Quran comparisons</Link>.
       </p>
 
       <h2 id="theological-implications">Theological Implications</h2>

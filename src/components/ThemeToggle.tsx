@@ -1,51 +1,41 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTheme } from "@/hooks/use-theme";
 
 const ThemeToggle = () => {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const { theme, toggleTheme } = useTheme();
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const handleToggle = () => {
+    if (isTransitioning) return;
     
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.classList.toggle("dark", savedTheme === "dark");
-    } else if (prefersDark) {
-      setTheme("dark");
-      document.documentElement.classList.add("dark");
-    }
-  }, []);
-
-  const toggleTheme = () => {
     setIsTransitioning(true);
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
     
-    // Add a dim effect to the whole page
-    document.body.classList.add("dim-transition");
-    document.body.style.backgroundColor = theme === "light" 
-      ? "rgba(0,0,0,0.1)" 
-      : "rgba(255,255,255,0.1)";
+    // Add a dim overlay to the whole page
+    const overlay = document.createElement('div');
+    overlay.className = 'fixed inset-0 z-50 transition-opacity duration-500 pointer-events-none';
+    overlay.style.backgroundColor = theme === 'light' ? 'rgba(0, 0, 0, 0.15)' : 'rgba(255, 255, 255, 0.15)';
+    document.body.appendChild(overlay);
     
-    // Transition to the new theme
+    // Allow the overlay to render before fading it out
     setTimeout(() => {
-      document.documentElement.classList.toggle("dark", newTheme === "dark");
-      localStorage.setItem("theme", newTheme);
+      toggleTheme();
       
+      // Fade out the overlay
+      overlay.style.opacity = '0';
+      
+      // Remove the overlay after animation
       setTimeout(() => {
-        document.body.style.backgroundColor = "";
-        document.body.classList.remove("dim-transition");
+        document.body.removeChild(overlay);
         setIsTransitioning(false);
-      }, 300);
-    }, 200);
+      }, 500);
+    }, 100);
   };
 
   return (
     <button
-      onClick={toggleTheme}
+      onClick={handleToggle}
       className="p-2 rounded-full bg-muted/50 hover:bg-muted transition-colors"
       aria-label="Toggle theme"
       disabled={isTransitioning}

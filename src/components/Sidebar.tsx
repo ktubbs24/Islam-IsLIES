@@ -1,9 +1,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronRight, ChevronDown, File, Folder, FolderOpen } from "lucide-react";
+import { Menu, X, ChevronRight, ChevronDown, File, Folder, FolderOpen, Mail } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import { cn } from "@/lib/utils";
+import { Button } from "./ui/button";
 
 interface SidebarItemProps {
   title: string;
@@ -52,6 +53,11 @@ const sidebarItems: SidebarItemProps[] = [
         icon: <File size={18} />,
       }
     ]
+  },
+  {
+    title: "FAQ",
+    path: "/faq",
+    icon: <File size={18} />,
   },
   {
     title: "Recent Updates",
@@ -127,7 +133,7 @@ const SidebarItem = ({ title, path, icon, children, level = 0 }: SidebarItemProp
     <Link
       to={path}
       className={cn(
-        "flex items-center py-2 px-3 rounded-md text-sm mb-1",
+        "flex items-center py-2 px-3 rounded-md text-sm mb-1 custom-link",
         "hover:bg-muted transition-colors duration-200",
         isActive && "bg-primary/10 text-primary font-medium"
       )}
@@ -204,10 +210,22 @@ const Sidebar = () => {
           <ThemeToggle />
         </div>
         
-        <div className="p-2 overflow-y-auto h-[calc(100vh-60px)]">
+        <div className="p-2 overflow-y-auto h-[calc(100vh-130px)]">
           {sidebarItems.map((item, idx) => (
             <SidebarItem key={idx} {...item} />
           ))}
+        </div>
+        
+        <div className="absolute bottom-0 left-0 right-0 border-t p-3">
+          <a 
+            href="https://islamislies.substack.com/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 bg-primary/80 text-primary-foreground py-2 px-3 rounded-md hover:bg-primary transition-colors text-sm"
+          >
+            <Mail size={16} />
+            Want to hear when I publish new work?
+          </a>
         </div>
       </div>
       
