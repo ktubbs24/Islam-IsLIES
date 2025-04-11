@@ -1,25 +1,16 @@
 
-import { useEffect, useRef } from "react";
+import { useState } from "react";
 import { useTheme } from "@/hooks/use-theme";
 import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const SubscribeEmbed = () => {
   const { theme } = useTheme();
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(() => {
-    // Update iframe background based on theme
-    if (iframeRef.current) {
-      const iframe = iframeRef.current;
-      const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
-      
-      if (iframeDoc) {
-        const bgColor = theme === 'dark' ? '#1a1a1a' : '#ffffff';
-        iframeDoc.body.style.backgroundColor = bgColor;
-      }
-    }
-  }, [theme]);
+  // Instead of trying to modify the iframe content directly (which causes cross-origin errors),
+  // we'll just set the iframe src with the right parameters and background color
+  const iframeSrc = `https://islamislies.substack.com/embed${theme === 'dark' ? '?background=1a1a1a&text=ffffff' : ''}`;
 
   return (
     <div className="rounded-lg border bg-card p-6 shadow-sm">
@@ -45,8 +36,7 @@ const SubscribeEmbed = () => {
         
         <div className="flex-1 overflow-hidden rounded-lg border">
           <iframe 
-            ref={iframeRef}
-            src="https://islamislies.substack.com/embed" 
+            src={iframeSrc}
             width="100%" 
             height="320" 
             style={{ 
@@ -57,6 +47,8 @@ const SubscribeEmbed = () => {
             title="Subscribe to Islam IsLIES"
             frameBorder="0" 
             scrolling="no"
+            onLoad={() => setIsLoaded(true)}
+            className={`transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
           />
         </div>
       </div>

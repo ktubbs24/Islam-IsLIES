@@ -19,34 +19,38 @@ import TagPage from "./pages/TagPage";
 import NewsletterPage from "./pages/NewsletterPage";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route element={<MainLayout />}>
-              <Route path="/" element={<Index />} />
-              <Route path="/getting-started" element={<GetStartedPage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/biblical-truths/jesus-doesnt-deny-himself" element={<JesusDenialPage />} />
-              <Route path="/comparative-studies/bible-vs-quran" element={<BibleVsQuranPage />} />
-              <Route path="/biblical-truths/scripture-analysis" element={<ScriptureAnalysisPage />} />
-              <Route path="/recent-updates" element={<RecentUpdatesPage />} />
-              <Route path="/newsletter" element={<NewsletterPage />} />
-              <Route path="/faq" element={<FAQPage />} />
-              <Route path="/tags/:tagName" element={<TagPage />} />
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </ThemeProvider>
-  </QueryClientProvider>
-);
+// Move this inside the component function to fix hook initialization issues
+const App = () => {
+  // Create a new QueryClient instance inside the component
+  const queryClient = new QueryClient();
+  
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route element={<MainLayout />}>
+                <Route path="/" element={<Index />} />
+                <Route path="/getting-started" element={<GetStartedPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/biblical-truths/jesus-doesnt-deny-himself" element={<JesusDenialPage />} />
+                <Route path="/comparative-studies/bible-vs-quran" element={<BibleVsQuranPage />} />
+                <Route path="/biblical-truths/scripture-analysis" element={<ScriptureAnalysisPage />} />
+                <Route path="/recent-updates" element={<RecentUpdatesPage />} />
+                <Route path="/newsletter" element={<NewsletterPage />} />
+                <Route path="/faq" element={<FAQPage />} />
+                <Route path="/tags/:tagName" element={<TagPage />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
