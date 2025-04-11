@@ -16,6 +16,7 @@ import ScriptureAnalysisPage from "./pages/ScriptureAnalysisPage";
 import RecentUpdatesPage from "./pages/RecentUpdatesPage";
 import FAQPage from "./pages/FAQPage";
 import TagPage from "./pages/TagPage";
+import NewsletterPage from "./pages/NewsletterPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
               <Route path="/comparative-studies/bible-vs-quran" element={<BibleVsQuranPage />} />
               <Route path="/biblical-truths/scripture-analysis" element={<ScriptureAnalysisPage />} />
               <Route path="/recent-updates" element={<RecentUpdatesPage />} />
+              <Route path="/newsletter" element={<NewsletterPage />} />
               <Route path="/faq" element={<FAQPage />} />
               <Route path="/tags/:tagName" element={<TagPage />} />
             </Route>

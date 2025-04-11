@@ -6,11 +6,13 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { cn } from "@/lib/utils";
 import "../styles.css";
+import { useTheme } from "@/hooks/use-theme";
 
 const MainLayout = () => {
   const [isEntering, setIsEntering] = useState(true);
   const [prevPath, setPrevPath] = useState("");
   const location = useLocation();
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     // Skip animation on first load
@@ -31,7 +33,7 @@ const MainLayout = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex dim-transition">
       <Sidebar />
       <div className="flex-1 min-w-0 pl-0 md:pl-64 transition-all duration-300">
         <div className="flex min-h-screen flex-col">

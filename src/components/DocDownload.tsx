@@ -1,7 +1,13 @@
 
-import { useState, useRef } from "react";
-import { FileDown } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { useState, useRef, useEffect } from "react";
+import { Download, Check, FileText } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 
 interface DocDownloadProps {
   documentTitle: string;
@@ -9,74 +15,80 @@ interface DocDownloadProps {
 }
 
 const DocDownload = ({ documentTitle, contentId }: DocDownloadProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [downloadMessage, setDownloadMessage] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+  // Create audio element on mount
+  useEffect(() => {
+    audioRef.current = new Audio("/download-sound.mp3");
+    audioRef.current.volume = 0.5;
+    
+    return () => {
+      if (audioRef.current) {
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
   const handleDownload = (format: string) => {
-    // In a real app, these would generate actual document downloads
-    // For now, we'll just simulate it and show the notification
-    
-    console.log(`Downloading ${documentTitle} as ${format}`);
-    
-    // Play sound effect
+    // Play sound
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(e => console.log("Audio play failed:", e));
+      audioRef.current.play().catch(err => console.error("Error playing sound:", err));
     }
     
     // Show notification
-    setDownloadMessage(true);
-    setTimeout(() => {
-      setDownloadMessage(false);
-    }, 3000);
+    setShowNotification(true);
+    setTimeout(() => setShowNotification(false), 3000);
     
-    setIsOpen(false);
+    // Simulate download (in a real app, replace this with actual download logic)
+    const content = document.getElementById(contentId)?.innerText || "Content not found";
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${documentTitle.replace(/\s+/g, "-").toLowerCase()}.${format}`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   return (
     <div className="relative">
-      <audio ref={audioRef} src="/download-sound.mp3" preload="auto" />
-      
-      <button 
-        onClick={toggleDropdown}
-        className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-3 py-2 text-sm font-medium"
-        aria-haspopup="true"
-        aria-expanded={isOpen}
-      >
-        <FileDown size={18} />
-        Download
-      </button>
-      
-      {isOpen && (
-        <div className="absolute right-0 top-0 mt-[-120px] w-40 rounded-md shadow-lg bg-card border z-10">
-          <div className="py-1" role="menu" aria-orientation="vertical">
-            {["Markdown (.md)", "Text (.txt)", "PDF (.pdf)", "Word (.docx)"].map((format) => (
-              <button
-                key={format}
-                onClick={() => handleDownload(format)}
-                className="w-full text-left px-4 py-2 text-sm hover:bg-muted"
-                role="menuitem"
-              >
-                {format}
-              </button>
-            ))}
-          </div>
+      {showNotification && (
+        <div className="absolute -top-12 right-1/2 transform translate-x-1/2 bg-background border border-border shadow-lg rounded-md px-4 py-2 z-10 animate-float flex items-center">
+          <Check className="h-4 w-4 text-primary mr-2" />
+          <span className="text-sm">Free to download, no need for credit.</span>
         </div>
       )}
       
-      {/* Download notification */}
-      {downloadMessage && (
-        <div className="fixed bottom-10 right-1/2 transform translate-x-1/2 animate-float z-50">
-          <div className="bg-primary/90 text-primary-foreground px-4 py-2 rounded-full shadow-lg">
-            Free to download, no need for credit.
-          </div>
-        </div>
-      )}
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="sm">
+            <Download className="mr-2 h-4 w-4" />
+            Download
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-48">
+          <DropdownMenuItem onClick={() => handleDownload("md")}>
+            <FileText className="mr-2 h-4 w-4" />
+            <span>Markdown (.md)</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleDownload("txt")}>
+            <FileText className="mr-2 h-4 w-4" />
+            <span>Text (.txt)</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleDownload("docx")}>
+            <FileText className="mr-2 h-4 w-4" />
+            <span>Word (.docx)</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleDownload("pdf")}>
+            <FileText className="mr-2 h-4 w-4" />
+            <span>PDF (.pdf)</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 };

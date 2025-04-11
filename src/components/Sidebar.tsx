@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronRight, ChevronDown, File, Folder, FolderOpen, Mail } from "lucide-react";
+import { Menu, X, ChevronRight, ChevronDown, File, Folder, FolderOpen, Mail, ChevronLeft } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
@@ -63,6 +63,11 @@ const sidebarItems: SidebarItemProps[] = [
     title: "Recent Updates",
     path: "/recent-updates",
     icon: <File size={18} />,
+  },
+  {
+    title: "Newsletter",
+    path: "/newsletter",
+    icon: <Mail size={18} />,
   },
   {
     title: "About",
@@ -177,13 +182,15 @@ const Sidebar = () => {
 
   return (
     <>
+      <div className="grid-background" aria-hidden="true"></div>
+      
       <div className="fixed top-4 left-4 z-50">
         <button
           onClick={toggleSidebar}
           className="p-2 rounded-md bg-background border hover:bg-muted transition-colors relative"
           aria-label="Toggle sidebar"
         >
-          {isOpen ? <X size={20} /> : <Menu size={20} />}
+          {isOpen ? <ChevronLeft size={20} /> : <Menu size={20} />}
           
           {/* Hint arrow */}
           {showHint && !isOpen && (
@@ -205,12 +212,21 @@ const Sidebar = () => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="p-4 border-b flex justify-between items-center">
+        <div className="p-4 border-b flex flex-col justify-center items-center">
+          <div className="mb-2 overflow-hidden rounded-full w-16 h-16 flex items-center justify-center">
+            <img 
+              src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png" 
+              alt="Islam IsLIES Logo" 
+              className="w-full h-full object-cover"
+            />
+          </div>
           <h2 className="font-bold text-lg">Islam IsLIES</h2>
-          <ThemeToggle />
+          <div className="mt-2">
+            <ThemeToggle />
+          </div>
         </div>
         
-        <div className="p-2 overflow-y-auto h-[calc(100vh-130px)]">
+        <div className="p-2 overflow-y-auto h-[calc(100vh-230px)]">
           {sidebarItems.map((item, idx) => (
             <SidebarItem key={idx} {...item} />
           ))}

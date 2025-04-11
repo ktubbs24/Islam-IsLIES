@@ -1,9 +1,10 @@
 
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Calendar, ArrowLeft, ArrowRight } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import TableOfContents from "@/components/TableOfContents";
 import DocDownload from "@/components/DocDownload";
-import { Calendar } from "lucide-react";
 import SubscribeEmbed from "@/components/SubscribeEmbed";
 
 interface DocPageProps {
@@ -14,6 +15,14 @@ interface DocPageProps {
   imageSrc?: string;
   disclaimer?: string;
   tags?: string[];
+  nextPage?: {
+    title: string;
+    path: string;
+  };
+  prevPage?: {
+    title: string;
+    path: string;
+  };
 }
 
 const DocPage = ({ 
@@ -23,7 +32,9 @@ const DocPage = ({
   children, 
   imageSrc, 
   disclaimer,
-  tags = []
+  tags = [],
+  nextPage,
+  prevPage
 }: DocPageProps) => {
   const formattedDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -54,7 +65,7 @@ const DocPage = ({
   return (
     <div className="min-h-full flex flex-col">
       <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6">
-        <div className="flex-1 min-w-0 max-w-4xl">
+        <div className="flex-1 min-w-0 max-w-5xl">
           <Breadcrumbs title={title} />
           
           <div className="flex flex-col gap-6">
@@ -89,12 +100,12 @@ const DocPage = ({
                 <img 
                   src={imageSrc} 
                   alt={`Cover image for ${title}`} 
-                  className="doc-image w-full max-h-[400px] object-cover rounded-lg shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 hover:shadow-primary/10"
+                  className="doc-image w-full max-h-[400px] object-cover rounded-lg shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 hover:shadow-primary/20"
                 />
               </div>
             )}
             
-            <article className="prose dark:prose-invert max-w-3xl doc-content">
+            <article className="prose dark:prose-invert w-full doc-content">
               {children}
             </article>
             
@@ -103,14 +114,40 @@ const DocPage = ({
                 <h3 className="text-sm font-medium mb-2">Tags:</h3>
                 <div className="flex flex-wrap gap-2">
                   {tags.map((tag, idx) => (
-                    <a
+                    <Link
                       key={idx}
-                      href={`/tags/${tag.replace('#', '').replace('/', '-')}`}
+                      to={`/tags/${tag.replace('#', '').replace('/', '-')}`}
                       className="inline-flex items-center rounded-full bg-muted px-3 py-1 text-xs font-medium hover:bg-primary/10 hover:text-primary hover:shadow-sm hover:shadow-primary/20 transition-all"
                     >
                       {tag.replace('#', '')}
-                    </a>
+                    </Link>
                   ))}
+                </div>
+              </div>
+            )}
+            
+            {(prevPage || nextPage) && (
+              <div className="mt-8 pt-6 border-t">
+                <div className="flex items-center justify-between">
+                  {prevPage ? (
+                    <Link 
+                      to={prevPage.path} 
+                      className="flex items-center group text-sm"
+                    >
+                      <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
+                      <span className="custom-link">Previous: {prevPage.title}</span>
+                    </Link>
+                  ) : <div />}
+                  
+                  {nextPage && (
+                    <Link 
+                      to={nextPage.path} 
+                      className="flex items-center group text-sm"
+                    >
+                      <span className="custom-link">Next: {nextPage.title}</span>
+                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                  )}
                 </div>
               </div>
             )}

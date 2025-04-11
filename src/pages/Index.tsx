@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { ArrowRight, BookOpen, FileText, Tag } from "lucide-react";
 import SubscribeEmbed from "@/components/SubscribeEmbed";
@@ -11,13 +12,31 @@ const popularTags = [
 const Index = () => {
   return (
     <div className="space-y-12">
-      <section className="space-y-6">
-        <div className="space-y-2">
-          <h1 className="text-4xl font-bold tracking-tight">
-            Welcome to Islam IsLIES
-          </h1>
+      <section className="space-y-8">
+        <div className="overflow-hidden rounded-xl shadow-lg relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background z-10"></div>
+          <img 
+            src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
+            alt="Islam IsLIES banner" 
+            className="w-full h-64 object-cover"
+          />
+          <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
+            <div className="grid grid-cols-12">
+              <div className="col-span-12 md:col-span-10 lg:col-span-8">
+                <h1 className="text-4xl font-bold tracking-tight text-foreground mb-2">
+                  Islam IsLIES
+                </h1>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-6">
           <p className="text-xl text-muted-foreground">
-            Revealing Biblical truths about Islam and Jesus Christ
+            Revealing Biblical truths about Islam and Jesus Christ. Our documentation site provides analysis of scripture and clear evidence about the divinity of Jesus.
+            <Link to="/about" className="custom-link ml-1">
+              Learn more about our mission <ArrowRight className="inline h-4 w-4" />
+            </Link>
           </p>
         </div>
         
@@ -48,7 +67,7 @@ const Index = () => {
             <div className="flex h-full flex-col justify-between gap-4">
               <div className="space-y-2">
                 <FileText className="h-8 w-8 text-primary" />
-                <h3 className="font-bold">Featured Article</h3>
+                <h3 className="font-bold">Featured Post</h3>
                 <p className="text-muted-foreground">
                   Jesus doesn't deny Himself by saying only God is good
                 </p>
