@@ -21,6 +21,11 @@ import GospelPage from "./pages/GospelPage";
 import SupportPage from "./pages/SupportPage";
 import NotFound from "./pages/NotFound";
 
+// Create the context provider for sliding panes
+const SlidingPaneProvider = ({ children }: { children: React.ReactNode }) => {
+  return children;
+};
+
 // Move this inside the component function to fix hook initialization issues
 const App = () => {
   // Create a new QueryClient instance inside the component
@@ -32,25 +37,27 @@ const App = () => {
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route element={<MainLayout />}>
-                <Route path="/" element={<Index />} />
-                <Route path="/getting-started" element={<GetStartedPage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/gospel" element={<GospelPage />} />
-                <Route path="/support" element={<SupportPage />} />
-                <Route path="/biblical-truths/jesus-doesnt-deny-himself" element={<JesusDenialPage />} />
-                <Route path="/comparative-studies/bible-vs-quran" element={<BibleVsQuranPage />} />
-                <Route path="/biblical-truths/scripture-analysis" element={<ScriptureAnalysisPage />} />
-                <Route path="/recent-updates" element={<RecentUpdatesPage />} />
-                <Route path="/newsletter" element={<NewsletterPage />} />
-                <Route path="/faq" element={<FAQPage />} />
-                <Route path="/tags/:tagName" element={<TagPage />} />
-              </Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
+          <SlidingPaneProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route element={<MainLayout />}>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/getting-started" element={<GetStartedPage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/gospel" element={<GospelPage />} />
+                  <Route path="/support" element={<SupportPage />} />
+                  <Route path="/biblical-truths/jesus-doesnt-deny-himself" element={<JesusDenialPage />} />
+                  <Route path="/comparative-studies/bible-vs-quran" element={<BibleVsQuranPage />} />
+                  <Route path="/biblical-truths/scripture-analysis" element={<ScriptureAnalysisPage />} />
+                  <Route path="/recent-updates" element={<RecentUpdatesPage />} />
+                  <Route path="/newsletter" element={<NewsletterPage />} />
+                  <Route path="/faq" element={<FAQPage />} />
+                  <Route path="/tags/:tagName" element={<TagPage />} />
+                </Route>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </SlidingPaneProvider>
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>

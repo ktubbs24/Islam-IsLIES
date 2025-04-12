@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Calendar, ArrowLeft, ArrowRight, ThumbsUp, Share2, ChevronDown, Hash, ArrowUp } from "lucide-react";
@@ -7,6 +6,8 @@ import TableOfContents from "@/components/TableOfContents";
 import DocDownload from "@/components/DocDownload";
 import SubscribeEmbed from "@/components/SubscribeEmbed";
 import ImageModal from "@/components/ImageModal";
+import MarkdownRenderer from "@/components/MarkdownRenderer";
+import SlideLink from "@/components/SlideLink";
 
 interface DocPageProps {
   title: string;
@@ -78,11 +79,23 @@ const DocPage = ({
     });
   };
 
+  const extractMarkdownContent = (): string => {
+    if (typeof children === 'string') {
+      return children;
+    } else if (React.isValidElement(children) && children.props?.children) {
+      if (typeof children.props.children === 'string') {
+        return children.props.children;
+      }
+    }
+    
+    return '';
+  };
+
+  const markdownContent = extractMarkdownContent();
+
   useEffect(() => {
-    // Scroll to top when page loads
     window.scrollTo(0, 0);
     
-    // Add IDs to headings for TOC and extract headings
     const content = contentRef.current;
     if (content) {
       const headingElements = content.querySelectorAll("h2, h3, h4");
@@ -93,14 +106,12 @@ const DocPage = ({
         const id = h.id || `heading-${index}`;
         h.id = id;
         
-        // Add anchor link to heading
         const anchor = document.createElement('a');
         anchor.href = `#${id}`;
         anchor.className = 'anchor';
         anchor.innerHTML = '#';
         h.appendChild(anchor);
         
-        // Extract heading data for TOC dropdown
         extractedHeadings.push({
           id,
           text: h.textContent?.replace('#', '') || '',
@@ -111,7 +122,6 @@ const DocPage = ({
       setHeadings(extractedHeadings);
     }
     
-    // Add scroll event listener for scroll-to-top button
     const handleScroll = () => {
       if (window.scrollY > 300) {
         setShowScrollTop(true);
@@ -130,7 +140,7 @@ const DocPage = ({
   return (
     <div className="min-h-full flex flex-col">
       <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6">
-        <div className="flex-1 min-w-0 w-full">
+        <div className="flex-1 min-w-0 max-w-4xl">
           <Breadcrumbs title={title} />
           
           <div className="flex flex-col gap-6">
@@ -200,7 +210,11 @@ const DocPage = ({
             )}
             
             <article className="prose dark:prose-invert w-full doc-content" ref={contentRef}>
-              {children}
+              {markdownContent ? (
+                <MarkdownRenderer content={markdownContent} />
+              ) : (
+                children
+              )}
             </article>
             
             <div className="mt-4 flex items-center justify-between">
@@ -282,23 +296,23 @@ const DocPage = ({
               <div className="mt-8 pt-6 border-t">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                   {prevPage ? (
-                    <Link 
+                    <SlideLink 
                       to={prevPage.path} 
                       className="page-link-button group flex items-center gap-2"
                     >
                       <ArrowLeft className="mr-1 h-4 w-4 transition-transform group-hover:-translate-x-1" />
                       <span>Previous: {prevPage.title}</span>
-                    </Link>
+                    </SlideLink>
                   ) : <div />}
                   
                   {nextPage && (
-                    <Link 
+                    <SlideLink 
                       to={nextPage.path} 
                       className="page-link-button group flex items-center gap-2"
                     >
                       <span>Next: {nextPage.title}</span>
                       <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </Link>
+                    </SlideLink>
                   )}
                 </div>
               </div>
@@ -317,7 +331,6 @@ const DocPage = ({
         <TableOfContents />
       </div>
       
-      {/* Scroll to top button */}
       <button
         className={`scroll-to-top ${showScrollTop ? 'visible' : ''}`}
         onClick={scrollToTop}

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, Link } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
@@ -7,6 +6,7 @@ import Footer from "@/components/Footer";
 import { cn } from "@/lib/utils";
 import "../styles.css";
 import { useTheme } from "@/hooks/use-theme";
+import SlidingPaneManager from "@/components/SlidingPaneManager";
 
 const MainLayout = () => {
   const [isEntering, setIsEntering] = useState(true);
@@ -79,20 +79,37 @@ const MainLayout = () => {
     audio.play().catch(e => console.log('Audio play error:', e));
   };
 
+  useEffect(() => {
+    // Add glowing effect to Injeel button on page load
+    const timer1 = setTimeout(() => {
+      const injeelBtn = document.getElementById('injeel-button');
+      if (injeelBtn) injeelBtn.classList.add('glowing');
+      
+      // Remove glowing effect after a few seconds
+      const timer2 = setTimeout(() => {
+        if (injeelBtn) injeelBtn.classList.remove('glowing');
+      }, 3000);
+      
+      return () => clearTimeout(timer2);
+    }, 1000);
+    
+    return () => clearTimeout(timer1);
+  }, [location.pathname]);
+
   return (
     <div className={`min-h-screen flex dim-transition ${theme}`}>
       <Sidebar />
-      <div className="flex-1 min-w-0 pl-0 md:pl-64 transition-all duration-300">
+      <div className="flex-1 min-w-0 pl-0 md:pl-72 transition-all duration-300">
         <div className="flex min-h-screen flex-col">
           <Header />
           
           {/* Injeel Button */}
-          <div className="flex justify-center mt-2 mb-0">
+          <div className="flex justify-center mt-3 mb-2">
             <Link 
               to="/gospel" 
               id="injeel-button"
               className={cn(
-                "glow-on-hover transition-opacity duration-500",
+                "glow-on-hover transition-opacity duration-500 text-center px-6 py-2",
                 showInjeel ? "opacity-100" : "opacity-0"
               )}
               onClick={() => {
@@ -117,7 +134,7 @@ const MainLayout = () => {
           <main className="flex-1 px-4 sm:px-6 py-6 sm:py-10">
             <div 
               className={cn(
-                "container max-w-5xl transition-all duration-300",
+                "container max-w-4xl transition-all duration-300",
                 isEntering ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0"
               )}
             >
@@ -127,6 +144,9 @@ const MainLayout = () => {
           <Footer />
         </div>
       </div>
+      
+      {/* Sliding Panes Manager */}
+      <SlidingPaneManager />
       
       {/* Loading animation */}
       {loading && (
