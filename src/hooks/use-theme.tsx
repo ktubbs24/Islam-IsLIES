@@ -13,6 +13,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setTheme] = useState<ThemeType>('light');
+  const [hasUserPreference, setHasUserPreference] = useState<boolean>(false);
   
   useEffect(() => {
     // Check for stored theme preference
@@ -20,15 +21,33 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     
     if (storedTheme) {
       applyTheme(storedTheme);
+      setHasUserPreference(true);
     } else {
       // Check system preference
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       
       if (prefersDark) {
         applyTheme('dark');
+      } else {
+        applyTheme('light');
       }
     }
-  }, []);
+    
+    // Add listener for system preference changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    const handleChange = (e: MediaQueryListEvent) => {
+      if (!hasUserPreference) {
+        applyTheme(e.matches ? 'dark' : 'light');
+      }
+    };
+    
+    mediaQuery.addEventListener('change', handleChange);
+    
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange);
+    };
+  }, [hasUserPreference]);
   
   const applyTheme = (newTheme: ThemeType) => {
     setTheme(newTheme);
@@ -50,6 +69,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
     applyTheme(newTheme);
+    setHasUserPreference(true);
   };
   
   return (

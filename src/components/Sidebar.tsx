@@ -5,7 +5,6 @@ import {
   Menu, X, ChevronRight, ChevronDown, File, Folder, FolderOpen, Mail, ChevronLeft,
   Home, Cross, Flame, XOctagon, BookOpen, Facebook, Twitter, MessageSquare
 } from "lucide-react";
-import ThemeToggle from "./ThemeToggle";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 
@@ -15,6 +14,7 @@ interface SidebarItemProps {
   icon?: React.ReactNode;
   children?: SidebarItemProps[];
   level?: number;
+  isTopLevel?: boolean;
 }
 
 interface SidebarProps {
@@ -24,8 +24,9 @@ interface SidebarProps {
 const sidebarItems: SidebarItemProps[] = [
   {
     title: "Home",
-    path: "/",
+    path: "/home",
     icon: <Home size={18} />,
+    isTopLevel: true,
     children: [
       {
         title: "Welcome",
@@ -41,11 +42,6 @@ const sidebarItems: SidebarItemProps[] = [
         title: "About",
         path: "/about",
         icon: <File size={18} />,
-      },
-      {
-        title: "Blog",
-        path: "/blog",
-        icon: <Folder size={18} />,
       },
       {
         title: "Newsletter",
@@ -65,9 +61,38 @@ const sidebarItems: SidebarItemProps[] = [
     ]
   },
   {
+    title: "Blog",
+    path: "/blog",
+    icon: <Folder size={18} />,
+    isTopLevel: true,
+    children: [
+      {
+        title: "Latest Articles",
+        path: "/blog/latest",
+        icon: <File size={18} />,
+      },
+      {
+        title: "Featured Posts",
+        path: "/blog/featured",
+        icon: <File size={18} />,
+      },
+      {
+        title: "Categories",
+        path: "/blog/categories",
+        icon: <Folder size={18} />,
+      },
+      {
+        title: "Archives",
+        path: "/blog/archives",
+        icon: <Folder size={18} />,
+      }
+    ]
+  },
+  {
     title: "Faith in Jesus leads to Salvation",
-    path: "",
+    path: "/faith-in-jesus-to-salvation",
     icon: <Cross size={18} />,
+    isTopLevel: true,
     children: [
       {
         title: "Jesus",
@@ -184,7 +209,7 @@ const sidebarItems: SidebarItemProps[] = [
   }
 ];
 
-const SidebarItem = ({ title, path, icon, children, level = 0 }: SidebarItemProps) => {
+const SidebarItem = ({ title, path, icon, children, level = 0, isTopLevel = false }: SidebarItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const isActive = location.pathname === path;
@@ -205,24 +230,69 @@ const SidebarItem = ({ title, path, icon, children, level = 0 }: SidebarItemProp
     (isOpen ? <FolderOpen size={20} /> : <Folder size={20} />) : 
     icon ? React.cloneElement(icon as React.ReactElement, { size: 20 }) : <File size={20} />;
 
+  const handleClick = () => {
+    if (isTopLevel && path) {
+      // For top-level folders with paths, we'll let the link navigation happen
+      // and not toggle the folder open/close state
+      return;
+    }
+    
+    // For all other folders, toggle the open/close state
+    setIsOpen(!isOpen);
+  };
+
   if (hasChildren) {
     return (
       <div className="mb-3">
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className={cn(
-            "flex w-full items-center justify-between py-2 px-3 rounded-md text-sm",
-            "hover:bg-primary/10 hover:text-primary transition-colors duration-200",
-            isChildActive && "text-primary font-medium"
-          )}
-          style={{ paddingLeft: `${level * 12 + 12}px` }}
-        >
-          <span className="flex items-center gap-2">
-            {folderIcon}
-            <span className="font-bold">{title}</span>
-          </span>
-          {isOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
-        </button>
+        {isTopLevel && path ? (
+          <div className="flex flex-col">
+            <Link
+              to={path}
+              className={cn(
+                "flex w-full items-center justify-between py-2 px-3 rounded-md text-sm",
+                "hover:bg-primary/10 hover:text-primary transition-colors duration-200",
+                (isActive || isChildActive) && "text-primary font-medium"
+              )}
+              style={{ paddingLeft: `${level * 12 + 12}px` }}
+            >
+              <span className="flex items-center gap-2">
+                {folderIcon}
+                <span className="font-bold">{title}</span>
+              </span>
+            </Link>
+            
+            <button
+              onClick={handleClick}
+              className={cn(
+                "flex w-full items-center justify-between py-2 px-3 rounded-md text-sm",
+                "hover:bg-primary/10 hover:text-primary transition-colors duration-200",
+                "mt-1"
+              )}
+              style={{ paddingLeft: `${level * 12 + 20}px` }}
+            >
+              <span className="flex items-center gap-2">
+                <span className="text-xs text-muted-foreground">Subpages</span>
+              </span>
+              {isOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={handleClick}
+            className={cn(
+              "flex w-full items-center justify-between py-2 px-3 rounded-md text-sm",
+              "hover:bg-primary/10 hover:text-primary transition-colors duration-200",
+              isChildActive && "text-primary font-medium"
+            )}
+            style={{ paddingLeft: `${level * 12 + 12}px` }}
+          >
+            <span className="flex items-center gap-2">
+              {folderIcon}
+              <span className="font-bold">{title}</span>
+            </span>
+            {isOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+          </button>
+        )}
         
         {isOpen && (
           <div className="mt-1 pl-4 border-l border-sidebar-border ml-6">
@@ -424,10 +494,6 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
                 <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
               </svg>
             </a>
-          </div>
-          
-          <div className="mt-3">
-            <ThemeToggle />
           </div>
         </div>
         

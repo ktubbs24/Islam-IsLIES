@@ -211,6 +211,7 @@
 
   .dark .grid-background {
     opacity: 0.3;
+    filter: brightness(0.7);
     background-image: 
       linear-gradient(to right, hsla(142, 75%, 60%, 0.5) 1px, transparent 1px),
       linear-gradient(to bottom, hsla(142, 75%, 60%, 0.5) 1px, transparent 1px);
@@ -244,6 +245,9 @@
     border-radius: var(--radius);
     background-color: hsl(var(--card));
     border: 1px solid hsl(var(--border));
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   .newsletter-signup h3 {
@@ -269,6 +273,51 @@
   
   body.dark {
     background: linear-gradient(135deg, rgba(0, 10, 5, 0.97) 0%, rgba(0, 20, 10, 0.95) 100%);
+  }
+
+  /* Document page titles */
+  h1 {
+    @apply text-foreground;
+  }
+
+  /* Glassy container in dark mode */
+  .dark .bg-card,
+  .dark .doc-content {
+    background-color: rgba(200, 200, 200, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Custom button style */
+  .button-custom {
+    background-color: transparent;
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(245, 245, 255, 0.05));
+    border: 1px solid hsl(var(--border));
+    border-radius: 9999px;
+    box-shadow: rgba(37, 44, 97, 0.15) 0 4px 11px 0, rgba(93, 100, 148, 0.2) 0 1px 3px 0;
+    color: hsl(var(--foreground));
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease-out;
+  }
+
+  .button-custom:hover {
+    box-shadow: rgba(37, 44, 97, 0.15) 0 8px 22px 0, rgba(93, 100, 148, 0.2) 0 4px 6px 0;
+    transform: translateY(-2px);
+  }
+
+  .button-custom:active {
+    transform: translateY(1px);
+  }
+
+  .dark .button-custom {
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(245, 245, 255, 0.02));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: rgba(0, 0, 0, 0.3) 0 4px 11px 0, rgba(0, 0, 0, 0.2) 0 1px 3px 0;
+  }
+
+  .dark .button-custom:hover {
+    box-shadow: rgba(0, 0, 0, 0.3) 0 8px 22px 0, rgba(0, 0, 0, 0.2) 0 4px 6px 0, 0 0 15px rgba(var(--primary-rgb), 0.4);
   }
 }
 
@@ -651,6 +700,16 @@
 .home-cover-image {
   position: relative;
   overflow: hidden;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+}
+  
+.home-cover-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
   
 .home-cover-image::after {
@@ -693,44 +752,21 @@
   }
 }
 
-/* Image Modal Styles */
-.image-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.85);
-  z-index: 100;
-  backdrop-filter: blur(12px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Center document content when sidebar is collapsed */
+.sidebar-collapsed .container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 90%;
+  text-align: center;
 }
 
-.image-modal-content {
-  max-width: 90vw;
-  max-height: 90vh;
-  border-radius: 0.5rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+/* Document content smooth width transition */
+.container {
+  transition: max-width 0.3s ease, margin 0.3s ease;
 }
 
-.image-modal-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.image-modal-close:hover {
-  background-color: rgba(0, 0, 0, 0.8);
+/* Footer spacing */
+footer {
+  padding-top: 4rem;
+  padding-bottom: 3rem;
 }

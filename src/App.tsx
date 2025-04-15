@@ -8,6 +8,9 @@ import { ThemeProvider } from "@/hooks/use-theme";
 
 import MainLayout from "./layouts/MainLayout";
 import Index from "./pages/Index";
+import HomePage from "./pages/HomePage";
+import BlogPage from "./pages/BlogPage";
+import FaithInJesusPage from "./pages/FaithInJesusPage";
 import GetStartedPage from "./pages/GetStartedPage";
 import AboutPage from "./pages/AboutPage";
 import JesusDenialPage from "./pages/JesusDenialPage";
@@ -36,6 +39,9 @@ const App = () => {
             <Routes>
               <Route element={<MainLayout />}>
                 <Route path="/" element={<Index />} />
+                <Route path="/home" element={<HomePage />} />
+                <Route path="/blog" element={<BlogPage />} />
+                <Route path="/faith-in-jesus-to-salvation" element={<FaithInJesusPage />} />
                 <Route path="/getting-started" element={<GetStartedPage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/gospel" element={<GospelPage />} />

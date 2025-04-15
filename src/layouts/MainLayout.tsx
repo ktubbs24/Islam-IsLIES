@@ -92,7 +92,7 @@ const MainLayout = () => {
   
   // Listen for sidebar toggle events
   useEffect(() => {
-    const handleSidebarToggle = (event) => {
+    const handleSidebarToggle = (event: any) => {
       if (event.detail && typeof event.detail.isOpen === 'boolean') {
         setIsSidebarOpen(event.detail.isOpen);
       }
@@ -146,7 +146,8 @@ const MainLayout = () => {
           <main 
             className={cn(
               "flex-1 px-4 sm:px-6 py-6 sm:py-10 transition-all duration-300",
-              isSidebarOpen ? "" : "max-w-[1400px] mx-auto w-full"
+              isSidebarOpen ? "" : "max-w-[1600px] mx-auto w-full",
+              "doc-content"
             )}
           >
             <div 
