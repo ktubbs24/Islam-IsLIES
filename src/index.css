@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -242,6 +243,27 @@
 
   .toc li a.active {
     @apply text-primary font-medium;
+  }
+  
+  /* Newsletter signup section */
+  .newsletter-signup {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+  }
+  
+  .newsletter-signup h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+  
+  .newsletter-signup p {
+    font-size: 0.9rem;
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 1.5rem;
   }
 }
 
@@ -665,89 +687,6 @@
     filter: hue-rotate(0deg);
   }
 }
-  
-/* Newsletter signup section */
-.newsletter-signup {
-  margin-top: 3rem;
-  padding: 1.5rem;
-  border-radius: var(--radius);
-  background-color: hsl(var(--card));
-  border: 1px solid hsl(var(--border));
-}
-  
-.newsletter-signup h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.75rem;
-}
-  
-.newsletter-signup p {
-  font-size: 0.9rem;
-  color: hsl(var(--muted-foreground));
-  margin-bottom: 1.5rem;
-}
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 0.7;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes float {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, 20px);
-  }
-  10% {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-  90% {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -20px);
-  }
-}
-
-@keyframes spin-half {
-  0% { transform: rotate(0); }
-  100% { transform: rotate(180deg); }
-}
-
-.animate-spin-half {
-  animation: spin-half 0.5s forwards;
-}
-
-.animate-float {
-  animation: float 1s forwards;
-}
-
-.animate-float-long {
-  animation: float 300s forwards;
-}
-
-.scrollbar-thin {
-  scrollbar-width: thin;
-}
-
-.scrollbar-thumb-sidebar-accent::-webkit-scrollbar-thumb {
-  background: hsl(var(--sidebar-accent));
-}
-
-.scrollbar-track-transparent::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.social-icon {
-  @apply w-5 h-5 hover:scale-110 transition-transform;
-}
 
 /* Custom link styles */
 .custom-link {
@@ -932,3 +871,11 @@
   height: 40px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.image-modal-close:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
