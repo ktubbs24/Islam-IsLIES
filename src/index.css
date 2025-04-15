@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -98,6 +97,18 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    background-size: 40px 40px;
+    background-image: linear-gradient(to right, hsla(142, 75%, 40%, 0.45) 1px, transparent 1px),
+                      linear-gradient(to bottom, hsla(142, 75%, 40%, 0.45) 1px, transparent 1px);
+    opacity: 0.25;
+    transition: background-color 0.3s ease;
+  }
+  
+  .dark body {
+    opacity: 0.3;
+    background-image: linear-gradient(to right, hsla(142, 75%, 60%, 0.5) 1px, transparent 1px),
+                      linear-gradient(to bottom, hsla(142, 75%, 60%, 0.5) 1px, transparent 1px);
+    background: linear-gradient(135deg, rgba(0, 10, 5, 0.97) 0%, rgba(0, 20, 10, 0.95) 100%);
   }
   
   .doc-image {
@@ -199,18 +210,18 @@
     bottom: 0;
     pointer-events: none;
     z-index: -1;
-    opacity: 0.25;
+    opacity: 0.35;
     background-size: 40px 40px;
     background-image: 
-      linear-gradient(to right, hsla(142, 75%, 40%, 0.45) 1px, transparent 1px),
-      linear-gradient(to bottom, hsla(142, 75%, 40%, 0.45) 1px, transparent 1px);
+      linear-gradient(to right, hsla(142, 75%, 40%, 0.6) 1px, transparent 1px),
+      linear-gradient(to bottom, hsla(142, 75%, 40%, 0.6) 1px, transparent 1px);
   }
 
   .dark .grid-background {
-    opacity: 0.3;
+    opacity: 0.4;
     background-image: 
-      linear-gradient(to right, hsla(142, 75%, 60%, 0.5) 1px, transparent 1px),
-      linear-gradient(to bottom, hsla(142, 75%, 60%, 0.5) 1px, transparent 1px);
+      linear-gradient(to right, hsla(142, 75%, 60%, 0.6) 1px, transparent 1px),
+      linear-gradient(to bottom, hsla(142, 75%, 60%, 0.6) 1px, transparent 1px);
   }
   
   /* Background gradient */
@@ -219,9 +230,7 @@
   }
 
   body.light {
-    background: url('https://png.pngtree.com/background/20210716/original/pngtree-light-grey-white-modern-gradient-fluid-background-picture-image_1338656.jpg');
-    background-size: cover;
-    background-attachment: fixed;
+    background: none;
   }
   
   /* TOC styles */

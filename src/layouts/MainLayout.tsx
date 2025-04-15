@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, Link } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
@@ -119,29 +118,16 @@ const MainLayout = () => {
                 "glow-on-hover flex items-center justify-center font-bold transition-opacity duration-500 h-[50px] w-[220px] text-center",
                 showInjeel ? "opacity-100" : "opacity-0"
               )}
-              onClick={() => {
-                playClickSound();
-                setShowInjeel(false);
-                setTimeout(() => {
-                  const floatingText = document.createElement('div');
-                  floatingText.className = 'absolute top-full mt-1 text-sm text-green-500 animate-float';
-                  floatingText.textContent = 'Yes!';
-                  document.getElementById('injeel-button')?.appendChild(floatingText);
-                  
-                  setTimeout(() => {
-                    floatingText.remove();
-                  }, 3000);
-                }, 100);
-              }}
+              onClick={playClickSound}
             >
-              <span className="inline-block">What's the InJeel?</span>
+              <span className="text-center w-full">What's the InJeel?</span>
             </Link>
           </div>
           
           <main className="flex-1 px-4 sm:px-6 py-6 sm:py-10">
             <div 
               className={cn(
-                "container max-w-5xl transition-all duration-300",
+                "transition-all duration-300",
                 isEntering ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0"
               )}
             >
@@ -151,15 +137,6 @@ const MainLayout = () => {
           <Footer />
         </div>
       </div>
-      
-      {/* Scroll to top button */}
-      <button 
-        className={cn("scroll-to-top", showScrollToTop ? "visible" : "")}
-        onClick={scrollToTop}
-        aria-label="Scroll to top"
-      >
-        <ChevronUp size={24} />
-      </button>
       
       {/* Loading animation */}
       {loading && (
