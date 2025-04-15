@@ -1,8 +1,9 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { 
   Menu, X, ChevronRight, ChevronDown, File, Folder, FolderOpen, Mail, ChevronLeft,
-  Home, Cross, Flame, XOctagon, BookOpen, Facebook, Youtube
+  Home, Cross, Flame, XOctagon, BookOpen, Facebook, Twitter, MessageSquare
 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import { cn } from "@/lib/utils";
@@ -197,8 +198,8 @@ const SidebarItem = ({ title, path, icon, children, level = 0 }: SidebarItemProp
   }, [isChildActive, location.pathname]);
   
   const folderIcon = hasChildren ? 
-    (isOpen ? <FolderOpen size={18} /> : <Folder size={18} />) : 
-    icon;
+    (isOpen ? <FolderOpen size={20} /> : <Folder size={20} />) : 
+    icon ? React.cloneElement(icon as React.ReactElement, { size: 20 }) : <File size={20} />;
 
   if (hasChildren) {
     return (
@@ -214,9 +215,9 @@ const SidebarItem = ({ title, path, icon, children, level = 0 }: SidebarItemProp
         >
           <span className="flex items-center gap-2">
             {folderIcon}
-            <span className="font-semibold">{title}</span>
+            <span className="font-bold">{title}</span>
           </span>
-          {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+          {isOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
         </button>
         
         {isOpen && (
@@ -245,7 +246,7 @@ const SidebarItem = ({ title, path, icon, children, level = 0 }: SidebarItemProp
       style={{ paddingLeft: `${level * 12 + 12}px` }}
     >
       <span className="flex items-center gap-2">
-        {icon}
+        {folderIcon}
         {title}
       </span>
     </Link>
@@ -276,7 +277,25 @@ const Sidebar = () => {
       setShowHint(false);
       localStorage.setItem('sidebar-hint-seen', 'true');
     }
+    
+    // Add class to document to track sidebar state for content width
+    if (isOpen) {
+      document.documentElement.classList.add('sidebar-collapsed');
+    } else {
+      document.documentElement.classList.remove('sidebar-collapsed');
+    }
   };
+
+  // Initialize sidebar width class on mount
+  useEffect(() => {
+    if (!isOpen) {
+      document.documentElement.classList.add('sidebar-collapsed');
+    }
+    
+    return () => {
+      document.documentElement.classList.remove('sidebar-collapsed');
+    };
+  }, []);
 
   return (
     <>
@@ -304,7 +323,7 @@ const Sidebar = () => {
       <div 
         ref={sidebarRef}
         className={cn(
-          "fixed top-0 left-0 bottom-0 z-40 w-72 bg-sidebar border-r",
+          "fixed top-0 left-0 bottom-0 z-40 w-80 bg-sidebar border-r",
           "sidebar-transition overflow-hidden",
           isOpen ? "translate-x-0" : "-translate-x-full",
           "scrollbar-thin scrollbar-thumb-sidebar-accent scrollbar-track-transparent"
@@ -327,17 +346,25 @@ const Sidebar = () => {
           </Link>
           <Link to="/" className="font-bold text-lg hover:text-primary transition-colors">Islam IsLIES</Link>
           
-          <div className="flex gap-3 mt-3">
+          <div className="flex gap-4 mt-3">
+            <a 
+              href="https://www.facebook.com/profile.php?id=61555664879743" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-primary transition-all"
+              aria-label="Facebook"
+            >
+              <Facebook className="social-icon" />
+            </a>
             <a 
               href="https://islamislies.substack.com/" 
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-all"
+              aria-label="Substack"
             >
               <svg 
                 className="social-icon" 
-                width="20" 
-                height="20" 
                 viewBox="0 0 25 25" 
                 fill="currentColor"
               >
@@ -349,47 +376,36 @@ const Sidebar = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-all"
+              aria-label="Twitter"
             >
-              <svg 
-                className="social-icon" 
-                width="20" 
-                height="20" 
-                viewBox="0 0 24 24" 
-                fill="currentColor"
-              >
-                <path d="M13.73 11.152l5.964-7.152h-1.399l-5.186 6.205-4.149-6.205h-4.733l6.271 9.364-6.271 7.496h1.399l5.494-6.55 4.391 6.55h4.733l-6.514-9.708zm-3.291 1.08l-.637-.922-5.097-7.344h2.656l4.116 5.926.636.922 5.361 7.744h-2.656l-4.379-6.326z" />
-              </svg>
+              <Twitter className="social-icon" />
             </a>
             <a 
-              href="https://www.threads.net/" 
+              href="https://www.threads.net/@realkwenelat" 
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-all"
+              aria-label="Threads"
             >
-              <svg 
-                className="social-icon" 
-                width="20" 
-                height="20" 
-                viewBox="0 0 24 24" 
-                fill="currentColor"
-              >
-                <path d="M15.907 0h1.686v6.945C15.846 6.776 13.747 6.518 12 6.518c-3.333 0-6.222 1.924-6.222 5.539v3.375c0 3.614 2.889 5.538 6.222 5.538 1.748 0 3.85-.258 5.593-.428V24H15.907V7.559h4.111V6.28H15.907V0zM12 19.688c-2.438 0-4.537-1.487-4.537-4.258v-3.374c0-2.771 2.099-4.258 4.537-4.258 1.543 0 3.658.223 5.593.4V20.09c-1.938.176-4.051.399-5.593.399V19.688zM0 10.22h11.392v1.28H0v-1.28zm0 4.258h9.195v1.28H0v-1.28z" />
-              </svg>
+              <MessageSquare className="social-icon" />
             </a>
             <a 
               href="https://www.tiktok.com/@realkwenelat" 
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-all"
+              aria-label="TikTok"
             >
               <svg 
                 className="social-icon" 
-                width="20" 
-                height="20" 
                 viewBox="0 0 24 24" 
-                fill="currentColor"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               >
-                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298.002.595.042.88.12V9.4a6.17 6.17 0 0 0-1-.08A6.29 6.29 0 0 0 0 15.62a6.29 6.29 0 0 0 10.86 4.33 6.33 6.33 0 0 0 1.8-4.42V7.62a8.16 8.16 0 0 0 6.93 2.15V6.69a4.85 4.85 0 0 1-1.84.12z" />
+                <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
               </svg>
             </a>
           </div>
@@ -410,12 +426,12 @@ const Sidebar = () => {
           ))}
         </div>
         
-        <div className="absolute bottom-0 left-0 right-0 border-t p-3">
+        <div className="sticky bottom-0 left-0 right-0 border-t p-3 bg-sidebar">
           <a 
             href="https://islamislies.substack.com/" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors p-2 rounded-md hover:bg-accent/50"
+            className="btn-3d flex items-center justify-center gap-2 text-sm text-primary-foreground hover:text-primary-foreground p-2 rounded-md"
             onClick={() => {
               const audio = new Audio('/download-sound.mp3');
               audio.volume = 0.2;

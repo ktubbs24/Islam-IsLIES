@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, Link } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
@@ -6,12 +7,14 @@ import Footer from "@/components/Footer";
 import { cn } from "@/lib/utils";
 import "../styles.css";
 import { useTheme } from "@/hooks/use-theme";
+import { ChevronUp } from "lucide-react";
 
 const MainLayout = () => {
   const [isEntering, setIsEntering] = useState(true);
   const [prevPath, setPrevPath] = useState("");
   const [loading, setLoading] = useState(false);
   const [showInjeel, setShowInjeel] = useState(false);
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
   const location = useLocation();
   const { theme } = useTheme();
 
@@ -71,6 +74,28 @@ const MainLayout = () => {
     }, 1000);
   }, []);
   
+  // Handle scroll to top functionality
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      if (scrollY > 300) {
+        setShowScrollToTop(true);
+      } else {
+        setShowScrollToTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+  
   // Click sound for Injeel button
   const playClickSound = () => {
     const audio = new Audio('/download-sound.mp3');
@@ -91,7 +116,7 @@ const MainLayout = () => {
               to="/gospel" 
               id="injeel-button"
               className={cn(
-                "glow-on-hover flex items-center justify-center font-semibold transition-opacity duration-500 h-[50px] text-center",
+                "glow-on-hover flex items-center justify-center font-bold transition-opacity duration-500 h-[50px] w-[220px] text-center",
                 showInjeel ? "opacity-100" : "opacity-0"
               )}
               onClick={() => {
@@ -109,7 +134,7 @@ const MainLayout = () => {
                 }, 100);
               }}
             >
-              What's the InJeel?
+              <span className="inline-block">What's the InJeel?</span>
             </Link>
           </div>
           
@@ -126,6 +151,15 @@ const MainLayout = () => {
           <Footer />
         </div>
       </div>
+      
+      {/* Scroll to top button */}
+      <button 
+        className={cn("scroll-to-top", showScrollToTop ? "visible" : "")}
+        onClick={scrollToTop}
+        aria-label="Scroll to top"
+      >
+        <ChevronUp size={24} />
+      </button>
       
       {/* Loading animation */}
       {loading && (

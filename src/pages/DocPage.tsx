@@ -1,7 +1,7 @@
 
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Calendar, ArrowLeft, ArrowRight } from "lucide-react";
+import { Calendar, ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Hash } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import TableOfContents from "@/components/TableOfContents";
 import DocDownload from "@/components/DocDownload";
@@ -58,18 +58,180 @@ const DocPage = ({
         if (!h.id) {
           h.id = `heading-${index}`;
         }
+        
+        // Add anchor link to headings
+        if (!h.querySelector('.anchor')) {
+          const anchor = document.createElement('a');
+          anchor.className = 'anchor';
+          anchor.href = `#${h.id}`;
+          anchor.innerHTML = `<span class="opacity-0 group-hover:opacity-100 ml-2"><Hash size={16} /></span>`;
+          h.appendChild(anchor);
+          h.classList.add('group');
+        }
       });
     }
+    
+    // Handle wikilinks replacement
+    document.querySelectorAll('.doc-content p, .doc-content li').forEach(el => {
+      const content = el.innerHTML;
+      const wikiLinkPattern = /\[\[(.*?)\]\]/g;
+      
+      const replacedContent = content.replace(wikiLinkPattern, (match, pageName) => {
+        const path = `/${pageName.toLowerCase().replace(/\s+/g, '-')}`;
+        return `<a href="${path}" class="custom-link slide-link">${pageName}</a>`;
+      });
+      
+      if (content !== replacedContent) {
+        el.innerHTML = replacedContent;
+      }
+    });
+    
+    // Attach sliding pane events
+    const initSlidingPanes = () => {
+      let paneStack: HTMLElement[] = [];
+
+      const isMobile = () => {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      };
+
+      document.querySelectorAll('a.slide-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = e.currentTarget as HTMLAnchorElement;
+          const targetUrl = target.href;
+          const pageTitle = target.textContent || '';
+
+          if (isMobile()) {
+            window.location.href = targetUrl;
+          } else {
+            const existingPane = document.querySelector('.sliding-pane');
+            if (existingPane) {
+              existingPane.remove();
+            }
+            
+            const overlay = document.createElement('div');
+            overlay.classList.add('sliding-pane-overlay');
+            document.body.appendChild(overlay);
+
+            const newPane = document.createElement('div');
+            newPane.classList.add('sliding-pane');
+            newPane.innerHTML = `
+              <div class="pane-title-bar">
+                <button class="close-pane">×</button>
+                <div class="vertical-title">${pageTitle}</div>
+              </div>
+              <iframe src="${targetUrl}" title="${pageTitle}" style="flex-grow: 1;"></iframe>
+            `;
+            document.body.appendChild(newPane);
+
+            setTimeout(() => {
+              overlay.classList.add('is-open');
+              newPane.classList.add('is-open');
+            }, 10);
+
+            newPane.querySelector('.close-pane')!.addEventListener('click', () => {
+              overlay.classList.remove('is-open');
+              newPane.classList.remove('is-open');
+              
+              setTimeout(() => {
+                overlay.remove();
+                newPane.remove();
+              }, 300);
+            });
+
+            overlay.addEventListener('click', () => {
+              overlay.classList.remove('is-open');
+              newPane.classList.remove('is-open');
+              
+              setTimeout(() => {
+                overlay.remove();
+                newPane.remove();
+              }, 300);
+            });
+          }
+        });
+        
+        // Add hover preview
+        link.addEventListener('mouseover', (e) => {
+          const target = e.currentTarget as HTMLAnchorElement;
+          const targetUrl = target.href;
+          const existingPreview = document.querySelector('.preview-pane');
+          
+          if (existingPreview) {
+            existingPreview.remove();
+          }
+          
+          const preview = document.createElement('div');
+          preview.classList.add('preview-pane');
+          preview.innerHTML = `<iframe src="${targetUrl}" title="Preview"></iframe>`;
+          document.body.appendChild(preview);
+
+          // Position the preview near the mouse
+          const event = e as MouseEvent;
+          preview.style.left = `${event.clientX + 10}px`;
+          preview.style.top = `${event.clientY + 10}px`;
+
+          // Handle overflow
+          const rect = preview.getBoundingClientRect();
+          if (rect.right > window.innerWidth) {
+            preview.style.left = `${event.clientX - rect.width - 10}px`;
+          }
+          if (rect.bottom > window.innerHeight) {
+            preview.style.top = `${event.clientY - rect.height - 10}px`;
+          }
+
+          target.addEventListener('mouseout', function removePreview() {
+            preview.remove();
+            target.removeEventListener('mouseout', removePreview);
+          });
+        });
+      });
+    };
+    
+    // Initialize sliding panes
+    setTimeout(initSlidingPanes, 500);
   }, [title]);
 
+  // Adjust document width based on sidebar state
+  useEffect(() => {
+    const handleSidebarChange = () => {
+      const documentContainer = document.querySelector('.doc-container');
+      if (documentContainer) {
+        if (document.documentElement.classList.contains('sidebar-collapsed')) {
+          documentContainer.classList.add('sidebar-is-collapsed');
+        } else {
+          documentContainer.classList.remove('sidebar-is-collapsed');
+        }
+      }
+    };
+
+    // Run initially
+    handleSidebarChange();
+    
+    // Create a mutation observer to watch for class changes on documentElement
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          handleSidebarChange();
+        }
+      });
+    });
+    
+    observer.observe(document.documentElement, { attributes: true });
+    
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <div className="min-h-full flex flex-col">
+    <div className="min-h-full flex flex-col doc-container transition-all duration-300">
       <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-6">
         <div className="flex-1 min-w-0 max-w-5xl">
           <Breadcrumbs title={title} />
           
           <div className="flex flex-col gap-6">
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">{title}</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight custom-link">{title}</h1>
             
             <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
               <div className="flex items-center gap-1">
@@ -100,7 +262,7 @@ const DocPage = ({
                 <img 
                   src={imageSrc} 
                   alt={`Cover image for ${title}`} 
-                  className="doc-image w-full max-h-[400px] object-cover rounded-lg shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 hover:shadow-primary/20"
+                  className="doc-image w-full max-h-[400px] object-cover rounded-lg"
                 />
               </div>
             )}
@@ -126,29 +288,28 @@ const DocPage = ({
               </div>
             )}
             
+            {/* GitBook-style navigation */}
             {(prevPage || nextPage) && (
-              <div className="mt-8 pt-6 border-t">
-                <div className="flex items-center justify-between">
-                  {prevPage ? (
-                    <Link 
-                      to={prevPage.path} 
-                      className="flex items-center group text-sm"
-                    >
-                      <ArrowLeft className="mr-2 h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                      <span className="custom-link">Previous: {prevPage.title}</span>
-                    </Link>
-                  ) : <div />}
-                  
-                  {nextPage && (
-                    <Link 
-                      to={nextPage.path} 
-                      className="flex items-center group text-sm"
-                    >
-                      <span className="custom-link">Next: {nextPage.title}</span>
-                      <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </Link>
-                  )}
-                </div>
+              <div className="doc-navigation">
+                {prevPage ? (
+                  <Link 
+                    to={prevPage.path} 
+                    className="doc-navigation-link prev"
+                  >
+                    <ChevronLeft className="mr-2" />
+                    <span>{prevPage.title}</span>
+                  </Link>
+                ) : <div />}
+                
+                {nextPage && (
+                  <Link 
+                    to={nextPage.path} 
+                    className="doc-navigation-link next"
+                  >
+                    <span>{nextPage.title}</span>
+                    <ChevronRight className="ml-2" />
+                  </Link>
+                )}
               </div>
             )}
             
