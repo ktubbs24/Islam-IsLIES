@@ -17,6 +17,10 @@ interface SidebarItemProps {
   level?: number;
 }
 
+interface SidebarProps {
+  onToggle?: (isOpen: boolean) => void;
+}
+
 const sidebarItems: SidebarItemProps[] = [
   {
     title: "Home",
@@ -253,7 +257,7 @@ const SidebarItem = ({ title, path, icon, children, level = 0 }: SidebarItemProp
   );
 };
 
-const Sidebar = () => {
+const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [showHint, setShowHint] = useState(true);
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -272,24 +276,43 @@ const Sidebar = () => {
   }, []);
   
   const toggleSidebar = () => {
-    setIsOpen(!isOpen);
+    const newState = !isOpen;
+    setIsOpen(newState);
+    
     if (showHint) {
       setShowHint(false);
       localStorage.setItem('sidebar-hint-seen', 'true');
     }
     
     // Add class to document to track sidebar state for content width
-    if (isOpen) {
-      document.documentElement.classList.add('sidebar-collapsed');
-    } else {
+    if (newState) {
       document.documentElement.classList.remove('sidebar-collapsed');
+    } else {
+      document.documentElement.classList.add('sidebar-collapsed');
     }
+    
+    // Call the onToggle callback if provided
+    if (onToggle) {
+      onToggle(newState);
+    }
+    
+    // Also dispatch a custom event for other components to listen to
+    window.dispatchEvent(
+      new CustomEvent('sidebar-toggle', { 
+        detail: { isOpen: newState } 
+      })
+    );
   };
 
   // Initialize sidebar width class on mount
   useEffect(() => {
     if (!isOpen) {
       document.documentElement.classList.add('sidebar-collapsed');
+    }
+    
+    // Call the onToggle callback initially
+    if (onToggle) {
+      onToggle(isOpen);
     }
     
     return () => {
@@ -328,13 +351,6 @@ const Sidebar = () => {
           isOpen ? "translate-x-0" : "-translate-x-full",
           "scrollbar-thin scrollbar-thumb-sidebar-accent scrollbar-track-transparent"
         )}
-        style={{ 
-          background: `${
-            document.documentElement.classList.contains('dark') ? 
-            'linear-gradient(to bottom, hsl(var(--sidebar-background)), hsl(var(--sidebar-background)))' : 
-            'linear-gradient(to bottom, #ffffff, #f1f1f1)'
-          }`
-        }}
       >
         <div className="p-4 border-b flex flex-col justify-center items-center">
           <Link to="/" className="mb-2 overflow-hidden rounded-full w-24 h-24 flex items-center justify-center">
@@ -447,7 +463,7 @@ const Sidebar = () => {
       {isOpen && (
         <div 
           className="md:hidden fixed inset-0 bg-black/20 z-30"
-          onClick={() => setIsOpen(false)}
+          onClick={() => toggleSidebar()}
         />
       )}
     </>

@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, Link } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
@@ -14,6 +15,7 @@ const MainLayout = () => {
   const [loading, setLoading] = useState(false);
   const [showInjeel, setShowInjeel] = useState(false);
   const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const location = useLocation();
   const { theme } = useTheme();
 
@@ -88,6 +90,18 @@ const MainLayout = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
+  // Listen for sidebar toggle events
+  useEffect(() => {
+    const handleSidebarToggle = (event) => {
+      if (event.detail && typeof event.detail.isOpen === 'boolean') {
+        setIsSidebarOpen(event.detail.isOpen);
+      }
+    };
+
+    window.addEventListener('sidebar-toggle', handleSidebarToggle);
+    return () => window.removeEventListener('sidebar-toggle', handleSidebarToggle);
+  }, []);
+  
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -104,8 +118,13 @@ const MainLayout = () => {
 
   return (
     <div className={`min-h-screen flex dim-transition ${theme}`}>
-      <Sidebar />
-      <div className="flex-1 min-w-0 pl-0 md:pl-72 transition-all duration-300">
+      <Sidebar onToggle={(isOpen) => setIsSidebarOpen(isOpen)} />
+      <div 
+        className={cn(
+          "flex-1 min-w-0 transition-all duration-300",
+          isSidebarOpen ? "pl-0 md:pl-72" : "pl-0"
+        )}
+      >
         <div className="flex min-h-screen flex-col">
           <Header />
           
@@ -124,7 +143,12 @@ const MainLayout = () => {
             </Link>
           </div>
           
-          <main className="flex-1 px-4 sm:px-6 py-6 sm:py-10">
+          <main 
+            className={cn(
+              "flex-1 px-4 sm:px-6 py-6 sm:py-10 transition-all duration-300",
+              isSidebarOpen ? "" : "max-w-[1400px] mx-auto w-full"
+            )}
+          >
             <div 
               className={cn(
                 "transition-all duration-300",
@@ -146,6 +170,15 @@ const MainLayout = () => {
           <span className="loader__element"></span>
         </div>
       )}
+
+      {/* Scroll to top button */}
+      <button
+        className={`scroll-to-top ${showScrollToTop ? 'visible' : ''}`}
+        onClick={scrollToTop}
+        aria-label="Scroll to top"
+      >
+        <ChevronUp size={20} />
+      </button>
     </div>
   );
 };

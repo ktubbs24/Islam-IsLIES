@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -97,18 +98,6 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
-    background-size: 40px 40px;
-    background-image: linear-gradient(to right, hsla(142, 75%, 40%, 0.45) 1px, transparent 1px),
-                      linear-gradient(to bottom, hsla(142, 75%, 40%, 0.45) 1px, transparent 1px);
-    opacity: 0.25;
-    transition: background-color 0.3s ease;
-  }
-  
-  .dark body {
-    opacity: 0.3;
-    background-image: linear-gradient(to right, hsla(142, 75%, 60%, 0.5) 1px, transparent 1px),
-                      linear-gradient(to bottom, hsla(142, 75%, 60%, 0.5) 1px, transparent 1px);
-    background: linear-gradient(135deg, rgba(0, 10, 5, 0.97) 0%, rgba(0, 20, 10, 0.95) 100%);
   }
   
   .doc-image {
@@ -210,27 +199,21 @@
     bottom: 0;
     pointer-events: none;
     z-index: -1;
-    opacity: 0.35;
     background-size: 40px 40px;
+  }
+
+  body:not(.dark) .grid-background {
+    opacity: 0.25;
     background-image: 
-      linear-gradient(to right, hsla(142, 75%, 40%, 0.6) 1px, transparent 1px),
-      linear-gradient(to bottom, hsla(142, 75%, 40%, 0.6) 1px, transparent 1px);
+      linear-gradient(to right, hsla(142, 75%, 40%, 0.45) 1px, transparent 1px),
+      linear-gradient(to bottom, hsla(142, 75%, 40%, 0.45) 1px, transparent 1px);
   }
 
   .dark .grid-background {
-    opacity: 0.4;
+    opacity: 0.3;
     background-image: 
-      linear-gradient(to right, hsla(142, 75%, 60%, 0.6) 1px, transparent 1px),
-      linear-gradient(to bottom, hsla(142, 75%, 60%, 0.6) 1px, transparent 1px);
-  }
-  
-  /* Background gradient */
-  body.dark {
-    background: linear-gradient(135deg, rgba(0, 10, 5, 0.97) 0%, rgba(0, 20, 10, 0.95) 100%);
-  }
-
-  body.light {
-    background: none;
+      linear-gradient(to right, hsla(142, 75%, 60%, 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, hsla(142, 75%, 60%, 0.5) 1px, transparent 1px);
   }
   
   /* TOC styles */
@@ -273,6 +256,19 @@
     font-size: 0.9rem;
     color: hsl(var(--muted-foreground));
     margin-bottom: 1.5rem;
+  }
+  
+  /* Body background */
+  body {
+    background-color: hsl(var(--background)); /* Ensure base background color is set */
+  }
+  
+  body.light {
+    background: none; /* Remove any background image */
+  }
+  
+  body.dark {
+    background: linear-gradient(135deg, rgba(0, 10, 5, 0.97) 0%, rgba(0, 20, 10, 0.95) 100%);
   }
 }
 
@@ -695,156 +691,6 @@
     background-position: 100% 50%;
     filter: hue-rotate(0deg);
   }
-}
-
-/* Custom link styles */
-.custom-link {
-  color: var(--primary);
-  position: relative;
-  text-decoration: none;
-}
-
-.custom-link::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  border-radius: 4px;
-  background-color: var(--primary);
-  bottom: 0;
-  left: 0;
-  transform-origin: right;
-  transform: scaleX(0);
-  transition: transform .3s ease-in-out;
-}
-
-.custom-link:hover::before {
-  transform-origin: left;
-  transform: scaleX(1);
-}
-
-.custom-link:hover {
-  text-shadow: 0 0 0.5px var(--primary);
-}
-
-/* Visited links */
-.custom-link:visited {
-  color: var(--primary);
-  opacity: 0.8;
-}
-
-/* Pane navigation */
-.sliding-pane {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  width: 80%;
-  max-width: 800px;
-  z-index: 100;
-  background-color: var(--background);
-  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
-  transform: translateX(100%);
-  transition: transform 0.3s ease-out;
-  overflow-y: auto;
-}
-
-.sliding-pane.is-open {
-  transform: translateX(0);
-}
-
-.sliding-pane-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 99;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease;
-}
-
-.sliding-pane-overlay.is-open {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* Image styling */
-.doc-image {
-  border-radius: 0.5rem;
-  overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.doc-image:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2), 
-              0 0 0 1px var(--primary-rgb, 0, 128, 0, 0.1), 
-              0 0 30px rgba(var(--primary-rgb, 0, 128, 0, 0.25));
-}
-
-.light .doc-image {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 
-              0 0 0 1px rgba(0, 128, 0, 0.05), 
-              0 0 40px rgba(0, 128, 0, 0.1);
-}
-
-.light .doc-image:hover {
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2), 
-              0 0 0 1px rgba(0, 128, 0, 0.1), 
-              0 0 50px rgba(0, 128, 0, 0.2);
-}
-
-/* Sidebar transition */
-.sidebar-transition {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* 3D Button Animation */
-.social-icon {
-  transition: transform 0.5s ease, filter 0.3s ease;
-}
-
-.social-icon:hover {
-  transform: scale(1.2) rotate(5deg);
-  filter: drop-shadow(0 0 3px currentColor);
-}
-
-/* Animation for download notification */
-@keyframes float {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, 20px);
-  }
-  10% {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-  90% {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -20px);
-  }
-}
-
-.animate-float {
-  animation: float 3s forwards;
-}
-
-.animate-float-long {
-  animation: float 300s forwards;
-}
-
-/* Dim transition for theme toggle */
-.dim-transition {
-  position: relative;
-  transition: background-color 0.8s ease;
 }
 
 /* Image Modal Styles */

@@ -1,7 +1,7 @@
 
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { ArrowRight, BookOpen, FileText, Tag, ArrowUp } from "lucide-react";
+import { ArrowRight, BookOpen, FileText, Tag } from "lucide-react";
 import SubscribeEmbed from "@/components/SubscribeEmbed";
 import ImageModal from "@/components/ImageModal";
 import { Button } from "@/components/ui/button";
@@ -14,27 +14,6 @@ const popularTags = [
 
 const Index = () => {
   const [showImageModal, setShowImageModal] = useState(false);
-  const [showScrollTop, setShowScrollTop] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 400) {
-        setShowScrollTop(true);
-      } else {
-        setShowScrollTop(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  };
 
   return (
     <div className="space-y-12">
@@ -44,7 +23,7 @@ const Index = () => {
           <img 
             src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
             alt="Islam IsLIES banner" 
-            className="w-full h-64 object-cover cursor-pointer"
+            className="w-full h-64 object-contain cursor-pointer"
             onClick={() => setShowImageModal(true)}
           />
           <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
@@ -202,15 +181,6 @@ const Index = () => {
           onClose={() => setShowImageModal(false)}
         />
       )}
-
-      {/* Scroll to top button */}
-      <button
-        className={`scroll-to-top ${showScrollTop ? 'visible' : ''}`}
-        onClick={scrollToTop}
-        aria-label="Scroll to top"
-      >
-        <ArrowUp size={20} />
-      </button>
     </div>
   );
 };
