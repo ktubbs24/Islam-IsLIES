@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, Link } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
@@ -82,7 +81,7 @@ const MainLayout = () => {
   return (
     <div className={`min-h-screen flex dim-transition ${theme}`}>
       <Sidebar />
-      <div className="flex-1 min-w-0 pl-0 md:pl-64 transition-all duration-300">
+      <div className="flex-1 min-w-0 pl-0 md:pl-72 transition-all duration-300">
         <div className="flex min-h-screen flex-col">
           <Header />
           
@@ -92,7 +91,7 @@ const MainLayout = () => {
               to="/gospel" 
               id="injeel-button"
               className={cn(
-                "glow-on-hover transition-opacity duration-500",
+                "glow-on-hover flex items-center justify-center font-semibold transition-opacity duration-500 h-[50px] text-center",
                 showInjeel ? "opacity-100" : "opacity-0"
               )}
               onClick={() => {

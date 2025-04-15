@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -284,15 +283,13 @@
 }
 
 .animate-float {
-  animation: float 3s forwards;
+  animation: float 1s forwards;
 }
 
-/* Add a longer animation for gospel message */
 .animate-float-long {
   animation: float 300s forwards;
 }
 
-/* Scrollbar styling */
 .scrollbar-thin {
   scrollbar-width: thin;
 }
@@ -303,4 +300,8 @@
 
 .scrollbar-track-transparent::-webkit-scrollbar-track {
   background: transparent;
+}
+
+.social-icon {
+  @apply w-5 h-5 hover:scale-110 transition-transform;
 }
