@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
   Menu, X, ChevronRight, ChevronDown, File, Folder, FolderOpen, Mail, ChevronLeft,
   Home, Cross, Flame, XOctagon, BookOpen, Facebook, Twitter, MessageSquare
@@ -20,6 +20,19 @@ interface SidebarItemProps {
 interface SidebarProps {
   onToggle?: (isOpen: boolean) => void;
 }
+
+const QuoraIcon = () => (
+  <svg 
+    width="24" 
+    height="24" 
+    viewBox="0 0 24 24" 
+    fill="currentColor"
+    className="social-icon"
+  >
+    <path d="M11.999 1C5.926 1 1 5.925 1 12c0 6.074 4.926 11 10.999 11 6.075 0 11.001-4.926 11.001-11 0-6.075-4.926-11-11.001-11zm7.473 17.15c-1.044-1.5-2.22-2.931-4.205-2.931-1.045 0-2.438.461-2.438 1.456v.785c-1.155.077-1.452-.153-1.878-1.177C13.937 11.996 11.999 12 11.999 12s-1.937-.004-2.973 4.283c-.425 1.023-.722 1.254-1.878 1.177v-.785c0-.995-1.392-1.456-2.438-1.456-1.984 0-3.161 1.431-4.205 2.931A8.71 8.71 0 0 1 2.264 12c0-5.391 4.344-9.734 9.735-9.734 5.392 0 9.736 4.343 9.736 9.734 0 2.868-1.242 5.44-3.212 7.227l-.051-.077z" />
+    <path d="M14.412 10.567h-2.906v1.056h.556v.355c0 .674-.556.983-1.354.983-.796 0-1.354-.309-1.354-.983V9.33c0-.619.367-.983 1.354-.983s1.354.364 1.354.983v.364h1.893c-.06-1.591-1.436-2.545-3.247-2.545-1.893 0-3.339.954-3.339 2.727v2.177c0 1.774 1.446 2.727 3.339 2.727 1.81 0 3.187-.954 3.247-2.545v-1.668z" />
+  </svg>
+);
 
 const sidebarItems: SidebarItemProps[] = [
   {
@@ -79,12 +92,12 @@ const sidebarItems: SidebarItemProps[] = [
       {
         title: "Categories",
         path: "/blog/categories",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       },
       {
         title: "Archives",
         path: "/blog/archives",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       }
     ]
   },
@@ -97,82 +110,97 @@ const sidebarItems: SidebarItemProps[] = [
       {
         title: "Jesus",
         path: "/jesus",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       },
       {
         title: "Works",
         path: "/works",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       },
       {
         title: "Sheep",
         path: "/sheep",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       },
       {
         title: "Salvation",
         path: "/salvation",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       },
       {
         title: "Scriptures",
         path: "/scriptures",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       }
     ]
   },
   {
     title: "Faith in Mohammad leads to Damnation",
-    path: "",
+    path: "/faith-in-mohammad-leads-to-damnation",
     icon: <Flame size={18} />,
     children: [
       {
         title: "Islam",
         path: "/islam",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       },
       {
         title: "The Quran",
         path: "/quran",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       },
       {
         title: "The Shahada",
         path: "/shahada",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       },
       {
         title: "Mohammad",
         path: "/mohammad",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
+      },
+      {
+        title: "Islamic Salvation",
+        path: "/islamic-salvation",
+        icon: <File size={18} />,
       }
     ]
   },
   {
     title: "Faith in Allah leads to lies",
-    path: "",
+    path: "/faith-in-allah-leads-to-lies",
     icon: <XOctagon size={18} />,
     children: [
       {
         title: "Allah",
         path: "/allah",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       },
       {
         title: "Satan",
         path: "/satan",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       },
       {
         title: "False Prophets/Teachers",
         path: "/false-prophets",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
+      },
+      {
+        title: "The Great Deception",
+        path: "/deception",
+        icon: <File size={18} />,
+      },
+      {
+        title: "God vs. Allah: A Comparison",
+        path: "/comparison-god-allah",
+        icon: <File size={18} />,
       }
     ]
   },
   {
     title: "Resources",
-    path: "",
+    path: "/resources",
     icon: <BookOpen size={18} />,
     children: [
       {
@@ -183,27 +211,27 @@ const sidebarItems: SidebarItemProps[] = [
       {
         title: "The Bible",
         path: "/bible",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       },
       {
         title: "Types of \"Christians\" to Avoid",
         path: "/christians-to-avoid",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       },
       {
         title: "Common Questions Muslims Ask About Jesus",
         path: "/common-questions",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       },
       {
         title: "Believe in Jesus Christ NOT Christianity",
         path: "/jesus-not-christianity",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       },
       {
         title: "What Can I Do Now To Become Christian",
         path: "/become-christian",
-        icon: <Folder size={18} />,
+        icon: <File size={18} />,
       }
     ]
   }
@@ -212,6 +240,7 @@ const sidebarItems: SidebarItemProps[] = [
 const SidebarItem = ({ title, path, icon, children, level = 0, isTopLevel = false }: SidebarItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const isActive = location.pathname === path;
   const hasChildren = children && children.length > 0;
   
@@ -231,68 +260,47 @@ const SidebarItem = ({ title, path, icon, children, level = 0, isTopLevel = fals
     icon ? React.cloneElement(icon as React.ReactElement, { size: 20 }) : <File size={20} />;
 
   const handleClick = () => {
-    if (isTopLevel && path) {
-      // For top-level folders with paths, we'll let the link navigation happen
-      // and not toggle the folder open/close state
-      return;
+    if (hasChildren) {
+      // For folders with children
+      if (path) {
+        // If it has a path, navigate to it
+        navigate(path);
+      } else {
+        // If it doesn't have a path, just toggle open/close
+        setIsOpen(!isOpen);
+      }
+    } else {
+      // For items without children, just navigate
+      navigate(path);
     }
     
-    // For all other folders, toggle the open/close state
-    setIsOpen(!isOpen);
+    // Auto collapse sidebar after selection (for all clicks)
+    if (window.innerWidth <= 768) { // Only on mobile/tablet
+      // Use a small timeout to ensure the navigation happens first
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('sidebar-toggle', { detail: { isOpen: false } }));
+      }, 300);
+    }
   };
 
   if (hasChildren) {
     return (
       <div className="mb-3">
-        {isTopLevel && path ? (
-          <div className="flex flex-col">
-            <Link
-              to={path}
-              className={cn(
-                "flex w-full items-center justify-between py-2 px-3 rounded-md text-sm",
-                "hover:bg-primary/10 hover:text-primary transition-colors duration-200",
-                (isActive || isChildActive) && "text-primary font-medium"
-              )}
-              style={{ paddingLeft: `${level * 12 + 12}px` }}
-            >
-              <span className="flex items-center gap-2">
-                {folderIcon}
-                <span className="font-bold">{title}</span>
-              </span>
-            </Link>
-            
-            <button
-              onClick={handleClick}
-              className={cn(
-                "flex w-full items-center justify-between py-2 px-3 rounded-md text-sm",
-                "hover:bg-primary/10 hover:text-primary transition-colors duration-200",
-                "mt-1"
-              )}
-              style={{ paddingLeft: `${level * 12 + 20}px` }}
-            >
-              <span className="flex items-center gap-2">
-                <span className="text-xs text-muted-foreground">Subpages</span>
-              </span>
-              {isOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
-            </button>
-          </div>
-        ) : (
-          <button
-            onClick={handleClick}
-            className={cn(
-              "flex w-full items-center justify-between py-2 px-3 rounded-md text-sm",
-              "hover:bg-primary/10 hover:text-primary transition-colors duration-200",
-              isChildActive && "text-primary font-medium"
-            )}
-            style={{ paddingLeft: `${level * 12 + 12}px` }}
-          >
-            <span className="flex items-center gap-2">
-              {folderIcon}
-              <span className="font-bold">{title}</span>
-            </span>
-            {isOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
-          </button>
-        )}
+        <button
+          onClick={handleClick}
+          className={cn(
+            "flex w-full items-center justify-between py-2 px-3 rounded-md text-sm",
+            "hover:bg-primary/10 hover:text-primary transition-colors duration-200",
+            (isActive || isChildActive) && "text-primary font-medium"
+          )}
+          style={{ paddingLeft: `${level * 12 + 12}px` }}
+        >
+          <span className="flex items-center gap-2">
+            {folderIcon}
+            <span className="font-bold">{title}</span>
+          </span>
+          {hasChildren && (isOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />)}
+        </button>
         
         {isOpen && (
           <div className="mt-1 pl-4 border-l border-sidebar-border ml-6">
@@ -310,10 +318,10 @@ const SidebarItem = ({ title, path, icon, children, level = 0, isTopLevel = fals
   }
   
   return (
-    <Link
-      to={path}
+    <button
+      onClick={handleClick}
       className={cn(
-        "flex items-center py-2 px-3 rounded-md text-sm mb-1.5",
+        "flex items-center py-2 px-3 rounded-md text-sm mb-1.5 w-full text-left",
         "hover:bg-primary/10 hover:text-primary transition-colors duration-200",
         isActive ? "bg-primary/10 text-primary font-medium" : "text-sidebar-foreground"
       )}
@@ -323,7 +331,7 @@ const SidebarItem = ({ title, path, icon, children, level = 0, isTopLevel = fals
         {folderIcon}
         {title}
       </span>
-    </Link>
+    </button>
   );
 };
 
@@ -331,6 +339,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [showHint, setShowHint] = useState(true);
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   
   useEffect(() => {
     const hasSeenHint = localStorage.getItem('sidebar-hint-seen');
@@ -384,11 +393,42 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
     if (onToggle) {
       onToggle(isOpen);
     }
+
+    // Listen for custom events to close the sidebar
+    const handleCustomToggle = (event: CustomEvent) => {
+      if (event.detail && typeof event.detail.isOpen === 'boolean') {
+        setIsOpen(event.detail.isOpen);
+        
+        if (!event.detail.isOpen) {
+          document.documentElement.classList.add('sidebar-collapsed');
+        } else {
+          document.documentElement.classList.remove('sidebar-collapsed');
+        }
+      }
+    };
+
+    window.addEventListener('sidebar-toggle', handleCustomToggle as EventListener);
     
     return () => {
       document.documentElement.classList.remove('sidebar-collapsed');
+      window.removeEventListener('sidebar-toggle', handleCustomToggle as EventListener);
     };
   }, []);
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    const logoElement = e.currentTarget.querySelector('img');
+    if (logoElement) {
+      logoElement.classList.add('logo-glow-animation');
+      setTimeout(() => {
+        logoElement.classList.remove('logo-glow-animation');
+        navigate('/');
+      }, 500);
+    } else {
+      navigate('/');
+    }
+  };
 
   return (
     <>
@@ -423,14 +463,14 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
         )}
       >
         <div className="p-4 border-b flex flex-col justify-center items-center">
-          <Link to="/" className="mb-2 overflow-hidden rounded-full w-24 h-24 flex items-center justify-center">
+          <a href="/" className="mb-2 overflow-hidden rounded-full w-24 h-24 flex items-center justify-center logo-container" onClick={handleLogoClick}>
             <img 
               src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png" 
               alt="Islam IsLIES Logo" 
               className="w-full h-full object-cover"
             />
-          </Link>
-          <Link to="/" className="font-bold text-lg hover:text-primary transition-colors">Islam IsLIES</Link>
+          </a>
+          <a href="/" className="font-bold text-lg hover:text-primary transition-colors" onClick={handleLogoClick}>Islam IsLIES</a>
           
           <div className="flex gap-4 mt-3">
             <a 
@@ -493,6 +533,15 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
               >
                 <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
               </svg>
+            </a>
+            <a 
+              href="https://islamislies.quora.com/?ch=17&oid=6637602&share=396067ef&srid=uFFvBu&target_type=tribe" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-primary transition-all"
+              aria-label="Quora"
+            >
+              <QuoraIcon />
             </a>
           </div>
         </div>

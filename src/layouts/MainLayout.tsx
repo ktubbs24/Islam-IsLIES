@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, Link } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
@@ -7,6 +8,7 @@ import { cn } from "@/lib/utils";
 import "../styles.css";
 import { useTheme } from "@/hooks/use-theme";
 import { ChevronUp } from "lucide-react";
+
 const MainLayout = () => {
   const [isEntering, setIsEntering] = useState(true);
   const [prevPath, setPrevPath] = useState("");
@@ -15,9 +17,8 @@ const MainLayout = () => {
   const [showScrollToTop, setShowScrollToTop] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const location = useLocation();
-  const {
-    theme
-  } = useTheme();
+  const { theme } = useTheme();
+
   useEffect(() => {
     // Skip animation on first load
     if (prevPath === "") {
@@ -98,6 +99,7 @@ const MainLayout = () => {
     window.addEventListener('sidebar-toggle', handleSidebarToggle);
     return () => window.removeEventListener('sidebar-toggle', handleSidebarToggle);
   }, []);
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -111,26 +113,29 @@ const MainLayout = () => {
     audio.volume = 0.2;
     audio.play().catch(e => console.log('Audio play error:', e));
   };
-  return <div className={`min-h-screen flex dim-transition ${theme}`}>
+
+  return (
+    <div className={`min-h-screen flex dim-transition ${theme}`}>
       <Sidebar onToggle={isOpen => setIsSidebarOpen(isOpen)} />
-      <div className={cn("flex-1 min-w-0 transition-all duration-300", isSidebarOpen ? "pl-0 md:pl-72" : "pl-0")}>
-        <div className="flex min-h-screen flex-col">
-          <Header />
-          
-          {/* Injeel Button */}
-          <div className="flex justify-center mt-2 mb-0">
-            <Link to="/gospel" id="injeel-button" className={cn("glow-on-hover flex items-center justify-center font-bold transition-opacity duration-500 h-[50px] w-[220px] text-center", showInjeel ? "opacity-100" : "opacity-0")} onClick={playClickSound}>
-              <span className="text-center w-full">What's the InJeel?</span>
-            </Link>
-          </div>
-          
-          <main className="">
-            <div className={cn("transition-all duration-300", isEntering ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0")}>
-              <Outlet />
-            </div>
-          </main>
-          <Footer />
+      <div className={cn(
+        "flex-1 min-w-0 transition-all duration-300 flex flex-col",
+        isSidebarOpen ? "md:ml-80" : "ml-0"
+      )}>
+        <Header />
+        
+        {/* Injeel Button */}
+        <div className="flex justify-center mt-2 mb-0">
+          <Link to="/gospel" id="injeel-button" className={cn("glow-on-hover flex items-center justify-center font-bold transition-opacity duration-500 h-[50px] w-[220px] text-center", showInjeel ? "opacity-100" : "opacity-0")} onClick={playClickSound}>
+            <span className="text-center w-full">What's the InJeel?</span>
+          </Link>
         </div>
+        
+        <main className="flex-1">
+          <div className={cn("transition-all duration-300 max-w-5xl mx-auto", isEntering ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0")}>
+            <Outlet />
+          </div>
+        </main>
+        <Footer />
       </div>
       
       {/* Loading animation */}
@@ -144,6 +149,29 @@ const MainLayout = () => {
       <button className={`scroll-to-top ${showScrollToTop ? 'visible' : ''}`} onClick={scrollToTop} aria-label="Scroll to top">
         <ChevronUp size={20} />
       </button>
-    </div>;
+
+      <style jsx>{`
+        .logo-glow-animation {
+          animation: logoPulseGlow 0.5s ease-in-out;
+        }
+
+        @keyframes logoPulseGlow {
+          0% {
+            filter: drop-shadow(0 0 0 rgba(45, 166, 95, 0));
+            transform: scale(1);
+          }
+          50% {
+            filter: drop-shadow(0 0 15px rgba(45, 166, 95, 0.8));
+            transform: scale(1.1);
+          }
+          100% {
+            filter: drop-shadow(0 0 0 rgba(45, 166, 95, 0));
+            transform: scale(1);
+          }
+        }
+      `}</style>
+    </div>
+  );
 };
+
 export default MainLayout;

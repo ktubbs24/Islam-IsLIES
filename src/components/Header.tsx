@@ -11,14 +11,14 @@ const Header = () => {
   
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-      <div className="flex flex-1 items-center justify-between">
-        <div className="w-[300px]">
+      <div className="flex flex-1 items-center justify-end gap-6">
+        <div className="flex-grow hidden md:flex justify-center">
           <SearchDialog />
         </div>
         <div className="flex items-center gap-4">
           <Link 
             to="/support" 
-            className="text-foreground hover:text-primary transition-colors font-medium"
+            className="text-foreground hover:text-primary transition-colors font-medium button-custom py-2 px-3 rounded-full"
           >
             <HelpCircle className="inline-block mr-1" size={18} />
             Support
