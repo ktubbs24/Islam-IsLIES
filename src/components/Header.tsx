@@ -67,8 +67,7 @@ const Header = () => {
           </button>
         </div>
       </div>
-      
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style jsx>{`
         .search-pulse {
           animation: searchPulse 1s ease-in-out;
         }
@@ -84,28 +83,7 @@ const Header = () => {
             box-shadow: 0 0 0 0 rgba(45, 166, 95, 0);
           }
         }
-        
-        /* Center search bar in header */
-        @media (min-width: 768px) {
-          .flex-grow {
-            display: flex;
-            justify-content: center;
-          }
-          
-          .search-container {
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-          }
-        }
-        
-        /* Mobile search styling */
-        @media (max-width: 767px) {
-          .search-container {
-            width: 100%;
-          }
-        }
-      ` }} />
+      `}</style>
     </header>
   );
 };

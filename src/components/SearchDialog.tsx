@@ -30,11 +30,9 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ placeholder = "Search docum
           />
         </div>
       </form>
-      
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style jsx>{`
         .search-container {
           transition: all 0.3s ease;
-          margin: 0 auto;
         }
         
         .search-input {
@@ -70,13 +68,7 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ placeholder = "Search docum
         .search-input {
           animation: gentle-pulse 3s infinite ease-in-out;
         }
-        
-        @media (max-width: 768px) {
-          .search-container {
-            max-width: 100%;
-          }
-        }
-      ` }} />
+      `}</style>
     </div>
   );
 };

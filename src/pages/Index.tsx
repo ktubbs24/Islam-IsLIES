@@ -24,8 +24,9 @@ const Index = () => {
             <img 
               src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
               alt="Islam IsLIES banner" 
-              className="w-64 h-64 object-cover cursor-pointer hover-glow-effect homepage-cover-image-circle"
+              className="w-full h-64 object-contain cursor-pointer hover-glow-effect"
               onClick={() => setShowImageModal(true)}
+              style={{ borderRadius: "50%", maxWidth: "300px", margin: "0 auto" }}
               loading="lazy"
             />
           </div>
@@ -187,8 +188,8 @@ const Index = () => {
           onClose={() => setShowImageModal(false)}
         />
       )}
-      
-      <style dangerouslySetInnerHTML={{ __html: `
+
+      <style jsx>{`
         .homepage-box {
           transition: all 0.3s ease;
           position: relative;
@@ -216,27 +217,7 @@ const Index = () => {
         .hover-glow-effect:hover {
           filter: drop-shadow(0 0 15px rgba(45, 166, 95, 0.8));
         }
-        
-        .homepage-cover-image-circle {
-          border-radius: 50%;
-          overflow: hidden;
-          margin: 0 auto;
-          object-fit: cover;
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-          transition: all 0.3s ease;
-        }
-        
-        .homepage-cover-image-circle:hover {
-          transform: scale(1.05);
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15), 0 0 20px rgba(45, 166, 95, 0.6);
-        }
-        
-        .logo-container {
-          display: flex;
-          justify-content: center;
-          padding: 2rem 0;
-        }
-      ` }} />
+      `}</style>
     </div>
   );
 };

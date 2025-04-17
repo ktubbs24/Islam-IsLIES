@@ -55,7 +55,7 @@ const NotFound = () => {
         </div>
       </div>
       
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style jsx>{`
         .logo-glow-animation {
           animation: logoPulseGlow 0.5s ease-in-out;
         }
@@ -82,7 +82,7 @@ const NotFound = () => {
             transform: scale(1);
           }
         }
-      ` }} />
+      `}</style>
     </div>
   );
 };

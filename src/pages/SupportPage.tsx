@@ -1,214 +1,120 @@
 
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { DollarSign, Heart, Coffee } from 'lucide-react';
-import DocPage from '@/components/DocPage';
+import { ArrowRight, ArrowLeft, DollarSign, Coffee } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const SupportPage = () => {
   return (
-    <DocPage
-      title="Support Our Mission"
-      publishDate="2025-04-01"
-      updateDate="2025-04-15"
-      excludeNavigation={true}
-      tags={["support", "donate", "mission"]}
-    >
-      <div className="space-y-8">
-        <p className="lead-text">
-          Your support helps us continue our mission to share the truth about Jesus Christ and expose the lies of Islam. Every contribution, whether financial or through prayer, makes a significant impact.
-        </p>
+    <div className="space-y-8 max-w-4xl mx-auto">
+      <div>
+        <h1 className="text-3xl font-bold mb-6">Support Our Ministry</h1>
+        <p className="text-muted-foreground mb-6">Help us continue sharing Biblical truth.</p>
+      </div>
+
+      <div className="prose prose-lg dark:prose-invert max-w-none">
+        <p>Thank you for your interest in supporting our ministry. While all our content is freely available and will always remain so, your financial support helps us continue our mission of revealing Biblical truths and addressing misconceptions about Christianity.</p>
         
-        <h2 className="mt-8">Ways to Support</h2>
+        <blockquote>
+          "Freely you have received; freely give." <cite>Matthew 10:8</cite>
+        </blockquote>
         
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          <div className="support-card">
-            <div className="icon-container">
-              <DollarSign size={28} className="support-icon" />
-            </div>
-            <h3>Financial Support</h3>
-            <p>Your generous donations help cover website hosting costs, resource development, translation efforts, and outreach initiatives.</p>
-            <a href="#" className="support-button">
-              Donate Now
-            </a>
-          </div>
-          
-          <div className="support-card">
-            <div className="icon-container">
-              <Heart size={28} className="support-icon" />
-            </div>
-            <h3>Prayer Support</h3>
-            <p>Please pray for our team, for those seeking truth, for the persecuted Christians in Muslim-majority nations, and for Muslims to find Christ.</p>
-            <Link to="/prayer-requests" className="support-button">
-              Prayer Requests
-            </Link>
-          </div>
-          
-          <div className="support-card">
-            <div className="icon-container">
-              <Coffee size={28} className="support-icon" />
-            </div>
-            <h3>Buy Me a Coffee</h3>
-            <p>A simple way to show your support is through a one-time "coffee" donation that helps fuel our ongoing work.</p>
-            <a href="#" className="support-button">
-              Buy a Coffee
-            </a>
-          </div>
-        </div>
+        <p>Scripture reminds us that the gospel is a gift that should be freely shared. In keeping with this principle, we do not charge for access to our resources. All downloads and materials are available without cost.</p>
         
-        <h2 className="mt-12">Where Your Support Goes</h2>
+        <blockquote>
+          "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver." <cite>2 Corinthians 9:7</cite>
+        </blockquote>
         
-        <ul className="support-list">
-          <li>Website maintenance and expansion</li>
-          <li>Creation of new content exposing Islamic deception</li>
-          <li>Development of resources for Muslims seeking truth</li>
-          <li>Support for converts from Islam facing persecution</li>
-          <li>Outreach initiatives to Muslim communities</li>
-          <li>Translation of materials into languages spoken in Muslim-majority regions</li>
+        <p>If you feel led to support this ministry financially, we welcome your contribution. Your generosity helps us:</p>
+        
+        <ul>
+          <li>Create new content</li>
+          <li>Maintain and improve this website</li>
+          <li>Expand our outreach</li>
+          <li>Cover operational expenses</li>
         </ul>
-        
-        <div className="testimonial-section">
-          <h3>Impact of Your Support</h3>
-          <blockquote>
-            "Your resources helped me see the truth about Jesus after years of being deceived by Islamic teachings. Thank you for being a light in the darkness."
-            <cite>— Former Muslim from Pakistan</cite>
-          </blockquote>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="rounded-lg border bg-card p-6 shadow-sm">
+          <div className="flex flex-col h-full">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-full bg-primary/10">
+                <DollarSign className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold">Cash App</h3>
+            </div>
+            <p className="text-muted-foreground mb-6">
+              Support us instantly with Cash App using the cashtag below.
+            </p>
+            <div className="mt-auto">
+              <a 
+                href="https://cash.app/$Kwenela"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block"
+              >
+                <Button>
+                  Send via Cash App
+                </Button>
+              </a>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Cashtag: <span className="font-mono bg-muted px-2 py-1 rounded">$Kwenela</span>
+              </p>
+            </div>
+          </div>
         </div>
         
-        <h2 className="mt-12">Financial Transparency</h2>
-        <p>We are committed to complete transparency in how we use donations. A detailed breakdown of our expenditures is available upon request to donors. All funds go directly toward ministry work, with no excessive administrative costs.</p>
-        
-        <div className="contact-section">
-          <h3>Questions About Supporting?</h3>
-          <p>If you have any questions about donating or other ways to support our mission, please don't hesitate to <Link to="/contact" className="contact-link">contact us</Link>.</p>
+        <div className="rounded-lg border bg-card p-6 shadow-sm">
+          <div className="flex flex-col h-full">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-full bg-primary/10">
+                <Coffee className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold">Buy Me a Coffee</h3>
+            </div>
+            <p className="text-muted-foreground mb-6">
+              Show your support by buying me a virtual coffee through Buy Me a Coffee platform.
+            </p>
+            <div className="mt-auto">
+              <a 
+                href="https://buymeacoffee.com/realKwenelaT"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block"
+              >
+                <Button>
+                  Buy me a coffee
+                </Button>
+              </a>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Every contribution helps us continue our work.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <style>
-        {`
-        .lead-text {
-          font-size: 1.2rem;
-          line-height: 1.8;
-        }
-        
-        .support-card {
-          border: 1px solid var(--border);
-          border-radius: 0.5rem;
-          padding: 1.5rem;
-          transition: all 0.3s ease;
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-        }
-        
-        .support-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 0 15px rgba(45, 166, 95, 0.2);
-        }
-        
-        .icon-container {
-          width: 60px;
-          height: 60px;
-          background: rgba(45, 166, 95, 0.1);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 1rem;
-          color: #2DA65F;
-        }
-        
-        .support-icon {
-          transition: transform 0.3s ease;
-        }
-        
-        .support-card:hover .support-icon {
-          transform: scale(1.2);
-        }
-        
-        .support-card h3 {
-          margin-bottom: 0.75rem;
-          font-size: 1.25rem;
-          font-weight: 600;
-        }
-        
-        .support-button {
-          margin-top: auto;
-          padding: 0.75rem 1.5rem;
-          background: rgba(45, 166, 95, 0.1);
-          color: #2DA65F;
-          border-radius: 0.25rem;
-          text-align: center;
-          transition: all 0.3s ease;
-          display: inline-block;
-          text-decoration: none;
-          margin-top: 1rem;
-          font-weight: 500;
-        }
-        
-        .support-button:hover {
-          background: rgba(45, 166, 95, 0.2);
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(45, 166, 95, 0.15);
-        }
-        
-        .support-list {
-          list-style-type: none;
-          padding-left: 0;
-        }
-        
-        .support-list li {
-          padding: 0.5rem 0;
-          position: relative;
-          padding-left: 1.75rem;
-        }
-        
-        .support-list li:before {
-          content: "✓";
-          color: #2DA65F;
-          position: absolute;
-          left: 0;
-        }
-        
-        .testimonial-section {
-          background: rgba(45, 166, 95, 0.05);
-          padding: 1.5rem;
-          border-radius: 0.5rem;
-          margin: 2rem 0;
-          border-left: 4px solid #2DA65F;
-        }
-        
-        .testimonial-section blockquote {
-          font-style: italic;
-          margin: 0;
-          padding: 0;
-          border: none;
-        }
-        
-        .testimonial-section cite {
-          display: block;
-          margin-top: 0.75rem;
-          font-weight: 500;
-        }
-        
-        .contact-section {
-          background: var(--card);
-          padding: 1.5rem;
-          border-radius: 0.5rem;
-          margin-top: 2rem;
-        }
-        
-        .contact-link {
-          color: #2DA65F;
-          text-decoration: underline;
-          transition: all 0.3s ease;
-        }
-        
-        .contact-link:hover {
-          color: #228a4e;
-        }
-        `}
-      </style>
-    </DocPage>
+      <div className="bg-primary/5 rounded-lg p-6 border border-primary/10">
+        <h3 className="font-bold mb-3">A Note About Giving</h3>
+        <p className="mb-4">
+          "Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver." - 2 Corinthians 9:7
+        </p>
+        <p className="mb-0 text-muted-foreground">
+          All resources on this site are free and will remain free. Your support is appreciated but never required.
+        </p>
+      </div>
+
+      <div className="flex justify-between pt-8 mt-8 border-t">
+        <Link to="/newsletter" className="flex items-center text-muted-foreground hover:text-primary">
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          <span>Newsletter</span>
+        </Link>
+        <Link to="/about" className="flex items-center text-muted-foreground hover:text-primary">
+          <span>About</span>
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Link>
+      </div>
+    </div>
   );
 };
 
