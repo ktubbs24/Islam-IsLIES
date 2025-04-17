@@ -870,3 +870,81 @@ body.light {
     max-width: 900px;
   }
 }
+
+/* GitBook-style navigation */
+.doc-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.doc-navigation-link {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  font-weight: 500;
+  color: hsl(var(--foreground));
+  transition: all 0.2s ease;
+  background-color: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  min-width: 40%;
+  justify-content: center;
+  text-align: center;
+}
+
+.doc-navigation-link:hover {
+  color: hsl(var(--primary));
+  box-shadow: 0 0 0 1px hsl(var(--primary)/0.3), 0 0 10px hsl(var(--primary)/0.25);
+  transform: translateY(-2px);
+}
+
+.doc-navigation-link svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.doc-navigation-link.prev {
+  justify-content: flex-start;
+}
+
+.doc-navigation-link.next {
+  justify-content: flex-end;
+}
+
+.doc-navigation-link.prev svg {
+  margin-right: 8px;
+}
+
+.doc-navigation-link.next svg {
+  margin-left: 8px;
+}
+
+.doc-navigation-link.next {
+  margin-left: auto;
+}
+
+.doc-navigation-link.disabled {
+  cursor: default;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Logo glow animation */
+@keyframes logoPulseGlow {
+  0% {
+    filter: drop-shadow(0 0 0 rgba(45, 166, 95, 0));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(45, 166, 95, 0.8));
+    transform: scale(1.1);
+  }
+  100% {
+    filter: drop-shadow(0 0 0 rgba(45, 166, 95, 0));
+    transform: scale(1);
+  }
+}
