@@ -6,7 +6,7 @@ interface SearchDialogProps {
   placeholder?: string;
 }
 
-const SearchDialog: React.FC<SearchDialogProps> = ({ placeholder = "Search..." }) => {
+const SearchDialog: React.FC<SearchDialogProps> = ({ placeholder = "Search documents..." }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
 
