@@ -150,7 +150,8 @@ const MainLayout = () => {
         <ChevronUp size={20} />
       </button>
 
-      <style jsx>{`
+      <style>
+        {`
         .logo-glow-animation {
           animation: logoPulseGlow 0.5s ease-in-out;
         }
@@ -169,7 +170,8 @@ const MainLayout = () => {
             transform: scale(1);
           }
         }
-      `}</style>
+        `}
+      </style>
     </div>
   );
 };

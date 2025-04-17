@@ -218,7 +218,8 @@ const Footer = () => {
         </div>
       </div>
       
-      <style jsx>{`
+      <style>
+        {`
         .logo-glow-animation {
           animation: logoPulseGlow 0.5s ease-in-out;
         }
@@ -237,7 +238,8 @@ const Footer = () => {
             transform: scale(1);
           }
         }
-      `}</style>
+        `}
+      </style>
     </footer>
   );
 };
