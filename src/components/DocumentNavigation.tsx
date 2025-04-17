@@ -52,11 +52,20 @@ const documentRoutes = {
 
 // Helper to determine which folder a path belongs to
 const getDocumentFolder = (path: string) => {
+  // First check for direct folder match
+  for (const folder in documentRoutes) {
+    if (path.startsWith(`/${folder}/`)) {
+      return folder;
+    }
+  }
+  
+  // Then check for exact path match
   for (const folder in documentRoutes) {
     if (documentRoutes[folder].some(doc => doc.path === path)) {
       return folder;
     }
   }
+  
   return null;
 };
 
@@ -64,7 +73,7 @@ interface DocumentNavigationProps {
   excludeOn?: string[];
 }
 
-const DocumentNavigation: React.FC<DocumentNavigationProps> = ({ excludeOn = ['/gospel', '/support'] }) => {
+const DocumentNavigation: React.FC<DocumentNavigationProps> = ({ excludeOn = [] }) => {
   const location = useLocation();
   const currentPath = location.pathname;
   
@@ -97,7 +106,7 @@ const DocumentNavigation: React.FC<DocumentNavigationProps> = ({ excludeOn = ['/
   return (
     <div className="doc-navigation mt-8">
       {prevDoc ? (
-        <Link to={prevDoc.path} className="doc-navigation-link prev">
+        <Link to={prevDoc.path} className="doc-navigation-link prev hover:bg-primary/10 transition-colors">
           <ChevronRight className="mr-2 rotate-180" />
           <span>{prevDoc.title}</span>
         </Link>
@@ -109,7 +118,7 @@ const DocumentNavigation: React.FC<DocumentNavigationProps> = ({ excludeOn = ['/
       )}
       
       {nextDoc ? (
-        <Link to={nextDoc.path} className="doc-navigation-link next">
+        <Link to={nextDoc.path} className="doc-navigation-link next hover:bg-primary/10 transition-colors">
           <span>{nextDoc.title}</span>
           <ChevronRight className="ml-2" />
         </Link>

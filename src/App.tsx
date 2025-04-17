@@ -13,6 +13,7 @@ import HomePage from "./pages/HomePage";
 import HomeFolderPage from "./pages/HomeFolderPage";
 import BlogPage from "./pages/BlogPage";
 import BlogFolderPage from "./pages/BlogFolderPage";
+import BlogArchivesPage from "./pages/BlogArchivesPage";
 import FaithInJesusPage from "./pages/FaithInJesusPage";
 import FaithInJesusFolderPage from "./pages/FaithInJesusFolderPage";
 import FaithInMohammadFolderPage from "./pages/FaithInMohammadFolderPage";
@@ -48,6 +49,7 @@ const App = () => {
                 <Route path="/" element={<Index />} />
                 <Route path="/home" element={<HomeFolderPage />} />
                 <Route path="/blog" element={<BlogFolderPage />} />
+                <Route path="/blog/archives" element={<BlogArchivesPage />} />
                 <Route path="/faith-in-jesus-to-salvation" element={<FaithInJesusFolderPage />} />
                 <Route path="/faith-in-mohammad-leads-to-damnation" element={<FaithInMohammadFolderPage />} />
                 <Route path="/faith-in-allah-leads-to-lies" element={<FaithInAllahFolderPage />} />
@@ -88,7 +90,6 @@ const App = () => {
                 <Route path="/blog/latest" element={<DocDummyPage title="Latest Articles" />} />
                 <Route path="/blog/featured" element={<DocDummyPage title="Featured Posts" />} />
                 <Route path="/blog/categories" element={<DocDummyPage title="Categories" />} />
-                <Route path="/blog/archives" element={<DocDummyPage title="Archives" />} />
                 <Route path="/blog/understanding-islamic-teachings" element={<DocDummyPage title="Understanding Islamic Teachings" />} />
               </Route>
               <Route path="*" element={<NotFound />} />

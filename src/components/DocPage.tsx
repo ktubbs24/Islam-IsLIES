@@ -1,12 +1,14 @@
+
 import React from 'react';
 import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Calendar, ArrowLeft, ArrowRight, ThumbsUp, Share2, ChevronDown, Hash, ArrowUp } from "lucide-react";
+import { Calendar, ArrowLeft, ArrowRight, ThumbsUp, Share2, ChevronDown, Hash, ArrowUp, Download } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import TableOfContents from "@/components/TableOfContents";
-import DocDownload from "@/components/DocDownload";
 import SubscribeEmbed from "@/components/SubscribeEmbed";
 import ImageModal from "@/components/ImageModal";
+import { Button } from "@/components/ui/button";
+import DocumentNavigation from "@/components/DocumentNavigation";
 
 interface DocPageProps {
   title: string;
@@ -24,6 +26,7 @@ interface DocPageProps {
     title: string;
     path: string;
   };
+  excludeNavigation?: boolean;
 }
 
 const DocPage = ({ 
@@ -35,7 +38,8 @@ const DocPage = ({
   disclaimer,
   tags = [],
   nextPage,
-  prevPage
+  prevPage,
+  excludeNavigation = false
 }: DocPageProps) => {
   const [showImageModal, setShowImageModal] = useState(false);
   const [liked, setLiked] = useState(false);
@@ -78,6 +82,32 @@ const DocPage = ({
     });
   };
 
+  const handleDownload = () => {
+    const content = contentRef.current;
+    if (!content) return;
+    
+    // Generate PDF content
+    let docContent = `# ${title}\n\n`;
+    docContent += `Published: ${formattedDate(publishDate)}\n`;
+    if (updateDate) docContent += `Last Updated: ${formattedDate(updateDate)}\n`;
+    docContent += `\n${content.innerText}`;
+    
+    // Create a Blob with the content
+    const blob = new Blob([docContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    
+    // Create a link and trigger the download
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${title.replace(/\s+/g, '-').toLowerCase()}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    
+    // Clean up
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   useEffect(() => {
     // Scroll to top when page loads
     window.scrollTo(0, 0);
@@ -93,17 +123,20 @@ const DocPage = ({
         const id = h.id || `heading-${index}`;
         h.id = id;
         
-        // Add anchor link to heading
-        const anchor = document.createElement('a');
-        anchor.href = `#${id}`;
-        anchor.className = 'anchor';
-        anchor.innerHTML = '#';
-        h.appendChild(anchor);
+        // Add anchor link to heading if not already present
+        if (!h.querySelector('.anchor')) {
+          const anchor = document.createElement('a');
+          anchor.href = `#${id}`;
+          anchor.className = 'anchor';
+          anchor.innerHTML = '<span class="opacity-0 group-hover:opacity-100 ml-2"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></span>';
+          h.appendChild(anchor);
+          h.classList.add('group');
+        }
         
         // Extract heading data for TOC dropdown
         extractedHeadings.push({
           id,
-          text: h.textContent?.replace('#', '') || '',
+          text: h.textContent?.replace('#', '').replace(h.querySelector('.anchor')?.textContent || '', '') || '',
           level: parseInt(h.tagName.charAt(1))
         });
       });
@@ -195,6 +228,7 @@ const DocPage = ({
                   alt={`Cover image for ${title}`} 
                   className="doc-image w-full max-h-[400px] object-cover rounded-lg shadow-md hover:shadow-lg hover:translate-y-[-2px] transition-all duration-300 hover:shadow-primary/20 cursor-pointer"
                   onClick={() => setShowImageModal(true)}
+                  loading="lazy"
                 />
               </div>
             )}
@@ -278,13 +312,20 @@ const DocPage = ({
               </div>
             )}
             
+            {!excludeNavigation && (
+              <div className="mt-8 pt-6 border-t">
+                <DocumentNavigation excludeOn={['/gospel', '/support']} />
+              </div>
+            )}
+            
+            {/* Manual navigation for pages that provide prevPage and nextPage props */}
             {(prevPage || nextPage) && (
               <div className="mt-8 pt-6 border-t">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                   {prevPage ? (
                     <Link 
                       to={prevPage.path} 
-                      className="page-link-button group flex items-center gap-2"
+                      className="page-link-button group flex items-center gap-2 hover:bg-primary/10 transition-all rounded-lg py-2 px-4"
                     >
                       <ArrowLeft className="mr-1 h-4 w-4 transition-transform group-hover:-translate-x-1" />
                       <span>Previous: {prevPage.title}</span>
@@ -294,7 +335,7 @@ const DocPage = ({
                   {nextPage && (
                     <Link 
                       to={nextPage.path} 
-                      className="page-link-button group flex items-center gap-2"
+                      className="page-link-button group flex items-center gap-2 hover:bg-primary/10 transition-all rounded-lg py-2 px-4"
                     >
                       <span>Next: {nextPage.title}</span>
                       <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -305,7 +346,14 @@ const DocPage = ({
             )}
             
             <div className="mt-8 flex justify-end">
-              <DocDownload documentTitle={title} contentId="doc-1" />
+              <Button 
+                onClick={handleDownload} 
+                className="download-button flex items-center gap-2 hover:bg-primary/10 transition-all"
+                variant="outline"
+              >
+                <Download size={16} />
+                <span>Download Document</span>
+              </Button>
             </div>
             
             <div className="mt-8 py-8 border-t">
@@ -333,6 +381,189 @@ const DocPage = ({
           onClose={() => setShowImageModal(false)}
         />
       )}
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        .like-button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+          border-radius: 0.5rem;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          position: relative;
+          transition: all 0.3s ease;
+        }
+        
+        .like-button:hover {
+          background: rgba(45, 166, 95, 0.1);
+        }
+        
+        .like-button.liked {
+          color: #2DA65F;
+        }
+        
+        .thank-you {
+          position: absolute;
+          top: -20px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: #2DA65F;
+          color: white;
+          padding: 3px 8px;
+          border-radius: 4px;
+          font-size: 0.75rem;
+          opacity: 0;
+          animation: fadeInOut 3s forwards;
+        }
+        
+        @keyframes fadeInOut {
+          0% { opacity: 0; transform: translate(-50%, 5px); }
+          10% { opacity: 1; transform: translate(-50%, 0); }
+          90% { opacity: 1; transform: translate(-50%, 0); }
+          100% { opacity: 0; transform: translate(-50%, -5px); }
+        }
+        
+        .social-share-container {
+          position: relative;
+        }
+        
+        .social-share-button {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+          border-radius: 0.5rem;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        
+        .social-share-button:hover {
+          background: rgba(45, 166, 95, 0.1);
+        }
+        
+        .social-share-dropdown {
+          position: absolute;
+          right: 0;
+          top: 100%;
+          width: 220px;
+          background: var(--background);
+          border: 1px solid var(--border);
+          border-radius: 0.5rem;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          overflow: hidden;
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(10px);
+          transition: all 0.3s ease;
+          z-index: 10;
+        }
+        
+        .social-share-container:hover .social-share-dropdown {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(5px);
+        }
+        
+        .social-share-item {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.75rem 1rem;
+          text-decoration: none;
+          color: inherit;
+          transition: background 0.2s ease;
+        }
+        
+        .social-share-item:hover {
+          background: var(--accent);
+        }
+        
+        .toc-dropdown {
+          position: relative;
+          display: inline-block;
+        }
+        
+        .toc-dropdown-content {
+          position: absolute;
+          right: 0;
+          top: 100%;
+          width: 220px;
+          max-height: 300px;
+          overflow-y: auto;
+          background: var(--background);
+          border: 1px solid var(--border);
+          border-radius: 0.5rem;
+          padding: 0.5rem;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          z-index: 10;
+        }
+        
+        .toc-item {
+          display: block;
+          padding: 0.4rem 0.6rem;
+          font-size: 0.875rem;
+          border-radius: 0.25rem;
+          text-decoration: none;
+          color: inherit;
+          transition: background 0.2s ease;
+        }
+        
+        .toc-item:hover {
+          background: var(--accent);
+        }
+        
+        .scroll-to-top {
+          position: fixed;
+          bottom: 2rem;
+          right: 2rem;
+          width: 2.5rem;
+          height: 2.5rem;
+          border-radius: 50%;
+          background: var(--primary);
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(10px);
+          transition: all 0.3s ease;
+        }
+        
+        .scroll-to-top.visible {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+        }
+        
+        .download-button {
+          transition: all 0.3s ease;
+        }
+        
+        .download-button:hover {
+          box-shadow: 0 0 12px rgba(45, 166, 95, 0.5);
+          transform: translateY(-2px);
+        }
+        
+        /* Additional styling for markdown content */
+        .doc-content h2,
+        .doc-content h3,
+        .doc-content h4 {
+          scroll-margin-top: 100px;
+          position: relative;
+        }
+        
+        .doc-content .anchor {
+          text-decoration: none;
+          color: inherit;
+        }
+      ` }} />
     </div>
   );
 };
