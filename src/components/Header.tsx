@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SearchDialog from "./SearchDialog";
 import { useTheme } from "@/hooks/use-theme";
-import { Moon, Sun, HelpCircle } from "lucide-react";
+import { Moon, Sun, DollarSign } from "lucide-react";
 import { Button } from "./ui/button";
 
 const Header = () => {
@@ -13,14 +13,14 @@ const Header = () => {
     <header className="sticky top-0 z-30 flex h-14 items-center border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
       <div className="flex flex-1 items-center justify-end gap-6">
         <div className="flex-grow hidden md:flex justify-center">
-          <SearchDialog />
+          <SearchDialog placeholder="Search documents..." />
         </div>
         <div className="flex items-center gap-4">
           <Link 
             to="/support" 
             className="text-foreground hover:text-primary transition-colors font-medium button-custom py-2 px-3 rounded-full"
           >
-            <HelpCircle className="inline-block mr-1" size={18} />
+            <DollarSign className="inline-block mr-1" size={18} />
             Support
           </Link>
           

@@ -86,7 +86,7 @@ const Footer = () => {
         <div className="relative flex items-center justify-center">
           <Link
             to="/gospel"
-            className="flex items-center gap-2 text-muted-foreground hover:text-primary text-sm group transition-colors"
+            className="flex items-center gap-2 text-muted-foreground hover:text-primary text-sm group transition-colors text-center"
             onMouseEnter={handleGospelClick}
             onClick={handleGospelClick}
           >
@@ -116,6 +116,7 @@ const Footer = () => {
             src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
             alt="Islam IsLIES Logo"
             className="w-16 h-16 rounded-full object-cover"
+            loading="lazy"
           />
         </a>
         

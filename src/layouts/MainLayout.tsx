@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import "../styles.css";
 import { useTheme } from "@/hooks/use-theme";
 import { ChevronUp } from "lucide-react";
+import { initLazyLoading, initFallbackLazyLoading } from "@/utils/lazyLoading";
 
 const MainLayout = () => {
   const [isEntering, setIsEntering] = useState(true);
@@ -18,6 +19,10 @@ const MainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const location = useLocation();
   const { theme } = useTheme();
+  
+  // Pages where bottom navigation should be hidden
+  const hideNavPages = ['/gospel', '/support'];
+  const shouldHideNavigation = hideNavPages.includes(location.pathname);
 
   useEffect(() => {
     // Skip animation on first load
@@ -73,6 +78,10 @@ const MainLayout = () => {
         }
       }, 1000);
     }, 1000);
+    
+    // Initialize lazy loading
+    initLazyLoading();
+    initFallbackLazyLoading();
   }, []);
 
   // Handle scroll to top functionality
@@ -124,14 +133,14 @@ const MainLayout = () => {
         <Header />
         
         {/* Injeel Button */}
-        <div className="flex justify-center mt-2 mb-0">
+        <div className="flex justify-center mt-4 mb-2">
           <Link to="/gospel" id="injeel-button" className={cn("glow-on-hover flex items-center justify-center font-bold transition-opacity duration-500 h-[50px] w-[220px] text-center", showInjeel ? "opacity-100" : "opacity-0")} onClick={playClickSound}>
             <span className="text-center w-full">What's the InJeel?</span>
           </Link>
         </div>
         
         <main className="flex-1">
-          <div className={cn("transition-all duration-300 max-w-5xl mx-auto", isEntering ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0")}>
+          <div className={cn("transition-all duration-300 max-w-5xl mx-auto px-4", isEntering ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0")}>
             <Outlet />
           </div>
         </main>
@@ -168,6 +177,15 @@ const MainLayout = () => {
           100% {
             filter: drop-shadow(0 0 0 rgba(45, 166, 95, 0));
             transform: scale(1);
+          }
+        }
+        
+        /* Mobile specific improvements */
+        @media (max-width: 767px) {
+          .documentation-content {
+            font-size: 0.9em;
+            padding-left: 15px;
+            padding-right: 15px;
           }
         }
         `}

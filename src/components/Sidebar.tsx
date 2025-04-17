@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { 
@@ -261,22 +260,16 @@ const SidebarItem = ({ title, path, icon, children, level = 0, isTopLevel = fals
 
   const handleClick = () => {
     if (hasChildren) {
-      // For folders with children
       if (path) {
-        // If it has a path, navigate to it
         navigate(path);
       } else {
-        // If it doesn't have a path, just toggle open/close
         setIsOpen(!isOpen);
       }
     } else {
-      // For items without children, just navigate
       navigate(path);
     }
     
-    // Auto collapse sidebar after selection (for all clicks)
-    if (window.innerWidth <= 768) { // Only on mobile/tablet
-      // Use a small timeout to ensure the navigation happens first
+    if (window.innerWidth <= 768) {
       setTimeout(() => {
         window.dispatchEvent(new CustomEvent('sidebar-toggle', { detail: { isOpen: false } }));
       }, 300);
@@ -338,7 +331,7 @@ const SidebarItem = ({ title, path, icon, children, level = 0, isTopLevel = fals
 const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [showHint, setShowHint] = useState(true);
-  const sidebarRef = useRef<HTMLDivElement>(null);
+  const sidebarRef = useRef(null);
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -363,19 +356,16 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
       localStorage.setItem('sidebar-hint-seen', 'true');
     }
     
-    // Add class to document to track sidebar state for content width
     if (newState) {
       document.documentElement.classList.remove('sidebar-collapsed');
     } else {
       document.documentElement.classList.add('sidebar-collapsed');
     }
     
-    // Call the onToggle callback if provided
     if (onToggle) {
       onToggle(newState);
     }
     
-    // Also dispatch a custom event for other components to listen to
     window.dispatchEvent(
       new CustomEvent('sidebar-toggle', { 
         detail: { isOpen: newState } 
@@ -383,19 +373,16 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
     );
   };
 
-  // Initialize sidebar width class on mount
   useEffect(() => {
     if (!isOpen) {
       document.documentElement.classList.add('sidebar-collapsed');
     }
     
-    // Call the onToggle callback initially
     if (onToggle) {
       onToggle(isOpen);
     }
 
-    // Listen for custom events to close the sidebar
-    const handleCustomToggle = (event: CustomEvent) => {
+    const handleCustomToggle = (event) => {
       if (event.detail && typeof event.detail.isOpen === 'boolean') {
         setIsOpen(event.detail.isOpen);
         
@@ -407,15 +394,15 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
       }
     };
 
-    window.addEventListener('sidebar-toggle', handleCustomToggle as EventListener);
+    window.addEventListener('sidebar-toggle', handleCustomToggle);
     
     return () => {
       document.documentElement.classList.remove('sidebar-collapsed');
-      window.removeEventListener('sidebar-toggle', handleCustomToggle as EventListener);
+      window.removeEventListener('sidebar-toggle', handleCustomToggle);
     };
   }, []);
 
-  const handleLogoClick = (e: React.MouseEvent) => {
+  const handleLogoClick = (e) => {
     e.preventDefault();
     
     const logoElement = e.currentTarget.querySelector('img');
@@ -437,10 +424,10 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
       <div className="fixed top-4 left-4 z-50">
         <button
           onClick={toggleSidebar}
-          className="p-2 rounded-md bg-background border hover:bg-muted transition-colors relative"
+          className="p-2 rounded-md bg-background border hover:bg-muted transition-colors relative text-lg"
           aria-label="Toggle sidebar"
         >
-          {isOpen ? <ChevronLeft size={20} /> : <Menu size={20} />}
+          {isOpen ? <ChevronLeft size={24} /> : <Menu size={24} />}
           
           {showHint && !isOpen && (
             <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 flex items-center">
@@ -459,7 +446,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
           "fixed top-0 left-0 bottom-0 z-40 w-80 bg-sidebar border-r",
           "sidebar-transition overflow-hidden",
           isOpen ? "translate-x-0" : "-translate-x-full",
-          "scrollbar-thin scrollbar-thumb-sidebar-accent scrollbar-track-transparent"
+          "overflow-y-auto scrollbar-thin scrollbar-thumb-sidebar-accent scrollbar-track-transparent"
         )}
       >
         <div className="p-4 border-b flex flex-col justify-center items-center">
@@ -468,6 +455,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
               src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png" 
               alt="Islam IsLIES Logo" 
               className="w-full h-full object-cover"
+              loading="lazy"
             />
           </a>
           <a href="/" className="font-bold text-lg hover:text-primary transition-colors" onClick={handleLogoClick}>Islam IsLIES</a>
