@@ -3,7 +3,7 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import MarkdownRenderer from './MarkdownRenderer';
 import { useMarkdownContent } from '@/utils/markdownUtils';
-import { Breadcrumbs } from './Breadcrumbs';
+import Breadcrumbs from './Breadcrumbs';
 import DocumentNavigation from './DocumentNavigation';
 import { Button } from './ui/button';
 import { FileDown } from 'lucide-react';

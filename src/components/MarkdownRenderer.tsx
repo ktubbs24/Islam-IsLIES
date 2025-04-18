@@ -9,6 +9,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import { Link } from 'react-router-dom';
 import remarkFootnotes from 'remark-footnotes';
+import 'katex/dist/katex.min.css';
 
 interface MarkdownRendererProps {
   content: string;
@@ -50,9 +51,9 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
               return <span {...props}>{children}</span>;
             }
           },
-          code: ({ node, inline, className, children, ...props }) => {
+          code: ({ node, className, children, ...props }: any) => {
             const match = /language-(\w+)/.exec(className || '');
-            return !inline && match ? (
+            return !props.inline && match ? (
               <SyntaxHighlighter
                 style={dracula}
                 language={match[1]}
@@ -98,7 +99,8 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
         {processContent(content)}
       </ReactMarkdown>
       
-      <style jsx>{`
+      <style>
+        {`
         .markdown-content h1 {
           @apply text-3xl font-bold mb-6 mt-4;
         }
@@ -154,7 +156,8 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
         .markdown-content img {
           @apply my-4 mx-auto;
         }
-      `}</style>
+      `}
+      </style>
     </div>
   );
 };

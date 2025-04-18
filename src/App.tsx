@@ -37,10 +37,10 @@ const App = () => {
               
               {/* Home folder pages */}
               <Route path="/home" element={<HomePage />} />
-              <Route path="/getting-started" element={<MarkdownPage contentType="home" slug="welcome" />} />
-              <Route path="/about" element={<MarkdownPage contentType="home" slug="about" />} />
-              <Route path="/gospel" element={<MarkdownPage contentType="home" slug="gospel" showNavigation={false} />} />
-              <Route path="/support" element={<MarkdownPage contentType="home" slug="support" showNavigation={false} />} />
+              <Route path="/getting-started" element={<MarkdownPage contentType="home" />} />
+              <Route path="/about" element={<MarkdownPage contentType="home" />} />
+              <Route path="/gospel" element={<MarkdownPage contentType="home" showNavigation={false} />} />
+              <Route path="/support" element={<MarkdownPage contentType="home" showNavigation={false} />} />
               
               {/* Blog pages */}
               <Route path="/blog" element={<BlogFolderPage />} />
@@ -50,7 +50,7 @@ const App = () => {
               <Route path="/blog/archives" element={<BlogArchives />} />
               <Route path="/blog/latest-articles/:slug" element={<MarkdownPage contentType="blog" folderPath="latest-articles" />} />
               <Route path="/blog/understanding-islamic-teachings" 
-                element={<MarkdownPage contentType="blog" folderPath="latest-articles" slug="understanding-islamic-teachings" />} />
+                element={<MarkdownPage contentType="blog" folderPath="latest-articles" />} />
               
               {/* Faith in Jesus docs */}
               <Route path="/faith-in-jesus-to-salvation" element={<FaithInJesusFolderPage />} />
@@ -58,7 +58,6 @@ const App = () => {
                 <MarkdownPage 
                   contentType="docs" 
                   folderPath="Faith In Jesus Leads To Salvation" 
-                  slug="jesus" 
                   showBreadcrumbs={true} 
                   showDates={true} 
                   showDownload={true} 
@@ -76,8 +75,7 @@ const App = () => {
               <Route path="/faq" element={
                 <MarkdownPage 
                   contentType="docs" 
-                  folderPath="Resources" 
-                  slug="FAQ" 
+                  folderPath="Resources"
                   showBreadcrumbs={true} 
                   showDates={true} 
                   showDownload={true} 
