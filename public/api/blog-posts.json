@@ -1,0 +1,40 @@
+
+{
+  "posts": [
+    {
+      "slug": "understanding-islamic-teachings",
+      "title": "Understanding Islamic Teachings from a Christian Perspective",
+      "date": "2024-04-10",
+      "excerpt": "A critical analysis of Islamic teachings and their contradictions with biblical truth.",
+      "path": "/blog/latest-articles/understanding-islamic-teachings"
+    },
+    {
+      "slug": "common-questions-muslims-ask",
+      "title": "Common Questions Muslims Ask About Jesus",
+      "date": "2024-03-15",
+      "excerpt": "Addressing the most frequent questions Muslims have about Jesus and Christianity.",
+      "path": "/blog/questions/common-questions-muslims-ask"
+    },
+    {
+      "slug": "comparing-god-and-allah",
+      "title": "God vs. Allah: A Comprehensive Comparison",
+      "date": "2024-02-20",
+      "excerpt": "An in-depth look at the differences between the Christian God and the Islamic Allah.",
+      "path": "/blog/theological-studies/comparing-god-and-allah"
+    },
+    {
+      "slug": "salvation-in-christianity-vs-islam",
+      "title": "Salvation in Christianity vs. Islam",
+      "date": "2023-12-10",
+      "excerpt": "Exploring the fundamental differences in how salvation works in Christianity and Islam.",
+      "path": "/blog/theological-studies/salvation-in-christianity-vs-islam"
+    },
+    {
+      "slug": "historical-reliability-bible-quran",
+      "title": "The Historical Reliability of the Bible vs. the Quran",
+      "date": "2023-11-05",
+      "excerpt": "Examining the historical evidence supporting the Bible and the lack thereof for the Quran.",
+      "path": "/blog/historical-studies/historical-reliability-bible-quran"
+    }
+  ]
+}
