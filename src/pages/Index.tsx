@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { ArrowRight, BookOpen, FileText, Tag } from "lucide-react";
@@ -11,13 +12,8 @@ const popularTags = [
   { name: "blog-threads", count: 1 },
 ];
 
-const IndexPage = () => {
+const Index = () => {
   const [showImageModal, setShowImageModal] = useState(false);
-
-  useEffect(() => {
-    // Ensure page scrolls to top on load/navigation
-    window.scrollTo(0, 0);
-  }, []);
 
   return (
     <div className="space-y-12">
@@ -25,15 +21,14 @@ const IndexPage = () => {
         <div className="overflow-hidden rounded-xl shadow-lg relative">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background z-10"></div>
           <div className="logo-container logo-hover-glow w-full">
-            <div className="circular-logo-container mx-auto" style={{ maxWidth: "300px", aspectRatio: "1/1" }}>
-              <img 
-                src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
-                alt="Islam IsLIES banner" 
-                className="w-full h-full object-cover cursor-pointer hover-glow-effect circular-logo"
-                onClick={() => setShowImageModal(true)}
-                loading="lazy"
-              />
-            </div>
+            <img 
+              src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
+              alt="Islam IsLIES banner" 
+              className="w-full h-64 object-contain cursor-pointer hover-glow-effect"
+              onClick={() => setShowImageModal(true)}
+              style={{ borderRadius: "50%", maxWidth: "300px", margin: "0 auto" }}
+              loading="lazy"
+            />
           </div>
           <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
             <div className="grid grid-cols-12">
@@ -194,8 +189,7 @@ const IndexPage = () => {
         />
       )}
 
-      <style>
-        {`
+      <style jsx>{`
         .homepage-box {
           transition: all 0.3s ease;
           position: relative;
@@ -223,86 +217,9 @@ const IndexPage = () => {
         .hover-glow-effect:hover {
           filter: drop-shadow(0 0 15px rgba(45, 166, 95, 0.8));
         }
-        
-        .circular-logo-container {
-          border-radius: 50%;
-          overflow: hidden;
-          display: block;
-        }
-        
-        .circular-logo {
-          border-radius: 50%;
-          width: 100%;
-          height: 100%;
-        }
-        
-        .btn-3d {
-          background-image: linear-gradient(to bottom, #2DA65F, #1f7d47);
-          border-radius: 8px;
-          color: white;
-          font-weight: 600;
-          box-shadow: 
-            0 4px 6px rgba(31, 125, 71, 0.25),
-            0 2px 4px rgba(31, 125, 71, 0.15);
-          transition: all 0.2s ease;
-          transform: translateY(0);
-          will-change: transform, box-shadow;
-        }
-        
-        .btn-3d:hover {
-          background-image: linear-gradient(to bottom, #33ba6b, #248c50);
-          transform: translateY(-2px);
-          box-shadow: 
-            0 7px 10px rgba(31, 125, 71, 0.3),
-            0 3px 6px rgba(31, 125, 71, 0.2);
-        }
-        
-        .btn-3d:active {
-          transform: translateY(1px);
-          box-shadow: 
-            0 2px 4px rgba(31, 125, 71, 0.25),
-            0 1px 2px rgba(31, 125, 71, 0.15);
-        }
-        
-        .image-container {
-          transition: all 0.3s ease;
-          position: relative;
-          display: inline-block;
-        }
-        
-        .image-container:hover {
-          transform: translateY(-5px);
-        }
-        
-        .image-container:hover::after {
-          content: '';
-          position: absolute;
-          bottom: -10px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 100%;
-          height: 10px;
-          background: radial-gradient(ellipse at center, rgba(45, 166, 95, 0.5) 0%, rgba(45, 166, 95, 0) 70%);
-          border-radius: 50%;
-        }
-        
-        .cover-image {
-          border-radius: 50% !important;
-          overflow: hidden;
-          object-fit: cover;
-          width: 200px;
-          height: 200px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-          transition: all 0.3s ease;
-        }
-        
-        .cover-image:hover {
-          box-shadow: 0 6px 25px rgba(45, 166, 95, 0.4);
-        }
-        `}
-      </style>
+      `}</style>
     </div>
   );
 };
 
-export default IndexPage;
+export default Index;

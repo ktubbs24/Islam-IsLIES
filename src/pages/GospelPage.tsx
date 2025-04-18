@@ -1,14 +1,8 @@
 
 import { ArrowRight, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
 
 const GospelPage = () => {
-  useEffect(() => {
-    // Ensure page scrolls to top when loaded
-    window.scrollTo(0, 0);
-  }, []);
-  
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
       <div>
@@ -86,7 +80,17 @@ const GospelPage = () => {
           "Lord Jesus, I confess that I am a sinner in need of Your grace. I believe You died on the cross to pay for my sins and rose from the dead to give me eternal life. I turn from my sin and place my trust in You alone for salvation. Thank You for forgiving my sins and making me a child of God. Help me to follow You as Lord of my life. Amen."
         </blockquote>
       </div>
-      {/* Navigation links removed as requested */}
+
+      <div className="flex justify-between pt-8 mt-8 border-t">
+        <Link to="/about" className="flex items-center text-muted-foreground hover:text-primary">
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          <span>About</span>
+        </Link>
+        <Link to="/jesus" className="flex items-center text-muted-foreground hover:text-primary">
+          <span>Jesus</span>
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Link>
+      </div>
     </div>
   );
 };
