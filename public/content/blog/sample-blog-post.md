@@ -1,56 +1,69 @@
 
 ---
 title: "Sample Blog Post"
-slug: "sample-blog-post"
-date: "2025-04-18"
-updateDate: "2025-04-18"
+date: "2023-06-15"
+updated: "2023-07-01"
 author: "Islam IsLIES"
-excerpt: "This is a sample blog post to demonstrate the Markdown content system."
-coverImage: "https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
-tags: ["sample", "markdown", "blog"]
-categories: ["samples"]
+excerpt: "This is a sample blog post to demonstrate markdown format"
+slug: "sample-blog-post"
+featuredImage: "/placeholder.svg"
+categories: ["Examples", "Documentation"]
+tags: ["markdown", "sample", "blog"]
 ---
 
 # Sample Blog Post
 
-This is a sample blog post written in Markdown. You can use all standard Markdown syntax here.
+This is an example blog post written in Markdown format. It demonstrates how to structure your content.
 
-## Formatting
+## Heading Level 2
 
-You can use **bold**, *italic*, or ~~strikethrough~~ text.
+You can use different heading levels to organize your content.
 
-## Lists
+### Heading Level 3
 
-Unordered list:
+#### Heading Level 4
+
+**Bold text** is created with double asterisks.
+
+*Italic text* is created with single asterisks.
+
+Links can be added like this: [Islam IsLIES](https://islamislies.substack.com/)
+
+Images can be inserted like this:
+
+![Sample Image](/placeholder.svg)
+
+Lists can be created with hyphens:
+
 - Item 1
 - Item 2
 - Item 3
 
-Ordered list:
+Or with numbers:
+
 1. First item
 2. Second item
 3. Third item
 
-## Links and Images
+> Blockquotes look like this.
 
-[Link to homepage](/)
+Code blocks can be added with triple backticks:
 
-![Alt text for image](https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png)
-
-## Blockquotes
-
-> This is a blockquote.
-> It can span multiple lines.
-
-## Code
-
-Inline code: `const variable = "value";`
-
-Code block:
 ```javascript
-function greet(name) {
-  return `Hello, ${name}!`;
+function example() {
+  console.log("This is a code example");
 }
 ```
 
-This is just a sample to demonstrate how Markdown content works in the system.
+---
+
+Horizontal rules are created with three hyphens.
+
+You can also create tables:
+
+| Header 1 | Header 2 |
+| -------- | -------- |
+| Cell 1   | Cell 2   |
+| Cell 3   | Cell 4   |
+
+That's it for this sample post!

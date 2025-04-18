@@ -1,61 +1,43 @@
 
 ---
 title: "Getting Started"
-slug: "getting-started"
-date: "2025-04-18"
-updateDate: "2025-04-18"
+date: "2023-05-10"
+updated: "2023-06-20"
 author: "Islam IsLIES"
-excerpt: "How to get started with the documentation."
-coverImage: "https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
-tags: ["documentation", "getting-started"]
-categories: ["docs"]
+excerpt: "A guide to getting started with the Truth Seeker Documentation"
+slug: "getting-started"
+categories: ["Guides", "Introduction"]
+tags: ["beginner", "setup"]
 ---
 
-# Getting Started
+# Getting Started with Truth Seeker Documentation
 
-This is a documentation page written in Markdown. This demonstrates how documentation pages can be created using the Markdown content system.
-
-## Introduction
-
-Welcome to the documentation. This page will help you get started with understanding the content.
-
-## Sections
-
-Documentation is organized into different sections:
-
-- Biblical Truths
-- Comparative Studies
-- Resources
+Welcome to the Truth Seeker documentation! This guide will help you understand how to navigate and use our documentation effectively.
 
 ## Navigation
 
-You can navigate between pages using the navigation menu or the previous/next page links at the bottom of each page.
+Our documentation is organized into several main sections:
 
-## Rich Content
+1. **Faith in Jesus to Salvation** - Exploring the Christian path to salvation through Jesus Christ
+2. **Faith in Mohammad Leads to Damnation** - Critical analysis of Islamic teachings
+3. **Faith in Allah Leads to Lies** - Examination of the concept of Allah in Islam
+4. **Resources** - Additional materials and references
+5. **Biblical Truths** - In-depth exploration of Biblical teachings
 
-Documentation pages support all Markdown features including:
+## Using the Documentation
 
-### Code Samples
+Each section contains multiple documents that you can access through the sidebar navigation. You can also use the search function at the top of the page to find specific topics.
 
-```javascript
-// This is a code sample
-function example() {
-  return "Hello, world!";
-}
-```
+## Contributing
 
-### Quotes from Scripture
+If you'd like to contribute to our documentation, please contact us through our website. We welcome corrections, clarifications, and additional resources that align with our mission.
 
-> "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life." - John 3:16
+## Next Steps
 
-### Tables
+We recommend starting with our core documents:
 
-| Feature | Description |
-|---------|-------------|
-| Markdown | Format text easily |
-| Front Matter | Add metadata to pages |
-| Dynamic Routing | Pages linked by URL structure |
+- [Jesus](/jesus)
+- [The Gospel](/gospel)
+- [Understanding Islam](/islam)
 
-## Downloadable Content
-
-This documentation is available for download as a PDF.
+Thank you for visiting our documentation. May the truth set you free!

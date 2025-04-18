@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { ArrowRight, BookOpen, FileText, Tag } from "lucide-react";
@@ -12,7 +11,7 @@ const popularTags = [
   { name: "blog-threads", count: 1 },
 ];
 
-const Index = () => {
+const IndexPage = () => {
   const [showImageModal, setShowImageModal] = useState(false);
 
   useEffect(() => {
@@ -195,7 +194,8 @@ const Index = () => {
         />
       )}
 
-      <style jsx>{`
+      <style>
+        {`
         .homepage-box {
           transition: all 0.3s ease;
           position: relative;
@@ -235,9 +235,74 @@ const Index = () => {
           width: 100%;
           height: 100%;
         }
-      `}</style>
+        
+        .btn-3d {
+          background-image: linear-gradient(to bottom, #2DA65F, #1f7d47);
+          border-radius: 8px;
+          color: white;
+          font-weight: 600;
+          box-shadow: 
+            0 4px 6px rgba(31, 125, 71, 0.25),
+            0 2px 4px rgba(31, 125, 71, 0.15);
+          transition: all 0.2s ease;
+          transform: translateY(0);
+          will-change: transform, box-shadow;
+        }
+        
+        .btn-3d:hover {
+          background-image: linear-gradient(to bottom, #33ba6b, #248c50);
+          transform: translateY(-2px);
+          box-shadow: 
+            0 7px 10px rgba(31, 125, 71, 0.3),
+            0 3px 6px rgba(31, 125, 71, 0.2);
+        }
+        
+        .btn-3d:active {
+          transform: translateY(1px);
+          box-shadow: 
+            0 2px 4px rgba(31, 125, 71, 0.25),
+            0 1px 2px rgba(31, 125, 71, 0.15);
+        }
+        
+        .image-container {
+          transition: all 0.3s ease;
+          position: relative;
+          display: inline-block;
+        }
+        
+        .image-container:hover {
+          transform: translateY(-5px);
+        }
+        
+        .image-container:hover::after {
+          content: '';
+          position: absolute;
+          bottom: -10px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 100%;
+          height: 10px;
+          background: radial-gradient(ellipse at center, rgba(45, 166, 95, 0.5) 0%, rgba(45, 166, 95, 0) 70%);
+          border-radius: 50%;
+        }
+        
+        .cover-image {
+          border-radius: 50% !important;
+          overflow: hidden;
+          object-fit: cover;
+          width: 200px;
+          height: 200px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+          transition: all 0.3s ease;
+        }
+        
+        .cover-image:hover {
+          box-shadow: 0 6px 25px rgba(45, 166, 95, 0.4);
+        }
+        `}
+      </style>
     </div>
   );
 };
 
-export default Index;
+export default IndexPage;

@@ -1,146 +1,108 @@
 
 ---
-title: "Using Markdown Content System"
-slug: "using-markdown"
-date: "2025-04-18"
-updateDate: "2025-04-18"
+title: "Using Markdown"
+date: "2023-05-15"
+updated: "2023-06-25"
 author: "Islam IsLIES"
-excerpt: "Guide to using the Markdown content system for this website."
-tags: ["markdown", "documentation", "guide"]
-categories: ["docs"]
+excerpt: "Learn how to format content using Markdown"
+slug: "using-markdown"
+categories: ["Guides", "Technical"]
+tags: ["markdown", "formatting", "content"]
 ---
 
-# Using the Markdown Content System
+# Using Markdown in Truth Seeker Documentation
 
-This guide explains how to use the Markdown content system that's been implemented for this website.
+This guide explains how to use Markdown to format content in our documentation system.
 
-## Directory Structure
+## What is Markdown?
 
-The content is organized into two main directories:
+Markdown is a lightweight markup language that allows you to write formatted content using a plain text editor. It's easy to learn and widely used for documentation.
 
-- **`/content/blog/`** - Contains all blog posts
-- **`/content/docs/`** - Contains all documentation pages
+## Basic Formatting
 
-## Creating New Content
+### Headers
 
-To create new content, simply create a new Markdown file in the appropriate directory. Each file should have:
-
-### Front Matter
-
-The front matter is YAML metadata at the beginning of the file, enclosed between triple-dashes:
-
-```yaml
----
-title: "Your Title Here"
-slug: "url-friendly-title"
-date: "YYYY-MM-DD"
-updateDate: "YYYY-MM-DD"
-author: "Your Name"
-excerpt: "A brief description of the content"
-coverImage: "/path/to/image.jpg"
-tags: ["tag1", "tag2", "tag3"]
-categories: ["category1", "category2"]
----
+```
+# Header 1
+## Header 2
+### Header 3
+#### Header 4
 ```
 
-### Required Front Matter Fields
+### Text Styling
 
-- **title** - The title of the document
-- **slug** - URL-friendly version of the title (used in the URL)
-- **date** - Publication date in YYYY-MM-DD format
+```
+**Bold text**
+*Italic text*
+~~Strikethrough~~
+```
 
-### Optional Front Matter Fields
+### Lists
 
-- **updateDate** - Last updated date in YYYY-MM-DD format
-- **author** - Author name
-- **excerpt** - Brief summary (if not provided, will be automatically generated from content)
-- **coverImage** - Path to the featured image
-- **tags** - Array of tags for categorization
-- **categories** - Array of categories
-- **disclaimer** - Optional disclaimer text to display
+Unordered lists:
+```
+- Item 1
+- Item 2
+  - Subitem 2.1
+  - Subitem 2.2
+```
 
-### Content
+Ordered lists:
+```
+1. First item
+2. Second item
+3. Third item
+```
 
-After the front matter, write your content using standard Markdown syntax:
+### Links
 
-```markdown
-# Main Heading
-
-## Subheading
-
-Regular paragraph text with **bold**, *italic*, or ~~strikethrough~~.
-
-- Bullet point
-- Another bullet point
-
-1. Numbered item
-2. Another numbered item
-
+```
 [Link text](https://example.com)
+```
 
-![Alt text for image](path/to/image.jpg)
+### Images
 
+```
+![Alt text](/path/to/image.jpg)
+```
+
+### Blockquotes
+
+```
 > This is a blockquote
-
+> It can span multiple lines
 ```
 
-## URL Structure
+### Code
 
-The URLs for your content will be based on the directory and the slug:
+Inline code: `code`
 
-- Blog posts: `/blog/[slug]`
-- Documentation: `/docs/[slug]`
-
-For example, a blog post with slug "welcome-post" would be available at `/blog/welcome-post`.
-
-## Special Features
-
-### Internal Links
-
-You can create wiki-style internal links using double brackets:
-
-```markdown
-Check out the [[Getting Started]] guide.
-```
-
-This will be converted to a link to `/getting-started`.
-
-### Code Blocks
-
-````markdown
+Code blocks:
+````
 ```javascript
-// This is a code block with syntax highlighting
 function example() {
-  return "Hello, world!";
+  console.log("Hello world");
 }
 ```
 ````
 
-## Images
+## Front Matter
 
-Images can be included directly in your Markdown:
+All documentation files must include front matter at the top:
 
-```markdown
-![Alt text](path/to/image.jpg)
+```
+---
+title: "Document Title"
+date: "YYYY-MM-DD"
+updated: "YYYY-MM-DD"
+author: "Author Name"
+excerpt: "Brief description"
+slug: "custom-url-slug"
+categories: ["Category1", "Category2"]
+tags: ["tag1", "tag2"]
+---
 ```
 
-For best results, store images in the `/public/images/` directory and reference them like:
+## Conclusion
 
-```markdown
-![Alt text](/images/your-image.jpg)
-```
-
-## Publishing New Content
-
-After creating your Markdown file:
-
-1. Place it in the appropriate directory (`/content/blog/` or `/content/docs/`)
-2. The system will automatically load and render it at the corresponding URL
-
-## Navigation
-
-The system will automatically generate navigation between documents in the same section. On each document page, "Previous" and "Next" links will appear at the bottom to navigate through the content.
-
-## Downloading Content
-
-Each document page includes a "Download Document" button that allows users to download the content as a text file.
+Markdown is a powerful yet simple way to format documentation. By using these basic formatting options, you can create well-structured, readable documents.

@@ -3,12 +3,14 @@ import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import SearchDialog from "./SearchDialog";
 import { useTheme } from "@/hooks/use-theme";
-import { Moon, Sun, DollarSign } from "lucide-react";
+import { Moon, Sun, DollarSign, Search } from "lucide-react";
 import { Button } from "./ui/button";
 
 const Header = () => {
   const { theme, toggleTheme } = useTheme();
   const searchRef = useRef<HTMLDivElement>(null);
+  const [showMobileSearch, setShowMobileSearch] = React.useState(false);
+  const isMobile = window.innerWidth <= 768;
   
   useEffect(() => {
     // Add subtle animation to search bar
@@ -32,10 +34,27 @@ const Header = () => {
   
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-      <div className="flex flex-1 items-center justify-end gap-6">
-        <div className="flex-grow hidden md:flex justify-center" ref={searchRef}>
+      <div className="flex flex-1 items-center justify-between gap-6">
+        {/* Mobile Search Toggle Button */}
+        {isMobile && (
+          <button 
+            onClick={() => setShowMobileSearch(!showMobileSearch)}
+            className="p-2 text-foreground md:hidden"
+          >
+            <Search size={20} />
+          </button>
+        )}
+        
+        {/* Search Container - Desktop always visible, Mobile conditionally visible */}
+        <div 
+          className={`flex-grow flex justify-center ${
+            isMobile && !showMobileSearch ? 'hidden' : 'flex'
+          }`} 
+          ref={searchRef}
+        >
           <SearchDialog placeholder="Search documents..." />
         </div>
+        
         <div className="flex items-center gap-4">
           <Link 
             to="/support" 
@@ -67,8 +86,8 @@ const Header = () => {
           </button>
         </div>
       </div>
-      <style jsx>{`
-        .search-pulse {
+      <style>
+        {`.search-pulse {
           animation: searchPulse 1s ease-in-out;
         }
         
@@ -83,7 +102,8 @@ const Header = () => {
             box-shadow: 0 0 0 0 rgba(45, 166, 95, 0);
           }
         }
-      `}</style>
+        `}
+      </style>
     </header>
   );
 };

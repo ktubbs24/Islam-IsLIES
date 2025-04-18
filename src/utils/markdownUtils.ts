@@ -1,102 +1,120 @@
 
-import fm from 'front-matter';
+import fs from 'fs';
+import path from 'path';
 import { marked } from 'marked';
+import matter from 'front-matter';
 
 export interface MarkdownFrontMatter {
   title: string;
-  slug: string;
   date: string;
-  updateDate?: string;
+  updated?: string;
   author?: string;
   excerpt?: string;
-  coverImage?: string;
-  tags?: string[];
+  slug?: string;
+  featuredImage?: string;
   categories?: string[];
+  tags?: string[];
   [key: string]: any;
 }
 
 export interface MarkdownContent {
-  frontMatter: MarkdownFrontMatter;
   content: string;
-  html: string;
+  metadata: MarkdownFrontMatter;
+  path: string;
 }
 
-// Process a markdown file and return structured data
-export async function processMarkdown(markdownText: string): Promise<MarkdownContent> {
+/**
+ * Reads and parses a markdown file with front matter
+ */
+export const readMarkdownFile = (filePath: string): MarkdownContent | null => {
   try {
+    const fullPath = path.resolve(process.cwd(), filePath);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+    
     // Parse front matter
-    const { attributes, body } = fm<MarkdownFrontMatter>(markdownText);
+    const { attributes, body } = matter(fileContents);
     
     // Convert markdown to HTML
-    const html = marked(body);
+    const htmlContent = marked(body);
     
     return {
-      frontMatter: attributes,
-      content: body,
-      html
+      content: htmlContent,
+      metadata: attributes as MarkdownFrontMatter,
+      path: filePath
     };
   } catch (error) {
-    console.error('Error processing markdown:', error);
-    throw error;
-  }
-}
-
-// Fetch markdown file from the content directory
-export async function fetchMarkdownFile(path: string): Promise<MarkdownContent | null> {
-  try {
-    const response = await fetch(path);
-    if (!response.ok) {
-      console.error(`Failed to fetch markdown file: ${path}`);
-      return null;
-    }
-    
-    const markdown = await response.text();
-    return await processMarkdown(markdown);
-  } catch (error) {
-    console.error(`Error fetching markdown file ${path}:`, error);
+    console.error(`Error reading markdown file ${filePath}:`, error);
     return null;
   }
-}
+};
 
-// Fetch multiple markdown files from a directory
-export async function fetchMarkdownFiles(
-  basePath: string, 
-  filePaths: string[]
-): Promise<MarkdownContent[]> {
-  const markdownContents: MarkdownContent[] = [];
-  
-  for (const filePath of filePaths) {
-    const fullPath = `${basePath}/${filePath}`;
-    const content = await fetchMarkdownFile(fullPath);
-    if (content) {
-      markdownContents.push(content);
+/**
+ * Get all markdown files in a directory
+ */
+export const getMarkdownFiles = (dirPath: string): string[] => {
+  try {
+    const fullPath = path.resolve(process.cwd(), dirPath);
+    
+    if (!fs.existsSync(fullPath)) {
+      console.warn(`Directory ${dirPath} does not exist`);
+      return [];
     }
+    
+    const files = fs.readdirSync(fullPath);
+    
+    return files
+      .filter(file => file.endsWith('.md'))
+      .map(file => path.join(dirPath, file));
+  } catch (error) {
+    console.error(`Error getting markdown files from ${dirPath}:`, error);
+    return [];
   }
-  
-  return markdownContents;
-}
+};
 
-// Helper to get a list of available markdown files in a directory
-// NOTE: This would require server-side code in a production app
-// For this demo, we'll implement a simple client-side version that works with predefined lists
-export async function getMarkdownFilesList(directory: string): Promise<string[]> {
-  // In a real implementation, this would scan the directory server-side
-  // For this demo, we'll return hard-coded file paths based on the directory
-  if (directory === '/content/blog') {
-    return ['sample-blog-post.md'];
-  } else if (directory === '/content/docs') {
-    return ['getting-started.md'];
-  }
+/**
+ * Get all markdown content from a directory
+ */
+export const getAllMarkdownContent = (dirPath: string): MarkdownContent[] => {
+  const filePaths = getMarkdownFiles(dirPath);
+  const contents = filePaths
+    .map(readMarkdownFile)
+    .filter((content): content is MarkdownContent => content !== null);
   
-  // For a real implementation, you might fetch an index file or use an API endpoint
-  return [];
-}
-
-// Sort markdown contents by date descending (newest first)
-export function sortMarkdownByDate(contents: MarkdownContent[]): MarkdownContent[] {
-  return [...contents].sort((a, b) => {
-    const dateA = new Date(a.frontMatter.date).getTime();
-    const dateB = new Date(b.frontMatter.date).getTime();
+  // Sort by date (newest first)
+  return contents.sort((a, b) => {
+    const dateA = new Date(a.metadata.date).getTime();
+    const dateB = new Date(b.metadata.date).getTime();
     return dateB - dateA;
   });
-}
+};
+
+/**
+ * Gets previous and next posts based on date
+ */
+export const getAdjacentContent = (
+  currentSlug: string,
+  contents: MarkdownContent[]
+): { previous: MarkdownContent | null; next: MarkdownContent | null } => {
+  const currentIndex = contents.findIndex(
+    content => content.metadata.slug === currentSlug
+  );
+  
+  if (currentIndex === -1) {
+    return { previous: null, next: null };
+  }
+  
+  const previous = currentIndex < contents.length - 1 ? contents[currentIndex + 1] : null;
+  const next = currentIndex > 0 ? contents[currentIndex - 1] : null;
+  
+  return { previous, next };
+};
+
+/**
+ * Generate a slug from a string
+ */
+export const generateSlug = (text: string): string => {
+  return text
+    .toLowerCase()
+    .replace(/[^\w\s]/gi, '')
+    .replace(/\s+/gi, '-');
+};
