@@ -1,6 +1,8 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Search } from 'lucide-react';
+import { useSearch } from '@/services/searchService';
+import { useNavigate } from 'react-router-dom';
 
 interface SearchDialogProps {
   placeholder?: string;
@@ -10,18 +12,16 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ placeholder = "Search docum
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<any[]>([]);
+  const navigate = useNavigate();
+  const { search, indexed } = useSearch();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Searching for:', query);
-    // Here we would implement the actual search functionality
-    // For now we'll just simulate some results
-    if (query.trim()) {
-      setResults([
-        { title: 'Jesus', path: '/jesus', excerpt: 'Learn about Jesus Christ...' },
-        { title: 'The Quran', path: '/quran', excerpt: 'Analysis of the Quran...' },
-        { title: 'Salvation', path: '/salvation', excerpt: 'Salvation through faith alone...' },
-      ]);
+    
+    if (query.trim() && indexed) {
+      const searchResults = search(query);
+      setResults(searchResults);
     } else {
       setResults([]);
     }
@@ -39,6 +39,23 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ placeholder = "Search docum
       document.body.classList.remove('search-overlay-active');
     }
   };
+
+  const handleResultClick = (path: string) => {
+    navigate(path);
+    setIsOpen(false);
+    setQuery('');
+    document.body.classList.remove('search-overlay-active');
+  };
+  
+  // Update search results on query change
+  useEffect(() => {
+    if (query.trim() && indexed) {
+      const searchResults = search(query);
+      setResults(searchResults);
+    } else {
+      setResults([]);
+    }
+  }, [query, search, indexed]);
   
   // Close search on Escape key
   useEffect(() => {
@@ -79,11 +96,15 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ placeholder = "Search docum
             {results.length > 0 ? (
               <ul className="divide-y divide-border">
                 {results.map((result, index) => (
-                  <li key={index} className="p-3 hover:bg-muted cursor-pointer">
-                    <a href={result.path} className="block">
+                  <li 
+                    key={index} 
+                    className="p-3 hover:bg-muted cursor-pointer"
+                    onClick={() => handleResultClick(result.path)}
+                  >
+                    <div className="block">
                       <h4 className="text-sm font-medium">{result.title}</h4>
                       <p className="text-xs text-muted-foreground mt-1">{result.excerpt}</p>
-                    </a>
+                    </div>
                   </li>
                 ))}
               </ul>
@@ -94,7 +115,7 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ placeholder = "Search docum
         )}
       </form>
       
-      <style>
+      <style jsx>{`
         /* Default state - centered in header */
         .search-container {
           position: relative;
@@ -179,7 +200,7 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ placeholder = "Search docum
             top: 15%;
           }
         }
-      </style>
+      `}</style>
     </div>
   );
 };

@@ -15,6 +15,8 @@ interface SearchIndex {
     title: string;
     path: string;
     content: string;
+    date?: string;
+    category?: string;
   };
 }
 
@@ -32,15 +34,11 @@ export const useSearch = () => {
       setLoading(true);
       
       try {
-        // In a real implementation, this would fetch from a backend API
-        // For now, we'll simulate content loading
+        // This would be your API endpoint in a real implementation
+        // For now, we'll build a search index from known content
         
-        // This would be your API endpoint
-        // const response = await fetch('/api/search/index');
-        // const index = await response.json();
-        
-        // Simulated index for demo
-        const simulatedIndex: SearchIndex = {
+        // Build search index from all content types
+        const index: SearchIndex = {
           'welcome': {
             id: 'welcome',
             title: 'Welcome to Islam IsLIES',
@@ -53,10 +51,45 @@ export const useSearch = () => {
             path: '/gospel',
             content: 'The Gospel is the good news that Jesus Christ died for our sins, was buried, and rose again on the third day. This is the message of salvation that we preach.'
           },
-          // Add more pages as needed
+          'about': {
+            id: 'about',
+            title: 'About Islam IsLIES',
+            path: '/about',
+            content: 'Islam IsLIES is dedicated to showing the truth about Islam and its false teachings through a Christian perspective.'
+          },
+          'jesus': {
+            id: 'jesus',
+            title: 'Jesus - The Way, the Truth, and the Life',
+            path: '/jesus',
+            content: 'Jesus Christ is the central figure of Christianity, the Son of God who came to Earth as a human to save humanity from sin. He is not merely a prophet, as Islam claims, but God incarnate.'
+          },
+          'allah': {
+            id: 'allah',
+            title: 'Allah',
+            path: '/allah',
+            content: 'Understanding the concept of Allah in Islam and why it differs from the Biblical God.'
+          },
+          'quran': {
+            id: 'quran',
+            title: 'The Quran',
+            path: '/quran',
+            content: 'Analysis of the Quran and its contradictions with Biblical truth.'
+          },
+          'faq': {
+            id: 'faq',
+            title: 'Frequently Asked Questions',
+            path: '/faq',
+            content: 'Common questions about Christianity, Islam, and salvation through Jesus Christ.'
+          },
+          'salvation': {
+            id: 'salvation',
+            title: 'Salvation',
+            path: '/salvation',
+            content: 'Salvation comes through faith in Jesus Christ alone, not through works or following false prophets.'
+          },
         };
         
-        setSearchIndex(simulatedIndex);
+        setSearchIndex(index);
         setIndexed(true);
       } catch (error) {
         console.error('Failed to load search index:', error);
