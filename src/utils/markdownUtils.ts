@@ -1,120 +1,52 @@
-
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
-import { marked } from 'marked';
-import matter from 'front-matter';
+import matter from 'gray-matter';
 
-export interface MarkdownFrontMatter {
-  title: string;
-  date: string;
-  updated?: string;
-  author?: string;
-  excerpt?: string;
-  slug?: string;
-  featuredImage?: string;
-  categories?: string[];
-  tags?: string[];
-  [key: string]: any;
-}
-
-export interface MarkdownContent {
-  content: string;
-  metadata: MarkdownFrontMatter;
-  path: string;
-}
-
-/**
- * Reads and parses a markdown file with front matter
- */
-export const readMarkdownFile = (filePath: string): MarkdownContent | null => {
+const getMarkdownFiles = async (folderPath: string) => {
   try {
-    const fullPath = path.resolve(process.cwd(), filePath);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    
-    // Parse front matter
-    const { attributes, body } = matter(fileContents);
-    
-    // Convert markdown to HTML
-    const htmlContent = marked(body);
-    
-    return {
-      content: htmlContent,
-      metadata: attributes as MarkdownFrontMatter,
-      path: filePath
-    };
-  } catch (error) {
-    console.error(`Error reading markdown file ${filePath}:`, error);
-    return null;
-  }
-};
+    const files = await fs.readdir(folderPath);
+    const markdownFiles = [];
 
-/**
- * Get all markdown files in a directory
- */
-export const getMarkdownFiles = (dirPath: string): string[] => {
-  try {
-    const fullPath = path.resolve(process.cwd(), dirPath);
-    
-    if (!fs.existsSync(fullPath)) {
-      console.warn(`Directory ${dirPath} does not exist`);
-      return [];
+    for (const file of files) {
+      if (file.endsWith('.md')) {
+        const filePath = path.join(folderPath, file);
+        const fileContent = await fs.readFile(filePath, 'utf8');
+        const { data, content } = matter(fileContent);
+
+        markdownFiles.push({
+          frontmatter: data,
+          content: content,
+          path: filePath,
+          name: path.basename(file, '.md'),
+        });
+      }
     }
-    
-    const files = fs.readdirSync(fullPath);
-    
-    return files
-      .filter(file => file.endsWith('.md'))
-      .map(file => path.join(dirPath, file));
+
+    return markdownFiles;
   } catch (error) {
-    console.error(`Error getting markdown files from ${dirPath}:`, error);
+    console.error('Error reading markdown files:', error);
     return [];
   }
 };
 
-/**
- * Get all markdown content from a directory
- */
-export const getAllMarkdownContent = (dirPath: string): MarkdownContent[] => {
-  const filePaths = getMarkdownFiles(dirPath);
-  const contents = filePaths
-    .map(readMarkdownFile)
-    .filter((content): content is MarkdownContent => content !== null);
-  
-  // Sort by date (newest first)
-  return contents.sort((a, b) => {
-    const dateA = new Date(a.metadata.date).getTime();
-    const dateB = new Date(b.metadata.date).getTime();
-    return dateB - dateA;
+// Add these functions that are being referenced by components
+export const fetchMarkdownFiles = async (folderPath: string) => {
+  return getMarkdownFiles(folderPath);
+};
+
+export const fetchMarkdownFile = async (filePath: string) => {
+  const files = await getMarkdownFiles(path.dirname(filePath));
+  return files.find(file => file.path === filePath);
+};
+
+export const getMarkdownFilesList = async (folderPath: string) => {
+  return getMarkdownFiles(folderPath);
+};
+
+export const sortMarkdownByDate = (files: any[]) => {
+  return [...files].sort((a, b) => {
+    const dateA = new Date(a.frontmatter?.date || 0);
+    const dateB = new Date(b.frontmatter?.date || 0);
+    return dateB.getTime() - dateA.getTime(); // Sort descending (newest first)
   });
-};
-
-/**
- * Gets previous and next posts based on date
- */
-export const getAdjacentContent = (
-  currentSlug: string,
-  contents: MarkdownContent[]
-): { previous: MarkdownContent | null; next: MarkdownContent | null } => {
-  const currentIndex = contents.findIndex(
-    content => content.metadata.slug === currentSlug
-  );
-  
-  if (currentIndex === -1) {
-    return { previous: null, next: null };
-  }
-  
-  const previous = currentIndex < contents.length - 1 ? contents[currentIndex + 1] : null;
-  const next = currentIndex > 0 ? contents[currentIndex - 1] : null;
-  
-  return { previous, next };
-};
-
-/**
- * Generate a slug from a string
- */
-export const generateSlug = (text: string): string => {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s]/gi, '')
-    .replace(/\s+/gi, '-');
 };
