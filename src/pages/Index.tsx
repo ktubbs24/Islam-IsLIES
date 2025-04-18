@@ -15,20 +15,26 @@ const popularTags = [
 const Index = () => {
   const [showImageModal, setShowImageModal] = useState(false);
 
+  useEffect(() => {
+    // Ensure page scrolls to top on load/navigation
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="space-y-12">
       <section className="space-y-8">
         <div className="overflow-hidden rounded-xl shadow-lg relative">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background z-10"></div>
           <div className="logo-container logo-hover-glow w-full">
-            <img 
-              src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
-              alt="Islam IsLIES banner" 
-              className="w-full h-64 object-contain cursor-pointer hover-glow-effect"
-              onClick={() => setShowImageModal(true)}
-              style={{ borderRadius: "50%", maxWidth: "300px", margin: "0 auto" }}
-              loading="lazy"
-            />
+            <div className="circular-logo-container mx-auto" style={{ maxWidth: "300px", aspectRatio: "1/1" }}>
+              <img 
+                src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
+                alt="Islam IsLIES banner" 
+                className="w-full h-full object-cover cursor-pointer hover-glow-effect circular-logo"
+                onClick={() => setShowImageModal(true)}
+                loading="lazy"
+              />
+            </div>
           </div>
           <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
             <div className="grid grid-cols-12">
@@ -216,6 +222,18 @@ const Index = () => {
         
         .hover-glow-effect:hover {
           filter: drop-shadow(0 0 15px rgba(45, 166, 95, 0.8));
+        }
+        
+        .circular-logo-container {
+          border-radius: 50%;
+          overflow: hidden;
+          display: block;
+        }
+        
+        .circular-logo {
+          border-radius: 50%;
+          width: 100%;
+          height: 100%;
         }
       `}</style>
     </div>

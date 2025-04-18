@@ -33,6 +33,7 @@ const SearchDialog: React.FC<SearchDialogProps> = ({ placeholder = "Search docum
       <style jsx>{`
         .search-container {
           transition: all 0.3s ease;
+          margin: 0 auto;
         }
         
         .search-input {

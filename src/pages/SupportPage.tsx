@@ -2,8 +2,14 @@
 import { ArrowRight, ArrowLeft, DollarSign, Coffee } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 
 const SupportPage = () => {
+  useEffect(() => {
+    // Ensure page scrolls to top when loaded
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
       <div>
@@ -103,17 +109,7 @@ const SupportPage = () => {
           All resources on this site are free and will remain free. Your support is appreciated but never required.
         </p>
       </div>
-
-      <div className="flex justify-between pt-8 mt-8 border-t">
-        <Link to="/newsletter" className="flex items-center text-muted-foreground hover:text-primary">
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          <span>Newsletter</span>
-        </Link>
-        <Link to="/about" className="flex items-center text-muted-foreground hover:text-primary">
-          <span>About</span>
-          <ArrowRight className="ml-2 h-4 w-4" />
-        </Link>
-      </div>
+      {/* Navigation links removed as requested */}
     </div>
   );
 };

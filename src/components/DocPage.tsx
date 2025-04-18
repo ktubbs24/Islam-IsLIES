@@ -1,12 +1,13 @@
-import React from 'react';
-import { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+
+import React, { useEffect, useState, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Calendar, ArrowLeft, ArrowRight, ThumbsUp, Share2, ChevronDown, Hash, ArrowUp } from "lucide-react";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import TableOfContents from "@/components/TableOfContents";
 import DocDownload from "@/components/DocDownload";
 import SubscribeEmbed from "@/components/SubscribeEmbed";
 import ImageModal from "@/components/ImageModal";
+import { Button } from "@/components/ui/button";
 
 interface DocPageProps {
   title: string;
@@ -43,6 +44,12 @@ const DocPage = ({
   const [headings, setHeadings] = useState<{id: string, text: string, level: number}[]>([]);
   const [showTocDropdown, setShowTocDropdown] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  
+  // Check if this is a special page (Gospel or Support) that shouldn't show navigation
+  const isSpecialPage = 
+    location.pathname === "/gospel" || 
+    location.pathname === "/support";
   
   const formattedDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -76,6 +83,38 @@ const DocPage = ({
       top: 0,
       behavior: "smooth"
     });
+  };
+
+  const handleDownload = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    // Generate PDF data (this is a simplified example, in a real app you'd use a library like jsPDF)
+    // For this example, we'll just create a text file with the content
+    
+    // Get the content from the article
+    const content = contentRef.current?.innerText || '';
+    
+    // Create a blob with the content
+    const blob = new Blob([
+      `${title}\n\n`,
+      `Published: ${formattedDate(publishDate)}\n`,
+      updateDate ? `Updated: ${formattedDate(updateDate)}\n\n` : '\n',
+      content
+    ], { type: 'text/plain' });
+    
+    // Create a URL for the blob
+    const url = URL.createObjectURL(blob);
+    
+    // Create a temporary link and click it to download
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    
+    // Clean up
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   };
 
   useEffect(() => {
@@ -278,7 +317,7 @@ const DocPage = ({
               </div>
             )}
             
-            {(prevPage || nextPage) && (
+            {!isSpecialPage && (prevPage || nextPage) && (
               <div className="mt-8 pt-6 border-t">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                   {prevPage ? (
@@ -305,7 +344,12 @@ const DocPage = ({
             )}
             
             <div className="mt-8 flex justify-end">
-              <DocDownload documentTitle={title} contentId="doc-1" />
+              <Button
+                className="download-button"
+                onClick={handleDownload}
+              >
+                Download Document
+              </Button>
             </div>
             
             <div className="mt-8 py-8 border-t">

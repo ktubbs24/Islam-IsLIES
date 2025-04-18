@@ -31,10 +31,19 @@ import GospelPage from "./pages/GospelPage";
 import SupportPage from "./pages/SupportPage";
 import NotFound from "./pages/NotFound";
 
+// Import our new Markdown components
+import ArchivePage from "./components/ArchivePage";
+import MarkdownPage from "./components/MarkdownPage";
+
 // Move this inside the component function to fix hook initialization issues
 const App = () => {
   // Create a new QueryClient instance inside the component
   const queryClient = new QueryClient();
+  
+  // Add scroll to top on navigation
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
   
   return (
     <QueryClientProvider client={queryClient}>
@@ -64,6 +73,18 @@ const App = () => {
                 <Route path="/faq" element={<FAQPage />} />
                 <Route path="/tags/:tagName" element={<TagPage />} />
                 
+                {/* Markdown content routes */}
+                <Route path="/blog/archives" element={
+                  <ArchivePage 
+                    title="Blog Archives" 
+                    description="Browse all blog posts" 
+                    contentDirectory="/content/blog"
+                    basePath="/blog"
+                  />
+                } />
+                <Route path="/blog/:slug" element={<MarkdownPage basePath="/content/blog" contentType="blog" />} />
+                <Route path="/docs/:slug" element={<MarkdownPage basePath="/content/docs" contentType="docs" />} />
+                
                 {/* Dummy pages for testing navigation */}
                 <Route path="/jesus" element={<DocDummyPage title="Jesus" />} />
                 <Route path="/works" element={<DocDummyPage title="Works" />} />
@@ -88,7 +109,6 @@ const App = () => {
                 <Route path="/blog/latest" element={<DocDummyPage title="Latest Articles" />} />
                 <Route path="/blog/featured" element={<DocDummyPage title="Featured Posts" />} />
                 <Route path="/blog/categories" element={<DocDummyPage title="Categories" />} />
-                <Route path="/blog/archives" element={<DocDummyPage title="Archives" />} />
                 <Route path="/blog/understanding-islamic-teachings" element={<DocDummyPage title="Understanding Islamic Teachings" />} />
               </Route>
               <Route path="*" element={<NotFound />} />
@@ -102,6 +122,11 @@ const App = () => {
 
 // Dummy page component for testing navigation
 const DocDummyPage = ({ title }: { title: string }) => {
+  // Ensure page scrolls to top when navigating
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       <div className="text-container bg-card/30 backdrop-blur-md p-6 rounded-lg hover:shadow-lg hover:shadow-primary/20 transition-all duration-300">
