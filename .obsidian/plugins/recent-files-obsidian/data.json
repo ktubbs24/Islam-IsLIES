@@ -1,6 +1,14 @@
 {
   "recentFiles": [
     {
+      "basename": "Blog Template",
+      "path": "Templates/Blog Template.md"
+    },
+    {
+      "basename": "FAQ",
+      "path": "public/content/Resources/FAQ/FAQ.md"
+    },
+    {
       "basename": "about",
       "path": "public/content/home/about.md"
     },
