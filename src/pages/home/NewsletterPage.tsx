@@ -1,6 +1,6 @@
 
 import React from "react";
-import DocPage from "./DocPage";
+import DocPage from "../docs/DocPage";
 import SubscribeEmbed from "@/components/SubscribeEmbed";
 
 const NewsletterPage = () => {

@@ -8,12 +8,12 @@ import { ChevronRight } from "lucide-react";
 
 import MainLayout from "./layouts/MainLayout";
 import Index from "./pages/Index";
-import HomePage from "./pages/HomePage";
-import BlogFolderPage from "./pages/BlogFolderPage";
-import FaithInJesusFolderPage from "./pages/FaithInJesusFolderPage";
-import FaithInMohammadFolderPage from "./pages/FaithInMohammadFolderPage";
-import FaithInAllahFolderPage from "./pages/FaithInAllahFolderPage";
-import ResourcesFolderPage from "./pages/ResourcesFolderPage";
+import HomePage from "./pages/home/HomePage";
+import BlogFolderPage from "./pages/blog/BlogFolderPage";
+import FaithInJesusFolderPage from "./pages/docs/FaithInJesusFolderPage";
+import FaithInMohammadFolderPage from "./pages/docs/FaithInMohammadFolderPage";
+import FaithInAllahFolderPage from "./pages/docs/FaithInAllahFolderPage";
+import ResourcesFolderPage from "./pages/resources/ResourcesFolderPage";
 import FAQPage from "./pages/FAQPage";
 import TagPage from "./pages/TagPage";
 import NotFound from "./pages/NotFound";

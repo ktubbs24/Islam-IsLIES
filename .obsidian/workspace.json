@@ -1,0 +1,199 @@
+{
+  "main": {
+    "id": "36933a7ef7f2d5d1",
+    "type": "split",
+    "children": [
+      {
+        "id": "be35acb636a66dad",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "4bb9a18bcac1411f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "public/content/blog/Jesus doesnt deny Himself.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Jesus doesnt deny Himself"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "e0f73b5e139146cf",
+    "type": "split",
+    "children": [
+      {
+        "id": "92cfb3c94a8ec923",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fd9f70e02efa7a19",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "1c8115555f1740bf",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "0380778bf234d469",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          },
+          {
+            "id": "965a9a1e7b6d7455",
+            "type": "leaf",
+            "state": {
+              "type": "recent-files",
+              "state": {},
+              "icon": "clock",
+              "title": "Recent Files"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "38fbce3373544bfe",
+    "type": "split",
+    "children": [
+      {
+        "id": "be02fab51f599144",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d83d26df802cbb30",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "public/content/blog/Jesus doesnt deny Himself.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Jesus doesnt deny Himself"
+            }
+          },
+          {
+            "id": "435cab04ab6e58ca",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "public/content/blog/Jesus doesnt deny Himself.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Jesus doesnt deny Himself"
+            }
+          },
+          {
+            "id": "0205b9831da46641",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "771705ea32b06393",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "public/content/blog/Jesus doesnt deny Himself.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Jesus doesnt deny Himself"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "fd9f70e02efa7a19",
+  "lastOpenFiles": [
+    "public/content/blog/understanding-islamic-teachings.md",
+    "public/content/Resources/FAQ/FAQ.md",
+    "public/content/home/about.md",
+    "public/content/home/gospel.md",
+    "public/content/home/support.md",
+    "public/content/home/welcome.md",
+    "public/content/docs/The Bible Versus the Quran.md",
+    "public/content/docs/Scripture Analysis.md",
+    "public/content/blog/Jesus doesnt deny Himself.md",
+    "src/pages/home/SupportPage.tsx",
+    "src/pages/home/NewsletterPage.tsx",
+    "src/pages/home/HomePage.tsx",
+    "public/content/Resources/Believe-in-Jesus-Christ-NOT-Christianity/Believe-in-Jesus-Christ-NOT-Christianity.md",
+    "public/placeholder.svg",
+    "public/download-sound.mp3"
+  ]
+}

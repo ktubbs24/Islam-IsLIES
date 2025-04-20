@@ -1,0 +1,32 @@
+{
+  "recentFiles": [
+    {
+      "basename": "about",
+      "path": "public/content/home/about.md"
+    },
+    {
+      "basename": "gospel",
+      "path": "public/content/home/gospel.md"
+    },
+    {
+      "basename": "support",
+      "path": "public/content/home/support.md"
+    },
+    {
+      "basename": "welcome",
+      "path": "public/content/home/welcome.md"
+    },
+    {
+      "basename": "The Bible Versus the Quran",
+      "path": "public/content/docs/The Bible Versus the Quran.md"
+    },
+    {
+      "basename": "Jesus doesnt deny Himself",
+      "path": "public/content/blog/Jesus doesnt deny Himself.md"
+    }
+  ],
+  "omittedPaths": [],
+  "omittedTags": [],
+  "updateOn": "file-open",
+  "omitBookmarks": false
+}

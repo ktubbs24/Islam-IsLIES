@@ -1,4 +1,3 @@
-
 ---
 title: "Support Our Ministry"
 date: "2023-05-10"

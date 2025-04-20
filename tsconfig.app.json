@@ -26,5 +26,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "public/content/SupportPage.tsx", "public/content/SupportPage.tsx", "public/content/ScriptureAnalysisPage.tsx", "public/content/NewsletterPage.tsx", "public/content/JesusDenialPage.tsx", "public/content/HomePage.tsx", "public/content/GetStartedPage.tsx", "public/content/GospelPage.tsx", "public/content/BibleVsQuranPage.tsx", "public/content/AboutPage.tsx"]
 }
