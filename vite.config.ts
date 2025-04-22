@@ -1,4 +1,3 @@
-
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path-browserify";
@@ -18,7 +17,7 @@ export default defineConfig(({ mode }) => ({
   ].filter(Boolean),
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"), // Correct alias for "src"
+      "@": path.resolve(__dirname, "./src"), // Explicitly include "./src/"
     },
   },
   build: {

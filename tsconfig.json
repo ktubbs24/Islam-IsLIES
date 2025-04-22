@@ -15,5 +15,9 @@
     "allowJs": true,
     "noUnusedLocals": false,
     "strictNullChecks": false
-  }
+  },
+  "include": [
+    "src", // Include all files in the src directory
+    "src/types" // Include custom type declarations
+  ]
 }
