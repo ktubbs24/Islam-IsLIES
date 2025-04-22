@@ -7,10 +7,10 @@ interface BreadcrumbItem {
   path: string;
 }
 
-interface BreadcrumbProps {
+export interface BreadcrumbProps {
   items?: BreadcrumbItem[]; // Custom breadcrumb items
   className?: string; // Additional class names for styling
-  title?: string; // Optional title for the breadcrumb section
+  title?: string; // Added title prop to the interface
 }
 
 const Breadcrumbs = ({ items = [], className = "", title }: BreadcrumbProps) => {
