@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import SearchDialog from "./SearchDialog";
 import { useTheme } from "@/hooks/use-theme";
@@ -8,32 +8,11 @@ import { Button } from "./ui/button";
 
 const Header = () => {
   const { theme, toggleTheme } = useTheme();
-  const searchRef = useRef<HTMLDivElement>(null);
-  
-  useEffect(() => {
-    // Add subtle animation to search bar
-    const searchInput = searchRef.current?.querySelector('input');
-    if (searchInput) {
-      const animateSearch = () => {
-        searchInput.classList.add('search-pulse');
-        setTimeout(() => {
-          searchInput.classList.remove('search-pulse');
-        }, 1000);
-      };
-      
-      // Initial animation
-      setTimeout(animateSearch, 1000);
-      
-      // Periodic animation
-      const interval = setInterval(animateSearch, 10000);
-      return () => clearInterval(interval);
-    }
-  }, []);
   
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
       <div className="flex flex-1 items-center justify-end gap-6">
-        <div className="flex-grow hidden md:flex justify-center" ref={searchRef}>
+        <div className="flex-grow hidden md:flex justify-center">
           <SearchDialog placeholder="Search documents..." />
         </div>
         <div className="flex items-center gap-4">
@@ -67,23 +46,6 @@ const Header = () => {
           </button>
         </div>
       </div>
-      <style dangerouslySetInnerHTML={{ __html: `
-        .search-pulse {
-          animation: searchPulse 1s ease-in-out;
-        }
-        
-        @keyframes searchPulse {
-          0% {
-            box-shadow: 0 0 0 0 rgba(45, 166, 95, 0.4);
-          }
-          70% {
-            box-shadow: 0 0 0 5px rgba(45, 166, 95, 0);
-          }
-          100% {
-            box-shadow: 0 0 0 0 rgba(45, 166, 95, 0);
-          }
-        }
-      `}} />
     </header>
   );
 };

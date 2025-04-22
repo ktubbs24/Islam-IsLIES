@@ -19,7 +19,7 @@ const MainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const location = useLocation();
   const { theme } = useTheme();
-
+  
   // Pages where bottom navigation should be hidden
   const hideNavPages = ['/gospel', '/support'];
   const shouldHideNavigation = hideNavPages.includes(location.pathname);
@@ -78,7 +78,7 @@ const MainLayout = () => {
         }
       }, 1000);
     }, 1000);
-
+    
     // Initialize lazy loading
     initLazyLoading();
     initFallbackLazyLoading();
@@ -123,26 +123,22 @@ const MainLayout = () => {
     audio.play().catch(e => console.log('Audio play error:', e));
   };
 
-  const handleSidebarToggle = (isOpen: boolean) => {
-    setIsSidebarOpen(isOpen);
-  };
-
   return (
     <div className={`min-h-screen flex dim-transition ${theme}`}>
-      <Sidebar onToggle={handleSidebarToggle} />
+      <Sidebar onToggle={isOpen => setIsSidebarOpen(isOpen)} />
       <div className={cn(
         "flex-1 min-w-0 transition-all duration-300 flex flex-col",
         isSidebarOpen ? "md:ml-80" : "ml-0"
       )}>
         <Header />
-
+        
         {/* Injeel Button */}
         <div className="flex justify-center mt-4 mb-2">
           <Link to="/gospel" id="injeel-button" className={cn("glow-on-hover flex items-center justify-center font-bold transition-opacity duration-500 h-[50px] w-[220px] text-center", showInjeel ? "opacity-100" : "opacity-0")} onClick={playClickSound}>
             <span className="text-center w-full">What's the InJeel?</span>
           </Link>
         </div>
-
+        
         <main className="flex-1">
           <div className={cn("transition-all duration-300 max-w-5xl mx-auto px-4", isEntering ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0")}>
             <Outlet />
@@ -150,7 +146,7 @@ const MainLayout = () => {
         </main>
         <Footer />
       </div>
-
+      
       {/* Loading animation */}
       {loading && <div className="loader">
           <span className="loader__element"></span>
@@ -163,7 +159,8 @@ const MainLayout = () => {
         <ChevronUp size={20} />
       </button>
 
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style>
+        {`
         .logo-glow-animation {
           animation: logoPulseGlow 0.5s ease-in-out;
         }
@@ -182,7 +179,7 @@ const MainLayout = () => {
             transform: scale(1);
           }
         }
-
+        
         /* Mobile specific improvements */
         @media (max-width: 767px) {
           .documentation-content {
@@ -191,7 +188,8 @@ const MainLayout = () => {
             padding-right: 15px;
           }
         }
-      `}} />
+        `}
+      </style>
     </div>
   );
 };

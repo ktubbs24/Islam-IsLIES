@@ -1,356 +1,186 @@
 
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, Cross, Flame, XOctagon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { useTheme } from '@/hooks/use-theme';
+import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { ArrowRight, BookOpen, FileText, Tag } from "lucide-react";
+import SubscribeEmbed from "@/components/SubscribeEmbed";
+import ImageModal from "@/components/ImageModal";
+import { Button } from "@/components/ui/button";
+
+const popularTags = [
+  { name: "jesus-divinity", count: 2 },
+  { name: "scripture-analysis", count: 3 },
+  { name: "blog-threads", count: 1 },
+];
 
 const Index = () => {
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
+  const [showImageModal, setShowImageModal] = useState(false);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Hero Section */}
-      <section className="hero-section relative flex flex-col items-center justify-center text-center px-4 py-16 md:py-24">
-        <div className="hero-gradient absolute inset-0 z-0"></div>
-        <div className="relative z-10 max-w-4xl mx-auto">
-          <div className="mb-8 mx-auto w-48 h-48 overflow-hidden rounded-full border-4 border-primary/20 shadow-lg shadow-primary/10">
-            <img 
-              src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png" 
-              alt="Islam IsLIES Logo" 
-              className="w-full h-full object-cover"
-              style={{ objectFit: "cover" }}
-              loading="lazy"
-            />
-          </div>
-          
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-white">
-            Islam <span className="text-primary">Is</span>LIES
-          </h1>
-          
-          <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto">
-            Exposing the truth about Islam and showing the path to salvation through Jesus Christ.
-          </p>
-          
-          <div className="flex flex-wrap justify-center gap-4">
-            <Link to="/getting-started">
-              <Button size="lg" className="cta-button">
-                Get Started
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-            <Link to="/gospel">
-              <Button size="lg" variant="outline" className="cta-button bg-background/20 backdrop-blur-sm text-white border-white/20 hover:bg-white/30 hover:text-white">
-                Read The Gospel
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content */}
-      <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Islam Is False</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Discover the truth about Islam and why faith in Jesus Christ is the only path to salvation.
-            </p>
-          </div>
-
-          <div className="grid features-grid gap-8 mb-16">
-            <Card className="feature-card">
-              <CardHeader>
-                <div className="feature-icon w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                  <Cross size={24} />
-                </div>
-                <CardTitle>Faith in Jesus leads to Salvation</CardTitle>
-                <CardDescription>
-                  Jesus Christ is the way, the truth, and the life. No one comes to the Father except through Him.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>
-                  The Bible teaches that salvation comes through faith in Jesus Christ alone, not through works or following false prophets.
-                </p>
-              </CardContent>
-              <CardFooter>
-                <Link to="/faith-in-jesus-to-salvation" className="w-full">
-                  <Button className="w-full">Learn More</Button>
-                </Link>
-              </CardFooter>
-            </Card>
-
-            <Card className="feature-card">
-              <CardHeader>
-                <div className="feature-icon w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                  <Flame size={24} />
-                </div>
-                <CardTitle>Faith in Mohammad leads to Damnation</CardTitle>
-                <CardDescription>
-                  Mohammad was a false prophet who led millions astray from the true path to salvation.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>
-                  Islam denies the divinity of Jesus, His death on the cross, and His resurrection - the very foundations of salvation.
-                </p>
-              </CardContent>
-              <CardFooter>
-                <Link to="/faith-in-mohammad-leads-to-damnation" className="w-full">
-                  <Button className="w-full">Learn More</Button>
-                </Link>
-              </CardFooter>
-            </Card>
-
-            <Card className="feature-card">
-              <CardHeader>
-                <div className="feature-icon w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                  <XOctagon size={24} />
-                </div>
-                <CardTitle>Faith in Allah leads to lies</CardTitle>
-                <CardDescription>
-                  Allah is not the God of the Bible, but a deception created to lead people away from the truth.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>
-                  The Islamic concept of Allah contradicts the biblical revelation of God's nature, character, and plan for humanity.
-                </p>
-              </CardContent>
-              <CardFooter>
-                <Link to="/faith-in-allah-leads-to-lies" className="w-full">
-                  <Button className="w-full">Learn More</Button>
-                </Link>
-              </CardFooter>
-            </Card>
-
-            <Card className="feature-card">
-              <CardHeader>
-                <div className="feature-icon w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                  <BookOpen size={24} />
-                </div>
-                <CardTitle>Resources</CardTitle>
-                <CardDescription>
-                  Access tools and information to help you understand the truth about Islam and Christianity.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>
-                  Find answers to common questions, Bible studies, comparative analyses, and resources for sharing the Gospel with Muslims.
-                </p>
-              </CardContent>
-              <CardFooter>
-                <Link to="/resources" className="w-full">
-                  <Button className="w-full">Browse Resources</Button>
-                </Link>
-              </CardFooter>
-            </Card>
-          </div>
-
-          <Separator className="my-16" />
-
-          <div className="mb-16">
-            <h2 className="text-3xl font-bold text-center mb-8">Recent Articles</h2>
-            <Tabs defaultValue="latest" className="w-full">
-              <TabsList className="grid w-full max-w-md mx-auto grid-cols-2">
-                <TabsTrigger value="latest">Latest</TabsTrigger>
-                <TabsTrigger value="featured">Featured</TabsTrigger>
-              </TabsList>
-              <TabsContent value="latest" className="mt-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Understanding Islamic Teachings</CardTitle>
-                      <CardDescription>April 10, 2024</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p>A critical analysis of Islamic teachings and their contradictions with biblical truth.</p>
-                    </CardContent>
-                    <CardFooter>
-                      <Link to="/blog/understanding-islamic-teachings" className="w-full">
-                        <Button variant="outline" className="w-full">Read Article</Button>
-                      </Link>
-                    </CardFooter>
-                  </Card>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>Common Questions Muslims Ask About Jesus</CardTitle>
-                      <CardDescription>March 15, 2024</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p>Addressing the most frequent questions Muslims have about Jesus and Christianity.</p>
-                    </CardContent>
-                    <CardFooter>
-                      <Link to="/common-questions" className="w-full">
-                        <Button variant="outline" className="w-full">Read Article</Button>
-                      </Link>
-                    </CardFooter>
-                  </Card>
-                </div>
-                <div className="text-center mt-8">
-                  <Link to="/blog">
-                    <Button variant="link" className="text-primary">
-                      View All Articles
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
-                </div>
-              </TabsContent>
-              <TabsContent value="featured" className="mt-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>God vs. Allah: A Comprehensive Comparison</CardTitle>
-                      <CardDescription>February 20, 2024</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p>An in-depth look at the differences between the Christian God and the Islamic Allah.</p>
-                    </CardContent>
-                    <CardFooter>
-                      <Link to="/comparison-god-allah" className="w-full">
-                        <Button variant="outline" className="w-full">Read Article</Button>
-                      </Link>
-                    </CardFooter>
-                  </Card>
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>The Historical Reliability of the Bible vs. the Quran</CardTitle>
-                      <CardDescription>November 5, 2023</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p>Examining the historical evidence supporting the Bible and the lack thereof for the Quran.</p>
-                    </CardContent>
-                    <CardFooter>
-                      <Link to="/comparative-studies/bible-vs-quran" className="w-full">
-                        <Button variant="outline" className="w-full">Read Article</Button>
-                      </Link>
-                    </CardFooter>
-                  </Card>
-                </div>
-                <div className="text-center mt-8">
-                  <Link to="/blog/featured">
-                    <Button variant="link" className="text-primary">
-                      View All Featured Articles
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
-                </div>
-              </TabsContent>
-            </Tabs>
-          </div>
-
-          <div className="text-center">
-            <h2 className="text-3xl font-bold mb-6">Popular Topics</h2>
-            <div className="flex flex-wrap justify-center gap-2 mb-8">
-              <Link to="/tags/jesus">
-                <Badge variant="outline" className="text-sm py-1 px-3 hover:bg-primary hover:text-primary-foreground">Jesus</Badge>
-              </Link>
-              <Link to="/tags/salvation">
-                <Badge variant="outline" className="text-sm py-1 px-3 hover:bg-primary hover:text-primary-foreground">Salvation</Badge>
-              </Link>
-              <Link to="/tags/islam">
-                <Badge variant="outline" className="text-sm py-1 px-3 hover:bg-primary hover:text-primary-foreground">Islam</Badge>
-              </Link>
-              <Link to="/tags/quran">
-                <Badge variant="outline" className="text-sm py-1 px-3 hover:bg-primary hover:text-primary-foreground">Quran</Badge>
-              </Link>
-              <Link to="/tags/mohammad">
-                <Badge variant="outline" className="text-sm py-1 px-3 hover:bg-primary hover:text-primary-foreground">Mohammad</Badge>
-              </Link>
-              <Link to="/tags/bible">
-                <Badge variant="outline" className="text-sm py-1 px-3 hover:bg-primary hover:text-primary-foreground">Bible</Badge>
-              </Link>
-              <Link to="/tags/comparative-religion">
-                <Badge variant="outline" className="text-sm py-1 px-3 hover:bg-primary hover:text-primary-foreground">Comparative Religion</Badge>
-              </Link>
+    <div className="space-y-12">
+      <section className="space-y-8">
+        <div className="overflow-hidden rounded-xl shadow-lg relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background z-10"></div>
+          <img 
+            src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
+            alt="Islam IsLIES banner" 
+            className="w-full h-64 object-contain cursor-pointer"
+            onClick={() => setShowImageModal(true)}
+          />
+          <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
+            <div className="grid grid-cols-12">
+              <div className="col-span-12 md:col-span-10 lg:col-span-8">
+                <h1 className="text-4xl font-bold tracking-tight text-foreground mb-2">
+                  Islam IsLIES
+                </h1>
+              </div>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* Call to Action */}
-      <section className="bg-primary/10 py-16 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">Join Our Newsletter</h2>
-          <p className="text-xl mb-8">
-            Stay updated with the latest articles, resources, and information about Islam and Christianity.
+        <div className="space-y-6">
+          <p className="text-xl text-muted-foreground">
+            Revealing Biblical truths about Islam and Jesus Christ. My documentation site provides analysis of scripture and clear evidence about the divinity of Jesus.
+            <Link to="/about" className="custom-link ml-1">
+              Learn more about my mission <ArrowRight className="inline h-4 w-4" />
+            </Link>
           </p>
-          <Link to="/newsletter">
-            <Button size="lg" className="cta-button">
-              Subscribe Now
-            </Button>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Link
+            to="/getting-started"
+            className="page-link-button relative overflow-hidden rounded-lg border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
+          >
+            <div className="flex h-full flex-col justify-between gap-4">
+              <div className="space-y-2">
+                <BookOpen className="h-8 w-8 text-primary" />
+                <h3 className="font-bold">Welcome</h3>
+                <p className="text-muted-foreground">
+                  Start here to learn about my mission and explore my documentation.
+                </p>
+              </div>
+              <div className="flex items-center text-sm">
+                <span className="text-primary">Learn more</span>
+                <ArrowRight className="ml-1 h-4 w-4 text-primary" />
+              </div>
+            </div>
+          </Link>
+          
+          <Link
+            to="/biblical-truths/jesus-doesnt-deny-himself"
+            className="page-link-button relative overflow-hidden rounded-lg border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
+          >
+            <div className="flex h-full flex-col justify-between gap-4">
+              <div className="space-y-2">
+                <FileText className="h-8 w-8 text-primary" />
+                <h3 className="font-bold">Featured Post</h3>
+                <p className="text-muted-foreground">
+                  Jesus doesn't deny Himself by saying only God is good
+                </p>
+              </div>
+              <div className="flex items-center text-sm">
+                <span className="text-primary">Read now</span>
+                <ArrowRight className="ml-1 h-4 w-4 text-primary" />
+              </div>
+            </div>
+          </Link>
+        </div>
+      </section>
+      
+      <section className="space-y-6">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2">
+            <Tag className="h-6 w-6" />
+            Topics
+          </h2>
+          <p className="text-muted-foreground">
+            Browse documents by topic
+          </p>
+        </div>
+        
+        <div className="flex flex-wrap gap-3">
+          {popularTags.map((tag, i) => (
+            <Link
+              key={i}
+              to={`/tags/${tag.name}`}
+              className="px-4 py-2 rounded-full bg-muted hover:bg-primary/10 hover:text-primary transition-colors flex items-center gap-2"
+            >
+              <span>{tag.name.replace('-', '/')}</span>
+              <span className="inline-flex items-center justify-center w-5 h-5 text-xs rounded-full bg-background">
+                {tag.count}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+      
+      <section className="space-y-6">
+        <div className="space-y-2">
+          <h2 className="text-2xl font-bold tracking-tight">Recent Updates</h2>
+          <p className="text-muted-foreground">
+            Latest additions and updates to my documentation
+          </p>
+        </div>
+        
+        <div className="grid gap-6">
+          {[
+            {
+              title: "Jesus doesn't deny Himself by saying only God is good",
+              date: "April 7, 2025",
+              description: "Analyzing the rich young ruler's encounter with Jesus and its true meaning.",
+              path: "/biblical-truths/jesus-doesnt-deny-himself"
+            },
+            {
+              title: "Bible vs Quran Comparative Study",
+              date: "April 1, 2025",
+              description: "Examining the key differences between Biblical and Quranic teachings.",
+              path: "/comparative-studies/bible-vs-quran"
+            },
+            {
+              title: "Scripture Analysis of Jesus's Divinity",
+              date: "March 25, 2025",
+              description: "A deep dive into Biblical verses affirming the divinity of Christ.",
+              path: "/biblical-truths/scripture-analysis"
+            }
+          ].map((item, i) => (
+            <Link
+              key={i}
+              to={item.path}
+              className="flex flex-col sm:flex-row gap-4 items-start rounded-lg border p-4 hover:bg-muted/50 transition-colors page-link-button"
+            >
+              <div className="min-w-[120px] text-sm text-muted-foreground">
+                {item.date}
+              </div>
+              <div className="flex-1">
+                <h3 className="font-medium mb-1 text-foreground">{item.title}</h3>
+                <p className="text-sm text-muted-foreground">{item.description}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+        
+        <div className="text-center">
+          <Link 
+            to="/recent-updates"
+            className="custom-link inline-flex items-center"
+          >
+            View all updates
+            <ArrowRight className="ml-1 h-4 w-4" />
           </Link>
         </div>
       </section>
 
-      <style dangerouslySetInnerHTML={{ __html: `
-        .hero-section {
-          min-height: calc(100vh - 80px);
-          background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
-        }
-        
-        .hero-gradient {
-          background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5));
-          backdrop-filter: blur(4px);
-        }
-        
-        .features-grid {
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        }
-        
-        .feature-card {
-          transition: all 0.3s ease;
-        }
-        
-        .feature-card:hover {
-          transform: translateY(-5px);
-        }
-        
-        .feature-icon {
-          color: hsl(var(--primary));
-          background-color: hsl(var(--primary) / 0.1);
-        }
-        
-        .cta-button {
-          transition: all 0.3s ease;
-          position: relative;
-        }
-        
-        .cta-button:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-        
-        @keyframes float {
-          0% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-          100% {
-            transform: translateY(0);
-          }
-        }
-        
-        .floating {
-          animation: float 6s ease-in-out infinite;
-        }
-      `}} />
+      <div className="border-t pt-8">
+        <SubscribeEmbed />
+      </div>
+
+      {showImageModal && (
+        <ImageModal 
+          src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
+          alt="Islam IsLIES Logo"
+          onClose={() => setShowImageModal(false)}
+        />
+      )}
     </div>
   );
 };
