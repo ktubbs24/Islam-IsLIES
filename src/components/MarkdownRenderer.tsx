@@ -35,13 +35,13 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
 
             if (isExternal) {
               return (
-                <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
+                <a href={href} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline transition-colors" {...props}>
                   {children}
                 </a>
               );
             } else if (href) {
               return (
-                <Link to={href} {...props}>
+                <Link to={href} className="text-primary hover:underline transition-colors" {...props}>
                   {children}
                 </Link>
               );
@@ -61,7 +61,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
                 {String(children).replace(/\n$/, '')}
               </SyntaxHighlighter>
             ) : (
-              <code className={className} {...props}>
+              <code className={`bg-muted px-1 py-0.5 rounded ${className}`} {...props}>
                 {children}
               </code>
             );
@@ -71,7 +71,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
               src={src}
               alt={alt}
               loading="lazy"
-              className="rounded-md max-w-full h-auto"
+              className="rounded-md max-w-full h-auto my-4 mx-auto"
               {...props}
             />
           ),
@@ -92,70 +92,61 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
               {children}
             </td>
           ),
+          h1: ({ node, children, ...props }) => (
+            <h1 className="text-3xl font-bold mb-6 mt-4" {...props}>
+              {children}
+            </h1>
+          ),
+          h2: ({ node, children, ...props }) => (
+            <h2 className="text-2xl font-semibold mb-4 mt-6" {...props}>
+              {children}
+            </h2>
+          ),
+          h3: ({ node, children, ...props }) => (
+            <h3 className="text-xl font-semibold mb-3 mt-5" {...props}>
+              {children}
+            </h3>
+          ),
+          h4: ({ node, children, ...props }) => (
+            <h4 className="text-lg font-medium mb-2 mt-4" {...props}>
+              {children}
+            </h4>
+          ),
+          p: ({ node, children, ...props }) => (
+            <p className="mb-4 leading-relaxed" {...props}>
+              {children}
+            </p>
+          ),
+          ul: ({ node, children, ...props }) => (
+            <ul className="list-disc pl-6 mb-4" {...props}>
+              {children}
+            </ul>
+          ),
+          ol: ({ node, children, ...props }) => (
+            <ol className="list-decimal pl-6 mb-4" {...props}>
+              {children}
+            </ol>
+          ),
+          li: ({ node, children, ...props }) => (
+            <li className="mb-2" {...props}>
+              {children}
+            </li>
+          ),
+          blockquote: ({ node, children, ...props }) => (
+            <blockquote className="border-l-4 border-primary pl-4 italic my-4" {...props}>
+              {children}
+            </blockquote>
+          ),
+          pre: ({ node, children, ...props }) => (
+            <pre className="mb-4" {...props}>
+              {children}
+            </pre>
+          ),
+          hr: ({ node, ...props }) => <hr className="my-6 border-t border-gray-300 dark:border-gray-700" {...props} />,
         }}
       >
         {processContent(content)}
       </ReactMarkdown>
-
-      <style>
-        {`
-        .markdown-content h1 {
-          @apply text-3xl font-bold mb-6 mt-4;
-        }
-
-        .markdown-content h2 {
-          @apply text-2xl font-semibold mb-4 mt-6;
-        }
-
-        .markdown-content h3 {
-          @apply text-xl font-semibold mb-3 mt-5;
-        }
-
-        .markdown-content h4 {
-          @apply text-lg font-medium mb-2 mt-4;
-        }
-
-        .markdown-content p {
-          @apply mb-4 leading-relaxed;
-        }
-
-        .markdown-content ul {
-          @apply list-disc pl-6 mb-4;
-        }
-
-        .markdown-content ol {
-          @apply list-decimal pl-6 mb-4;
-        }
-
-        .markdown-content li {
-          @apply mb-2;
-        }
-
-        .markdown-content a {
-          @apply text-primary hover:underline transition-colors;
-        }
-
-        .markdown-content blockquote {
-          @apply border-l-4 border-primary pl-4 italic my-4;
-        }
-
-        .markdown-content pre {
-          @apply mb-4;
-        }
-
-        .markdown-content code {
-          @apply bg-muted px-1 py-0.5 rounded;
-        }
-
-        .markdown-content hr {
-          @apply my-6 border-t border-gray-300 dark:border-gray-700;
-        }
-
-        .markdown-content img {
-          @apply my-4 mx-auto;
-        }
-      `}
-      </style>
     </div>
   );
 };
