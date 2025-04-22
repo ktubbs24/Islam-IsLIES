@@ -36,41 +36,17 @@ const QuoraIcon = () => (
 const sidebarItems: SidebarItemProps[] = [
   {
     title: "Home",
-    path: "content/home",
+    path: "/home",
     icon: <Home size={18} />,
     isTopLevel: true,
     children: [
-      {
-        title: "Welcome",
-        path: "content/home/welcome",
-        icon: <File size={18} />,
-      },
-      {
-        title: "The Gospel",
-        path: "content/home/gospel",
-        icon: <File size={18} />,
-      },
-      {
-        title: "About",
-        path: "content/home/about",
-        icon: <File size={18} />,
-      },
-      {
-        title: "Newsletter",
-        path: "/newsletter",
-        icon: <File size={18} />,
-      },
-      {
-        title: "Recent Updates",
-        path: "/recent-updates",
-        icon: <File size={18} />,
-      },
-      {
-        title: "Support",
-        path: "content/home/support",
-        icon: <File size={18} />,
-      }
-    ]
+      { title: "Welcome", path: "/home/welcome", icon: <File size={18} /> },
+      { title: "The Gospel", path: "/home/gospel", icon: <File size={18} /> },
+      { title: "About", path: "/home/about", icon: <File size={18} /> },
+      { title: "Newsletter", path: "/home/newsletter", icon: <File size={18} /> },
+      { title: "Recent Updates", path: "/home/recent-updates", icon: <File size={18} /> },
+      { title: "Support", path: "/home/support", icon: <File size={18} /> },
+    ],
   },
   {
     title: "Blog",
@@ -78,163 +54,81 @@ const sidebarItems: SidebarItemProps[] = [
     icon: <Folder size={18} />,
     isTopLevel: true,
     children: [
-      {
-        title: "Latest Articles",
-        path: "/blog/latest",
-        icon: <File size={18} />,
-      },
-      {
-        title: "Featured Posts",
-        path: "/blog/featured",
-        icon: <File size={18} />,
-      },
-      {
-        title: "Categories",
-        path: "/blog/categories",
-        icon: <File size={18} />,
-      },
-      {
-        title: "Archives",
-        path: "/blog/archives",
-        icon: <File size={18} />,
-      }
-    ]
+      { title: "Latest Articles", path: "/blog/latest-articles", icon: <File size={18} /> },
+      { title: "Jesus Doesn't Deny Himself", path: "/blog/jesus-denial", icon: <File size={18} /> },
+      { title: "Understanding Islamic Teachings", path: "/blog/islamic-teachings", icon: <File size={18} /> },
+    ],
   },
   {
-    title: "Faith in Jesus leads to Salvation",
-    path: "content/docs/faith-in-jesus-to-salvation",
-    icon: <Cross size={18} />,
+    title: "Docs",
+    path: "/docs",
+    icon: <BookOpen size={18} />,
     isTopLevel: true,
     children: [
       {
-        title: "Jesus",
-        path: "content/docs/faith-in-jesus-to-salvation/jesus",
-        icon: <File size={18} />,
+        title: "Faith in Jesus",
+        path: "/docs/faith-in-jesus",
+        icon: <Cross size={18} />,
+        children: [
+          { title: "Jesus", path: "/docs/faith-in-jesus/jesus", icon: <File size={18} /> },
+          { title: "Works", path: "/docs/faith-in-jesus/works", icon: <File size={18} /> },
+          { title: "Sheep", path: "/docs/faith-in-jesus/sheep", icon: <File size={18} /> },
+          { title: "Salvation", path: "/docs/faith-in-jesus/salvation", icon: <File size={18} /> },
+          { title: "Scriptures", path: "/docs/faith-in-jesus/scriptures", icon: <File size={18} /> },
+        ],
       },
       {
-        title: "Works",
-        path: "content/docs/faith-in-jesus-to-salvation/works",
-        icon: <File size={18} />,
+        title: "Faith in Mohammad",
+        path: "/docs/faith-in-mohammad",
+        icon: <Flame size={18} />,
+        children: [
+          { title: "Islam", path: "/docs/faith-in-mohammad/islam", icon: <File size={18} /> },
+          { title: "The Quran", path: "/docs/faith-in-mohammad/quran", icon: <File size={18} /> },
+          { title: "The Shahada", path: "/docs/faith-in-mohammad/shahada", icon: <File size={18} /> },
+          { title: "Mohammad", path: "/docs/faith-in-mohammad/mohammad", icon: <File size={18} /> },
+          { title: "Islamic Salvation", path: "/docs/faith-in-mohammad/islamic-salvation", icon: <File size={18} /> },
+        ],
       },
       {
-        title: "Sheep",
-        path: "content/docs/faith-in-jesus-to-salvation/sheep",
-        icon: <File size={18} />,
+        title: "Faith in Allah",
+        path: "/docs/faith-in-allah",
+        icon: <XOctagon size={18} />,
+        children: [
+          { title: "Allah", path: "/docs/faith-in-allah/allah", icon: <File size={18} /> },
+          { title: "Satan", path: "/docs/faith-in-allah/satan", icon: <File size={18} /> },
+          { title: "False Prophets/Teachers", path: "/docs/faith-in-allah/false-prophets", icon: <File size={18} /> },
+          { title: "The Great Deception", path: "/docs/faith-in-allah/deception", icon: <File size={18} /> },
+          { title: "God vs. Allah: A Comparison", path: "/docs/faith-in-allah/comparison-god-allah", icon: <File size={18} /> },
+        ],
       },
-      {
-        title: "Salvation",
-        path: "content/docs/faith-in-jesus-to-salvation/salvation",
-        icon: <File size={18} />,
-      },
-      {
-        title: "Scriptures",
-        path: "content/docs/faith-in-jesus-to-salvation/scriptures",
-        icon: <File size={18} />,
-      }
-    ]
-  },
-  {
-    title: "Faith in Mohammad leads to Damnation",
-    path: "content/docs/faith-in-mohammad-leads-to-damnation",
-    icon: <Flame size={18} />,
-    children: [
-      {
-        title: "Islam",
-        path: "content/docs/faith-in-mohammad-leads-to-damnation/islam",
-        icon: <File size={18} />,
-      },
-      {
-        title: "The Quran",
-        path: "content/docs/faith-in-mohammad-leads-to-damnation/quran",
-        icon: <File size={18} />,
-      },
-      {
-        title: "The Shahada",
-        path: "content/docs/faith-in-mohammad-leads-to-damnation/shahada",
-        icon: <File size={18} />,
-      },
-      {
-        title: "Mohammad",
-        path: "content/docs/faith-in-mohammad-leads-to-damnation/mohammad",
-        icon: <File size={18} />,
-      },
-      {
-        title: "Islamic Salvation",
-        path: "content/docs/faith-in-mohammad-leads-to-damnation/islamic-salvation",
-        icon: <File size={18} />,
-      }
-    ]
-  },
-  {
-    title: "Faith in Allah leads to lies",
-    path: "content/docs/faith-in-allah-leads-to-lies",
-    icon: <XOctagon size={18} />,
-    children: [
-      {
-        title: "Allah",
-        path: "content/docs/faith-in-allah-leads-to-lies/allah",
-        icon: <File size={18} />,
-      },
-      {
-        title: "Satan",
-        path: "content/docs/faith-in-allah-leads-to-lies/satan",
-        icon: <File size={18} />,
-      },
-      {
-        title: "False Prophets/Teachers",
-        path: "content/docs/faith-in-allah-leads-to-lies/false-prophets",
-        icon: <File size={18} />,
-      },
-      {
-        title: "The Great Deception",
-        path: "content/docs/faith-in-allah-leads-to-lies/deception",
-        icon: <File size={18} />,
-      },
-      {
-        title: "God vs. Allah: A Comparison",
-        path: "content/docs/faith-in-allah-leads-to-lies/comparison-god-allah",
-        icon: <File size={18} />,
-      }
-    ]
+    ],
   },
   {
     title: "Resources",
-    path: "content/resources",
+    path: "/resources",
     icon: <BookOpen size={18} />,
+    isTopLevel: true,
     children: [
-      {
-        title: "FAQ",
-        path: "content/resources/faq",
-        icon: <File size={18} />,
-      },
-      {
-        title: "The Bible",
-        path: "content/resources/bible",
-        icon: <File size={18} />,
-      },
-      {
-        title: "Types of \"Christians\" to Avoid",
-        path: "content/resources/christians-to-avoid",
-        icon: <File size={18} />,
-      },
-      {
-        title: "Common Questions Muslims Ask About Jesus",
-        path: "content/resources/common-questions",
-        icon: <File size={18} />,
-      },
-      {
-        title: "Believe in Jesus Christ NOT Christianity",
-        path: "content/resources/jesus-not-christianity",
-        icon: <File size={18} />,
-      },
-      {
-        title: "What Can I Do Now To Become Christian",
-        path: "content/resources/become-christian",
-        icon: <File size={18} />,
-      }
-    ]
-  }
+      { title: "FAQ", path: "/resources/faq", icon: <File size={18} /> },
+      { title: "The Bible", path: "/resources/bible", icon: <File size={18} /> },
+      { title: "Common Questions", path: "/resources/common-questions", icon: <File size={18} /> },
+      { title: "Believe in Jesus", path: "/resources/believe-in-jesus", icon: <File size={18} /> },
+      { title: "Types of Christians", path: "/resources/types-of-christians", icon: <File size={18} /> },
+      { title: "Become Christian", path: "/resources/become-christian", icon: <File size={18} /> },
+    ],
+  },
 ];
+
+
+const SidebarItem = ({ title, path, icon, children, level = 0, isTopLevel = false }: SidebarItemProps) => {
+  /* ... (keep original SidebarItem implementation exactly as it was) ... */
+};
+
+const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
+  /* ... (keep original Sidebar implementation exactly as it was) ... */
+};
+
+export default Sidebar;
 
 const SidebarItem = ({ title, path, icon, children, level = 0, isTopLevel = false }: SidebarItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
