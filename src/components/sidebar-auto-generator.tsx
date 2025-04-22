@@ -1,11 +1,8 @@
-import fs from "fs";
-import path from "path";
 
-// Path to your content directory
-const CONTENT_DIR = path.join(process.cwd(), "src/content");
+import path from "path-browserify";
 
-// Type definitions for TypeScript
-interface SidebarItem {
+// Define types for our sidebar structure
+export interface SidebarItem {
   title: string;
   path: string;
   isFolder?: boolean;
@@ -13,56 +10,115 @@ interface SidebarItem {
 }
 
 /**
- * Recursively generates sidebar items from your content folder structure
- * @param dirPath - The current directory path
- * @param basePath - The base path for the generated URLs
- * @returns Array of SidebarItem objects for your navigation
+ * Client-side function to generate sidebar items
+ * @param basePath - The base path for the content
+ * @returns Array of sidebar items for navigation
  */
-const generateSidebarItemsRecursive = (
-  dirPath: string,
+export const generateSidebarItems = (
   basePath: string = "/content"
 ): SidebarItem[] => {
-  return fs
-    .readdirSync(dirPath, { withFileTypes: true })
-    .map((dirent) => {
-      const itemPath = path.join(dirPath, dirent.name);
-      const relativePath = path.relative(CONTENT_DIR, itemPath);
-      const urlPath = `${basePath}/${relativePath.replace(/\\/g, "/")}`;
+  // This is a placeholder implementation that would normally fetch from an API
+  // In a real application, you would fetch the folder structure from an API endpoint
+  
+  // Example structure (replace with actual API call in production)
+  const folderStructure = [
+    {
+      name: "docs",
+      isDirectory: true,
+      children: [
+        { name: "Getting Started", isDirectory: false },
+        { name: "Scripture Analysis", isDirectory: false },
+        {
+          name: "Faith-in-Jesus-leads-to-Salvation",
+          isDirectory: true,
+          children: [
+            { name: "Jesus", isDirectory: false },
+            { name: "Salvation", isDirectory: false },
+            { name: "Works", isDirectory: false },
+            { name: "Sheep", isDirectory: false },
+            { name: "Scriptures", isDirectory: false }
+          ]
+        },
+        {
+          name: "Faith-in-Mohammad-leads-to-Damnation",
+          isDirectory: true,
+          children: [
+            { name: "Islam", isDirectory: false },
+            { name: "The-Quran", isDirectory: false },
+            { name: "The-Shahada", isDirectory: false },
+            { name: "Mohammad", isDirectory: false },
+            { name: "Islamic-Salvation", isDirectory: false }
+          ]
+        },
+        {
+          name: "Faith-in-Allah-leads-to-Lies",
+          isDirectory: true,
+          children: [
+            { name: "Allah", isDirectory: false },
+            { name: "Satan", isDirectory: false },
+            { name: "False-Prophets", isDirectory: false },
+            { name: "Deception", isDirectory: false },
+            { name: "Comparison-God-Allah", isDirectory: false }
+          ]
+        }
+      ]
+    },
+    {
+      name: "blog",
+      isDirectory: true,
+      children: [
+        { name: "Jesus doesnt deny Himself", isDirectory: false },
+        { name: "Understanding Islamic Teachings", isDirectory: false },
+        { name: "The Bible Versus the Quran", isDirectory: false }
+      ]
+    }
+  ];
+  
+  return generateSidebarItemsFromStructure(folderStructure, basePath);
+};
 
-      if (dirent.isDirectory()) {
+/**
+ * Helper function to recursively generate sidebar items from a folder structure
+ */
+const generateSidebarItemsFromStructure = (
+  structure: any[],
+  basePath: string
+): SidebarItem[] => {
+  return structure
+    .map((item) => {
+      // Format path: remove spaces, convert to lowercase, convert .md extension
+      const itemPath = item.name
+        .replace(/\s+/g, "-")
+        .toLowerCase()
+        .replace(/\.md$/, "");
+      
+      const fullPath = `${basePath}/${itemPath}`;
+      
+      if (item.isDirectory && item.children) {
         // Recursively generate children for folders
-        const children = generateSidebarItemsRecursive(itemPath, basePath);
+        const children = generateSidebarItemsFromStructure(item.children, fullPath);
         return {
-          title: formatTitle(dirent.name),
-          path: urlPath,
+          title: formatTitle(item.name),
+          path: fullPath,
           isFolder: true,
           children: children.length > 0 ? children : undefined,
         };
-      } else if (dirent.isFile() && dirent.name.endsWith(".md")) {
-        // Generate item for markdown files
+      } else {
+        // Generate item for files
         return {
-          title: formatTitle(dirent.name.replace(".md", "")),
-          path: urlPath.replace(".md", ""),
+          title: formatTitle(item.name),
+          path: fullPath,
           isFolder: false,
         };
       }
-      return null;
     })
     .filter(Boolean) as SidebarItem[];
 };
 
-/**
- * Generates sidebar items from your content folder structure
- * @returns Array of SidebarItem objects for your navigation
- */
-export const generateSidebarItems = (): SidebarItem[] => {
-  return generateSidebarItemsRecursive(CONTENT_DIR);
-};
-
-// Helper to convert kebab-case to Title Case
+// Helper to convert kebab-case or spaces to Title Case
 const formatTitle = (str: string) => {
   return str
-    .split("-")
+    .split(/[-\s]/)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 };
