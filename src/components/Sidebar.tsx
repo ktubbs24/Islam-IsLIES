@@ -36,23 +36,23 @@ const QuoraIcon = () => (
 const sidebarItems: SidebarItemProps[] = [
   {
     title: "Home",
-    path: "/home",
+    path: "content/home",
     icon: <Home size={18} />,
     isTopLevel: true,
     children: [
       {
         title: "Welcome",
-        path: "/getting-started",
+        path: "content/home/welcome",
         icon: <File size={18} />,
       },
       {
         title: "The Gospel",
-        path: "/gospel",
+        path: "content/home/gospel",
         icon: <File size={18} />,
       },
       {
         title: "About",
-        path: "/about",
+        path: "content/home/about",
         icon: <File size={18} />,
       },
       {
@@ -67,7 +67,7 @@ const sidebarItems: SidebarItemProps[] = [
       },
       {
         title: "Support",
-        path: "/support",
+        path: "content/home/support",
         icon: <File size={18} />,
       }
     ]
@@ -102,134 +102,134 @@ const sidebarItems: SidebarItemProps[] = [
   },
   {
     title: "Faith in Jesus leads to Salvation",
-    path: "/faith-in-jesus-to-salvation",
+    path: "content/docs/faith-in-jesus-to-salvation",
     icon: <Cross size={18} />,
     isTopLevel: true,
     children: [
       {
         title: "Jesus",
-        path: "/jesus",
+        path: "content/docs/faith-in-jesus-to-salvation/jesus",
         icon: <File size={18} />,
       },
       {
         title: "Works",
-        path: "/works",
+        path: "content/docs/faith-in-jesus-to-salvation/works",
         icon: <File size={18} />,
       },
       {
         title: "Sheep",
-        path: "/sheep",
+        path: "content/docs/faith-in-jesus-to-salvation/sheep",
         icon: <File size={18} />,
       },
       {
         title: "Salvation",
-        path: "/salvation",
+        path: "content/docs/faith-in-jesus-to-salvation/salvation",
         icon: <File size={18} />,
       },
       {
         title: "Scriptures",
-        path: "/scriptures",
+        path: "content/docs/faith-in-jesus-to-salvation/scriptures",
         icon: <File size={18} />,
       }
     ]
   },
   {
     title: "Faith in Mohammad leads to Damnation",
-    path: "/faith-in-mohammad-leads-to-damnation",
+    path: "content/docs/faith-in-mohammad-leads-to-damnation",
     icon: <Flame size={18} />,
     children: [
       {
         title: "Islam",
-        path: "/islam",
+        path: "content/docs/faith-in-mohammad-leads-to-damnation/islam",
         icon: <File size={18} />,
       },
       {
         title: "The Quran",
-        path: "/quran",
+        path: "content/docs/faith-in-mohammad-leads-to-damnation/quran",
         icon: <File size={18} />,
       },
       {
         title: "The Shahada",
-        path: "/shahada",
+        path: "content/docs/faith-in-mohammad-leads-to-damnation/shahada",
         icon: <File size={18} />,
       },
       {
         title: "Mohammad",
-        path: "/mohammad",
+        path: "content/docs/faith-in-mohammad-leads-to-damnation/mohammad",
         icon: <File size={18} />,
       },
       {
         title: "Islamic Salvation",
-        path: "/islamic-salvation",
+        path: "content/docs/faith-in-mohammad-leads-to-damnation/islamic-salvation",
         icon: <File size={18} />,
       }
     ]
   },
   {
     title: "Faith in Allah leads to lies",
-    path: "/faith-in-allah-leads-to-lies",
+    path: "content/docs/faith-in-allah-leads-to-lies",
     icon: <XOctagon size={18} />,
     children: [
       {
         title: "Allah",
-        path: "/allah",
+        path: "content/docs/faith-in-allah-leads-to-lies/allah",
         icon: <File size={18} />,
       },
       {
         title: "Satan",
-        path: "/satan",
+        path: "content/docs/faith-in-allah-leads-to-lies/satan",
         icon: <File size={18} />,
       },
       {
         title: "False Prophets/Teachers",
-        path: "/false-prophets",
+        path: "content/docs/faith-in-allah-leads-to-lies/false-prophets",
         icon: <File size={18} />,
       },
       {
         title: "The Great Deception",
-        path: "/deception",
+        path: "content/docs/faith-in-allah-leads-to-lies/deception",
         icon: <File size={18} />,
       },
       {
         title: "God vs. Allah: A Comparison",
-        path: "/comparison-god-allah",
+        path: "content/docs/faith-in-allah-leads-to-lies/comparison-god-allah",
         icon: <File size={18} />,
       }
     ]
   },
   {
     title: "Resources",
-    path: "/resources",
+    path: "content/resources",
     icon: <BookOpen size={18} />,
     children: [
       {
         title: "FAQ",
-        path: "/faq",
+        path: "content/resources/faq",
         icon: <File size={18} />,
       },
       {
         title: "The Bible",
-        path: "/bible",
+        path: "content/resources/bible",
         icon: <File size={18} />,
       },
       {
         title: "Types of \"Christians\" to Avoid",
-        path: "/christians-to-avoid",
+        path: "content/resources/christians-to-avoid",
         icon: <File size={18} />,
       },
       {
         title: "Common Questions Muslims Ask About Jesus",
-        path: "/common-questions",
+        path: "content/resources/common-questions",
         icon: <File size={18} />,
       },
       {
         title: "Believe in Jesus Christ NOT Christianity",
-        path: "/jesus-not-christianity",
+        path: "content/resources/jesus-not-christianity",
         icon: <File size={18} />,
       },
       {
         title: "What Can I Do Now To Become Christian",
-        path: "/become-christian",
+        path: "content/resources/become-christian",
         icon: <File size={18} />,
       }
     ]
