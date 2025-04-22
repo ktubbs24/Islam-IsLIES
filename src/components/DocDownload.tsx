@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Download, Check, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,10 +10,10 @@ import {
 
 interface DocDownloadProps {
   documentTitle: string;
-  contentId: string;
+  content: string; // Pass the content directly as a prop
 }
 
-const DocDownload = ({ documentTitle, contentId }: DocDownloadProps) => {
+const DocDownload = ({ documentTitle, content }: DocDownloadProps) => {
   const [showNotification, setShowNotification] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -22,7 +21,7 @@ const DocDownload = ({ documentTitle, contentId }: DocDownloadProps) => {
   useEffect(() => {
     audioRef.current = new Audio("/download-sound.mp3");
     audioRef.current.volume = 0.5;
-    
+
     return () => {
       if (audioRef.current) {
         audioRef.current = null;
@@ -34,15 +33,14 @@ const DocDownload = ({ documentTitle, contentId }: DocDownloadProps) => {
     // Play sound
     if (audioRef.current) {
       audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(err => console.error("Error playing sound:", err));
+      audioRef.current.play().catch((err) => console.error("Error playing sound:", err));
     }
-    
+
     // Show notification
     setShowNotification(true);
     setTimeout(() => setShowNotification(false), 3000);
-    
-    // Simulate download (in a real app, replace this with actual download logic)
-    const content = document.getElementById(contentId)?.innerText || "Content not found";
+
+    // Create a downloadable file
     const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -62,7 +60,7 @@ const DocDownload = ({ documentTitle, contentId }: DocDownloadProps) => {
           <span className="text-sm">Free to download, no need for credit.</span>
         </div>
       )}
-      
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="sm">

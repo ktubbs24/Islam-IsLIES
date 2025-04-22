@@ -1,40 +1,53 @@
-const documentRoutes = {
-  home: [
-    { path: '/content/home/welcome', title: 'Welcome' },
-    { path: '/content/home/gospel', title: 'The Gospel' },
-    { path: '/content/home/about', title: 'About' },
-    { path: '/content/home/newsletter', title: 'Newsletter' },
-    { path: '/content/home/recent-updates', title: 'Recent Updates' },
-    { path: '/content/home/support', title: 'Support' },
-  ],
-  blog: [
-    { path: '/content/blog/latest-articles', title: 'Latest Articles' },
-    { path: '/content/blog/jesus-denial', title: "Jesus Doesn't Deny Himself" },
-    { path: '/content/blog/islamic-teachings', title: 'Understanding Islamic Teachings' },
-  ],
-  docs: [
-    { path: '/content/docs/faith-in-jesus/jesus', title: 'Jesus' },
-    { path: '/content/docs/faith-in-jesus/works', title: 'Works' },
-    { path: '/content/docs/faith-in-jesus/sheep', title: 'Sheep' },
-    { path: '/content/docs/faith-in-jesus/salvation', title: 'Salvation' },
-    { path: '/content/docs/faith-in-jesus/scriptures', title: 'Scriptures' },
-    { path: '/content/docs/faith-in-mohammad/islam', title: 'Islam' },
-    { path: '/content/docs/faith-in-mohammad/quran', title: 'The Quran' },
-    { path: '/content/docs/faith-in-mohammad/shahada', title: 'The Shahada' },
-    { path: '/content/docs/faith-in-mohammad/mohammad', title: 'Mohammad' },
-    { path: '/content/docs/faith-in-mohammad/islamic-salvation', title: 'Islamic Salvation' },
-    { path: '/content/docs/faith-in-allah/allah', title: 'Allah' },
-    { path: '/content/docs/faith-in-allah/satan', title: 'Satan' },
-    { path: '/content/docs/faith-in-allah/false-prophets', title: 'False Prophets/Teachers' },
-    { path: '/content/docs/faith-in-allah/deception', title: 'The Great Deception' },
-    { path: '/content/docs/faith-in-allah/comparison-god-allah', title: 'God vs. Allah: A Comparison' },
-  ],
-  resources: [
-    { path: '/content/resources/faq', title: 'FAQ' },
-    { path: '/content/resources/bible', title: 'The Bible' },
-    { path: '/content/resources/common-questions', title: 'Common Questions' },
-    { path: '/content/resources/believe-in-jesus', title: 'Believe in Jesus' },
-    { path: '/content/resources/types-of-christians', title: 'Types of Christians' },
-    { path: '/content/resources/become-christian', title: 'Become Christian' },
-  ],
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import { generateSidebarItems } from "./sidebar-auto-generator";
+
+const DocumentNavigation: React.FC = () => {
+  const location = useLocation();
+  const sidebarItems = generateSidebarItems();
+
+  // Flatten the sidebar items to create a linear navigation structure
+  const flattenItems = (items: any[]): { path: string; title: string }[] => {
+    return items.reduce((acc, item) => {
+      acc.push({ path: item.path, title: item.title });
+      if (item.children) {
+        acc = acc.concat(flattenItems(item.children));
+      }
+      return acc;
+    }, [] as { path: string; title: string }[]);
+  };
+
+  const allDocuments = flattenItems(sidebarItems);
+
+  // Find the current document and its neighbors
+  const currentIndex = allDocuments.findIndex((doc) => doc.path === location.pathname);
+  const prevDoc = currentIndex > 0 ? allDocuments[currentIndex - 1] : null;
+  const nextDoc = currentIndex < allDocuments.length - 1 ? allDocuments[currentIndex + 1] : null;
+
+  return (
+    <div className="flex justify-between mt-8">
+      {prevDoc ? (
+        <Link
+          to={prevDoc.path}
+          className="text-primary hover:underline transition-colors"
+        >
+          ← {prevDoc.title}
+        </Link>
+      ) : (
+        <span />
+      )}
+      {nextDoc ? (
+        <Link
+          to={nextDoc.path}
+          className="text-primary hover:underline transition-colors"
+        >
+          {nextDoc.title} →
+        </Link>
+      ) : (
+        <span />
+      )}
+    </div>
+  );
 };
+
+export default DocumentNavigation;

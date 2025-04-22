@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, Link } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
@@ -19,7 +18,7 @@ const MainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const location = useLocation();
   const { theme } = useTheme();
-  
+
   // Pages where bottom navigation should be hidden
   const hideNavPages = ['/gospel', '/support'];
   const shouldHideNavigation = hideNavPages.includes(location.pathname);
@@ -78,7 +77,7 @@ const MainLayout = () => {
         }
       }, 1000);
     }, 1000);
-    
+
     // Initialize lazy loading
     initLazyLoading();
     initFallbackLazyLoading();
@@ -131,14 +130,14 @@ const MainLayout = () => {
         isSidebarOpen ? "md:ml-80" : "ml-0"
       )}>
         <Header />
-        
+
         {/* Injeel Button */}
         <div className="flex justify-center mt-4 mb-2">
           <Link to="/gospel" id="injeel-button" className={cn("glow-on-hover flex items-center justify-center font-bold transition-opacity duration-500 h-[50px] w-[220px] text-center", showInjeel ? "opacity-100" : "opacity-0")} onClick={playClickSound}>
             <span className="text-center w-full">What's the InJeel?</span>
           </Link>
         </div>
-        
+
         <main className="flex-1">
           <div className={cn("transition-all duration-300 max-w-5xl mx-auto px-4", isEntering ? "opacity-0 translate-x-10" : "opacity-100 translate-x-0")}>
             <Outlet />
@@ -146,7 +145,7 @@ const MainLayout = () => {
         </main>
         <Footer />
       </div>
-      
+
       {/* Loading animation */}
       {loading && <div className="loader">
           <span className="loader__element"></span>
@@ -179,7 +178,7 @@ const MainLayout = () => {
             transform: scale(1);
           }
         }
-        
+
         /* Mobile specific improvements */
         @media (max-width: 767px) {
           .documentation-content {

@@ -1,5 +1,5 @@
-
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom"; // To detect route changes
 import { cn } from "@/lib/utils";
 
 interface TOCItem {
@@ -11,14 +11,15 @@ interface TOCItem {
 const TableOfContents = () => {
   const [headings, setHeadings] = useState<TOCItem[]>([]);
   const [activeId, setActiveId] = useState("");
+  const location = useLocation(); // Detect route changes
 
   useEffect(() => {
     // Get all headings inside the article
     const content = document.querySelector(".doc-content");
     if (!content) return;
-    
+
     const elements = Array.from(content.querySelectorAll("h2, h3, h4"));
-    
+
     const items: TOCItem[] = elements
       .filter((el) => el.id) // Only elements with ID
       .map((el) => {
@@ -29,7 +30,7 @@ const TableOfContents = () => {
           level,
         };
       });
-    
+
     setHeadings(items);
 
     // Set up intersection observer
@@ -43,13 +44,13 @@ const TableOfContents = () => {
       },
       { rootMargin: "0px 0px -80% 0px" }
     );
-    
+
     elements.forEach((el) => observer.observe(el));
-    
+
     return () => {
       elements.forEach((el) => observer.unobserve(el));
     };
-  }, []);
+  }, [location.pathname]); // Re-run when the route changes
 
   if (headings.length === 0) return null;
 
@@ -59,8 +60,8 @@ const TableOfContents = () => {
         <h4 className="text-sm font-medium">On this page</h4>
         <ul className="mt-2 text-sm space-y-2">
           {headings.map((heading, idx) => (
-            <li 
-              key={idx} 
+            <li
+              key={idx}
               className={cn(
                 heading.level === 2 ? "pl-0" : 
                 heading.level === 3 ? "pl-4" : "pl-6"
