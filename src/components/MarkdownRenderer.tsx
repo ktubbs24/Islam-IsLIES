@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -8,7 +7,6 @@ import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import { Link } from 'react-router-dom';
-import remarkFootnotes from 'remark-footnotes';
 import 'katex/dist/katex.min.css';
 
 interface MarkdownRendererProps {
@@ -28,13 +26,13 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
   return (
     <div className={`markdown-content ${className}`}>
       <ReactMarkdown
-        remarkPlugins={[remarkGfm, remarkMath, [remarkFootnotes, { inlineNotes: true }]]}
+        remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[rehypeRaw, rehypeKatex]}
         components={{
           a: ({ node, href, children, ...props }) => {
             // Check if it's an external link
             const isExternal = href?.startsWith('http') || href?.startsWith('mailto:');
-            
+
             if (isExternal) {
               return (
                 <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
@@ -98,61 +96,61 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
       >
         {processContent(content)}
       </ReactMarkdown>
-      
+
       <style>
         {`
         .markdown-content h1 {
           @apply text-3xl font-bold mb-6 mt-4;
         }
-        
+
         .markdown-content h2 {
           @apply text-2xl font-semibold mb-4 mt-6;
         }
-        
+
         .markdown-content h3 {
           @apply text-xl font-semibold mb-3 mt-5;
         }
-        
+
         .markdown-content h4 {
           @apply text-lg font-medium mb-2 mt-4;
         }
-        
+
         .markdown-content p {
           @apply mb-4 leading-relaxed;
         }
-        
+
         .markdown-content ul {
           @apply list-disc pl-6 mb-4;
         }
-        
+
         .markdown-content ol {
           @apply list-decimal pl-6 mb-4;
         }
-        
+
         .markdown-content li {
           @apply mb-2;
         }
-        
+
         .markdown-content a {
           @apply text-primary hover:underline transition-colors;
         }
-        
+
         .markdown-content blockquote {
           @apply border-l-4 border-primary pl-4 italic my-4;
         }
-        
+
         .markdown-content pre {
           @apply mb-4;
         }
-        
+
         .markdown-content code {
           @apply bg-muted px-1 py-0.5 rounded;
         }
-        
+
         .markdown-content hr {
           @apply my-6 border-t border-gray-300 dark:border-gray-700;
         }
-        
+
         .markdown-content img {
           @apply my-4 mx-auto;
         }
@@ -163,4 +161,3 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
 };
 
 export default MarkdownRenderer;
-
