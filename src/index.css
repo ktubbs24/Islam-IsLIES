@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -804,4 +803,107 @@
   display: inline-block;
   overflow: hidden;
   border-radius: 50%;
+}
+
+.logo-hover-glow {
+  transition: all 0.3s ease;
+}
+
+.logo-hover-glow:hover {
+  filter: drop-shadow(0 0 10px rgba(45, 166, 95, 0.7));
+  transform: translateY(-3px);
+}
+
+.text-container {
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.dark .text-container {
+  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+}
+
+.text-container:hover {
+  box-shadow: 0 0 15px rgba(45, 166, 95, 0.4);
+  transform: translateY(-2px);
+}
+
+.dark .text-container:hover {
+  box-shadow: 0 0 15px rgba(45, 166, 95, 0.6);
+  transform: translateY(-2px);
+}
+
+.text-container:hover svg {
+  filter: drop-shadow(0 0 5px rgba(45, 166, 95, 0.6));
+}
+
+@keyframes logoPulseGlow {
+  0% {
+    filter: drop-shadow(0 0 0 rgba(45, 166, 95, 0));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(45, 166, 95, 0.8));
+    transform: scale(1.1);
+  }
+  100% {
+    filter: drop-shadow(0 0 0 rgba(45, 166, 95, 0));
+    transform: scale(1);
+  }
+}
+
+.logo-glow-animation {
+  animation: logoPulseGlow 0.5s ease-in-out;
+}
+
+.logo-container {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+footer {
+  background: inherit; /* Inherit the grid background from body */
+}
+
+/* Homepage box hover effects */
+.homepage-box {
+  transition: all 0.3s ease;
+}
+  
+.homepage-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 0 15px rgba(45, 166, 95, 0.5);
+}
+
+.homepage-icon {
+  transition: all 0.3s ease;
+}
+  
+.homepage-box:hover .homepage-icon {
+  filter: drop-shadow(0 0 5px rgba(45, 166, 95, 0.7));
+  transform: scale(1.1);
+}
+
+/* Sidebar item hover effects */
+.sidebar-item {
+  transition: transform 0.2s ease;
+}
+  
+@media (min-width: 769px) {
+  .sidebar-item:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Logo effects */
+.logo-image {
+  transition: filter 0.3s ease;
+}
+  
+.logo-image:hover {
+  filter: drop-shadow(0 0 15px rgba(45, 166, 95, 0.8));
 }

@@ -1,16 +1,17 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Heart, Mail, Facebook, Twitter, MessageSquare } from "lucide-react";
+import { Heart, Mail, Facebook, Twitter, MessageSquare, DollarSign } from "lucide-react";
 
 const QuoraIcon = () => (
   <svg 
     className="social-icon" 
     viewBox="0 0 24 24" 
+    width="24"
+    height="24"
     fill="currentColor"
   >
-    <path d="M11.999 1C5.926 1 1 5.925 1 12c0 6.074 4.926 11 10.999 11 6.075 0 11.001-4.926 11.001-11 0-6.075-4.926-11-11.001-11zm7.473 17.15c-1.044-1.5-2.22-2.931-4.205-2.931-1.045 0-2.438.461-2.438 1.456v.785c-1.155.077-1.452-.153-1.878-1.177C13.937 11.996 11.999 12 11.999 12s-1.937-.004-2.973 4.283c-.425 1.023-.722 1.254-1.878 1.177v-.785c0-.995-1.392-1.456-2.438-1.456-1.984 0-3.161 1.431-4.205 2.931A8.71 8.71 0 0 1 2.264 12c0-5.391 4.344-9.734 9.735-9.734 5.392 0 9.736 4.343 9.736 9.734 0 2.868-1.242 5.44-3.212 7.227l-.051-.077z" />
-    <path d="M14.412 10.567h-2.906v1.056h.556v.355c0 .674-.556.983-1.354.983-.796 0-1.354-.309-1.354-.983V9.33c0-.619.367-.983 1.354-.983s1.354.364 1.354.983v.364h1.893c-.06-1.591-1.436-2.545-3.247-2.545-1.893 0-3.339.954-3.339 2.727v2.177c0 1.774 1.446 2.727 3.339 2.727 1.81 0 3.187-.954 3.247-2.545v-1.668z" />
+    <path d="M12.004 3C7.138 3 3 7.036 3 12c0 4.963 4.038 9 8.902 9 .199 0 .4-.006.6-.019 1.286-1.275 2.248-2.814 2.8-4.531-.288.058-.585.088-.886.088-1.82 0-3.253-1.416-3.253-3.273a3.25 3.25 0 0 1 1.023-2.583 3.25 3.25 0 0 1 2.389-1.017c1.023 0 1.954.391 2.656 1.035.705.644 1.137 1.535 1.137 2.523 0 .493-.1 1.006-.297 1.526-.644 1.784-2.103 3.352-4.05 4.522.49.1.995.15 1.505.15 4.864 0 8.807-4.037 8.807-9S16.776 3 11.9 3h.104Z"/>
   </svg>
 );
 
@@ -78,47 +79,6 @@ const Footer = () => {
             Want to hear when I publish new work?
           </a>
         </div>
-        
-        <p className="text-sm text-muted-foreground text-center mb-3">
-          &copy; 2025 Islam IsLIES. All rights reserved.
-        </p>
-        
-        <div className="relative flex items-center justify-center">
-          <Link
-            to="/gospel"
-            className="flex items-center gap-2 text-muted-foreground hover:text-primary text-sm group transition-colors text-center"
-            onMouseEnter={handleGospelClick}
-            onClick={handleGospelClick}
-          >
-            <Heart 
-              size={16} 
-              className="text-red-500 drop-shadow-md heart-beat heart-drip group-hover:scale-110 transition-transform" 
-            />
-            Made in love by Kwenela by the One who is Love
-          </Link>
-          
-          {showGospelMessage && (
-            <div 
-              ref={messageRef}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 md:w-96 p-4 bg-red-500 text-white rounded-md shadow-lg z-50 cursor-pointer"
-              onClick={handleMessageClick}
-            >
-              <p className="text-sm">
-                To love and to know the One who is love who made you:
-                Believe that Jesus Christ died on the cross for the forgiveness of our sins, was buried in the tomb for 3 days, but after the third day He rose from the grave and is now at the Right Hand of the Father in Heaven.
-              </p>
-            </div>
-          )}
-        </div>
-
-        <a href="/" className="mt-3 hover:opacity-80 transition-opacity logo-container" onClick={handleLogoClick}>
-          <img 
-            src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
-            alt="Islam IsLIES Logo"
-            className="w-16 h-16 rounded-full object-cover"
-            loading="lazy"
-          />
-        </a>
         
         <div className="flex flex-col items-center gap-4 mt-2">
           <div className="flex items-center justify-center flex-wrap gap-6">
@@ -211,12 +171,57 @@ const Footer = () => {
                 className="text-muted-foreground hover:text-primary transition-colors"
                 aria-label="Quora"
               >
-                <QuoraIcon />
+                <img 
+                  src="https://th.bing.com/th/id/R.4eb102d3e2ad0b4f07bb9d236d91e2f1?rik=UCND94zHeXolWw&pid=ImgRaw&r=0"
+                  alt="Quora"
+                  className="social-icon w-6 h-6"
+                />
                 <span className="social-icon-name">Quora</span>
               </a>
             </div>
           </div>
         </div>
+        
+        <p className="text-sm text-muted-foreground text-center mb-1 mt-3">
+          &copy; 2025 Islam IsLIES. All rights reserved.
+        </p>
+        
+        <div className="relative flex items-center justify-center">
+          <Link
+            to="/gospel"
+            className="flex items-center gap-2 text-muted-foreground hover:text-primary text-sm group transition-colors text-center"
+            onMouseEnter={handleGospelClick}
+            onClick={handleGospelClick}
+          >
+            <Heart 
+              size={16} 
+              className="text-red-500 drop-shadow-md heart-beat heart-drip group-hover:scale-110 transition-transform" 
+            />
+            Made in love by Kwenela by the One who is Love
+          </Link>
+          
+          {showGospelMessage && (
+            <div 
+              ref={messageRef}
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 md:w-96 p-4 bg-red-500 text-white rounded-md shadow-lg z-50 cursor-pointer"
+              onClick={handleMessageClick}
+            >
+              <p className="text-sm">
+                To love and to know the One who is love who made you:
+                Believe that Jesus Christ died on the cross for the forgiveness of our sins, was buried in the tomb for 3 days, but after the third day He rose from the grave and is now at the Right Hand of the Father in Heaven.
+              </p>
+            </div>
+          )}
+        </div>
+
+        <a href="/" className="mt-3 hover:opacity-80 transition-opacity logo-container logo-hover-glow" onClick={handleLogoClick}>
+          <img 
+            src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
+            alt="Islam IsLIES Logo"
+            className="w-28 h-28 rounded-full object-cover logo-image"
+            loading="lazy"
+          />
+        </a>
       </div>
       
       <style>
@@ -238,6 +243,31 @@ const Footer = () => {
             filter: drop-shadow(0 0 0 rgba(45, 166, 95, 0));
             transform: scale(1);
           }
+        }
+        
+        .logo-hover-glow {
+          transition: all 0.3s ease;
+        }
+        
+        .logo-hover-glow:hover {
+          filter: drop-shadow(0 0 15px rgba(45, 166, 95, 0.7));
+          transform: translateY(-3px);
+        }
+        
+        .logo-container {
+          position: relative;
+          display: inline-block;
+          overflow: hidden;
+          border-radius: 50%;
+        }
+        
+        .logo-image:hover {
+          filter: drop-shadow(0 0 15px rgba(45, 166, 95, 0.8));
+        }
+        
+        .social-icon-wrapper:hover .social-icon {
+          filter: drop-shadow(0 0 5px rgba(45, 166, 95, 0.7));
+          transform: scale(1.2);
         }
         `}
       </style>

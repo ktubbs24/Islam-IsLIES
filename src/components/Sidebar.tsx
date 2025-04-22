@@ -276,9 +276,19 @@ const SidebarItem = ({ title, path, icon, children, level = 0, isTopLevel = fals
     }
   };
 
+  const handleArrowClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (hasChildren) {
+      setIsOpen(!isOpen);
+      if (path) {
+        navigate(path);
+      }
+    }
+  };
+
   if (hasChildren) {
     return (
-      <div className="mb-3">
+      <div className="mb-3 sidebar-item hover:translate-y-[-2px] transition-transform">
         <button
           onClick={handleClick}
           className={cn(
@@ -292,7 +302,11 @@ const SidebarItem = ({ title, path, icon, children, level = 0, isTopLevel = fals
             {folderIcon}
             <span className="font-bold">{title}</span>
           </span>
-          {hasChildren && (isOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />)}
+          {hasChildren && (
+            <span onClick={handleArrowClick}>
+              {isOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+            </span>
+          )}
         </button>
         
         {isOpen && (
@@ -314,7 +328,7 @@ const SidebarItem = ({ title, path, icon, children, level = 0, isTopLevel = fals
     <button
       onClick={handleClick}
       className={cn(
-        "flex items-center py-2 px-3 rounded-md text-sm mb-1.5 w-full text-left",
+        "flex items-center py-2 px-3 rounded-md text-sm mb-1.5 w-full text-left sidebar-item hover:translate-y-[-2px] transition-transform",
         "hover:bg-primary/10 hover:text-primary transition-colors duration-200",
         isActive ? "bg-primary/10 text-primary font-medium" : "text-sidebar-foreground"
       )}
@@ -424,10 +438,10 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
       <div className="fixed top-4 left-4 z-50">
         <button
           onClick={toggleSidebar}
-          className="p-2 rounded-md bg-background border hover:bg-muted transition-colors relative text-lg"
+          className="p-3 rounded-md bg-background border hover:bg-muted transition-colors relative text-lg"
           aria-label="Toggle sidebar"
         >
-          {isOpen ? <ChevronLeft size={24} /> : <Menu size={24} />}
+          {isOpen ? <ChevronLeft size={28} /> : <Menu size={28} />}
           
           {showHint && !isOpen && (
             <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 flex items-center">
@@ -454,7 +468,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
             <img 
               src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png" 
               alt="Islam IsLIES Logo" 
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover logo-image"
               loading="lazy"
             />
           </a>
@@ -529,7 +543,11 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
               className="text-muted-foreground hover:text-primary transition-all"
               aria-label="Quora"
             >
-              <QuoraIcon />
+              <img 
+                src="https://th.bing.com/th/id/R.4eb102d3e2ad0b4f07bb9d236d91e2f1?rik=UCND94zHeXolWw&pid=ImgRaw&r=0"
+                alt="Quora"
+                className="social-icon w-6 h-6"
+              />
             </a>
           </div>
         </div>
@@ -569,6 +587,40 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
           onClick={() => toggleSidebar()}
         />
       )}
+
+      <style jsx>{`
+        .logo-image {
+          transition: filter 0.3s ease;
+        }
+        
+        .logo-image:hover {
+          filter: drop-shadow(0 0 15px rgba(45, 166, 95, 0.8));
+        }
+        
+        .logo-container {
+          transition: transform 0.3s ease;
+        }
+        
+        .logo-container:hover {
+          transform: translateY(-3px);
+        }
+        
+        @keyframes logoPulseGlow {
+          0% {
+            filter: drop-shadow(0 0 0 rgba(45, 166, 95, 0));
+          }
+          50% {
+            filter: drop-shadow(0 0 15px rgba(45, 166, 95, 0.8));
+          }
+          100% {
+            filter: drop-shadow(0 0 0 rgba(45, 166, 95, 0));
+          }
+        }
+        
+        .logo-glow-animation {
+          animation: logoPulseGlow 0.5s ease-in-out;
+        }
+      `}</style>
     </>
   );
 };

@@ -20,12 +20,16 @@ const Index = () => {
       <section className="space-y-8">
         <div className="overflow-hidden rounded-xl shadow-lg relative">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background z-10"></div>
-          <img 
-            src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
-            alt="Islam IsLIES banner" 
-            className="w-full h-64 object-contain cursor-pointer"
-            onClick={() => setShowImageModal(true)}
-          />
+          <div className="logo-container logo-hover-glow w-full">
+            <img 
+              src="https://substackcdn.com/image/fetch/f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5b4a1e03-a78a-4508-af5e-9cea2a7dd2d0_1280x1280.png"
+              alt="Islam IsLIES banner" 
+              className="w-full h-64 object-contain cursor-pointer hover-glow-effect"
+              onClick={() => setShowImageModal(true)}
+              style={{ borderRadius: "50%", maxWidth: "300px", margin: "0 auto" }}
+              loading="lazy"
+            />
+          </div>
           <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
             <div className="grid grid-cols-12">
               <div className="col-span-12 md:col-span-10 lg:col-span-8">
@@ -39,7 +43,10 @@ const Index = () => {
 
         <div className="space-y-6">
           <p className="text-xl text-muted-foreground">
-            Revealing Biblical truths about Islam and Jesus Christ. My documentation site provides analysis of scripture and clear evidence about the divinity of Jesus.
+            Islam IsLIES — let no one tell you otherwise
+            Showcasing the lies of Islam and the many lies that are taught by Satan through his prophet Mohammad that keeps people from being saved through having faith in Jesus Christ that He:
+            Died on the cross for the forgiveness of our sins was buried in the tomb for three days but after the third day Jesus rose from the grave and is now at the Right Hand of the Father in Heaven.
+            Jesus says when you believe in this gospel which is the power of God then you will never perish and have everlasting life through having faith in Him alone....
             <Link to="/about" className="custom-link ml-1">
               Learn more about my mission <ArrowRight className="inline h-4 w-4" />
             </Link>
@@ -49,11 +56,11 @@ const Index = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Link
             to="/getting-started"
-            className="page-link-button relative overflow-hidden rounded-lg border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
+            className="page-link-button homepage-box relative overflow-hidden rounded-lg border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
           >
             <div className="flex h-full flex-col justify-between gap-4">
               <div className="space-y-2">
-                <BookOpen className="h-8 w-8 text-primary" />
+                <BookOpen className="h-8 w-8 text-primary homepage-icon" />
                 <h3 className="font-bold">Welcome</h3>
                 <p className="text-muted-foreground">
                   Start here to learn about my mission and explore my documentation.
@@ -61,18 +68,18 @@ const Index = () => {
               </div>
               <div className="flex items-center text-sm">
                 <span className="text-primary">Learn more</span>
-                <ArrowRight className="ml-1 h-4 w-4 text-primary" />
+                <ArrowRight className="ml-1 h-4 w-4 text-primary homepage-icon" />
               </div>
             </div>
           </Link>
           
           <Link
             to="/biblical-truths/jesus-doesnt-deny-himself"
-            className="page-link-button relative overflow-hidden rounded-lg border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
+            className="page-link-button homepage-box relative overflow-hidden rounded-lg border bg-card p-6 shadow-sm transition-shadow hover:shadow-md"
           >
             <div className="flex h-full flex-col justify-between gap-4">
               <div className="space-y-2">
-                <FileText className="h-8 w-8 text-primary" />
+                <FileText className="h-8 w-8 text-primary homepage-icon" />
                 <h3 className="font-bold">Featured Post</h3>
                 <p className="text-muted-foreground">
                   Jesus doesn't deny Himself by saying only God is good
@@ -80,7 +87,7 @@ const Index = () => {
               </div>
               <div className="flex items-center text-sm">
                 <span className="text-primary">Read now</span>
-                <ArrowRight className="ml-1 h-4 w-4 text-primary" />
+                <ArrowRight className="ml-1 h-4 w-4 text-primary homepage-icon" />
               </div>
             </div>
           </Link>
@@ -90,7 +97,7 @@ const Index = () => {
       <section className="space-y-6">
         <div className="space-y-2">
           <h2 className="text-2xl font-bold tracking-tight flex items-center gap-2">
-            <Tag className="h-6 w-6" />
+            <Tag className="h-6 w-6 homepage-icon" />
             Topics
           </h2>
           <p className="text-muted-foreground">
@@ -146,7 +153,7 @@ const Index = () => {
             <Link
               key={i}
               to={item.path}
-              className="flex flex-col sm:flex-row gap-4 items-start rounded-lg border p-4 hover:bg-muted/50 transition-colors page-link-button"
+              className="flex flex-col sm:flex-row gap-4 items-start rounded-lg border p-4 hover:bg-muted/50 transition-colors page-link-button homepage-box"
             >
               <div className="min-w-[120px] text-sm text-muted-foreground">
                 {item.date}
@@ -181,6 +188,36 @@ const Index = () => {
           onClose={() => setShowImageModal(false)}
         />
       )}
+
+      <style jsx>{`
+        .homepage-box {
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .homepage-box:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 0 15px rgba(45, 166, 95, 0.5);
+        }
+        
+        .homepage-box:hover .homepage-icon {
+          filter: drop-shadow(0 0 5px rgba(45, 166, 95, 0.7));
+          transform: scale(1.1);
+        }
+        
+        .homepage-icon {
+          transition: all 0.3s ease;
+        }
+        
+        .hover-glow-effect {
+          transition: all 0.3s ease;
+        }
+        
+        .hover-glow-effect:hover {
+          filter: drop-shadow(0 0 15px rgba(45, 166, 95, 0.8));
+        }
+      `}</style>
     </div>
   );
 };
