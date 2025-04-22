@@ -120,15 +120,6 @@ const sidebarItems: SidebarItemProps[] = [
 ];
 
 
-const SidebarItem = ({ title, path, icon, children, level = 0, isTopLevel = false }: SidebarItemProps) => {
-  /* ... (keep original SidebarItem implementation exactly as it was) ... */
-};
-
-const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
-  /* ... (keep original Sidebar implementation exactly as it was) ... */
-};
-
-export default Sidebar;
 
 const SidebarItem = ({ title, path, icon, children, level = 0, isTopLevel = false }: SidebarItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
