@@ -119,8 +119,6 @@ const sidebarItems: SidebarItemProps[] = [
   },
 ];
 
-
-
 const SidebarItem = ({ title, path, icon, children, level = 0, isTopLevel = false }: SidebarItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -473,7 +471,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
         />
       )}
 
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .logo-image {
           transition: filter 0.3s ease;
         }
@@ -505,7 +503,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onToggle }) => {
         .logo-glow-animation {
           animation: logoPulseGlow 0.5s ease-in-out;
         }
-      `}</style>
+      `}} />
     </>
   );
 };

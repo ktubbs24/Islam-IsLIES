@@ -5,8 +5,6 @@ import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
 import { Link } from 'react-router-dom';
 import 'katex/dist/katex.min.css';
 
@@ -27,8 +25,8 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
   return (
     <div className={`markdown-content ${className}`}>
       <ReactMarkdown
-        remarkPlugins={[remarkGfm, remarkMath]}
-        rehypePlugins={[rehypeRaw, rehypeKatex]}
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeRaw]}
         components={{
           a: ({ node, href, children, ...props }) => {
             // Check if it's an external link

@@ -67,7 +67,7 @@ const Header = () => {
           </button>
         </div>
       </div>
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .search-pulse {
           animation: searchPulse 1s ease-in-out;
         }
@@ -83,7 +83,7 @@ const Header = () => {
             box-shadow: 0 0 0 0 rgba(45, 166, 95, 0);
           }
         }
-      `}</style>
+      `}} />
     </header>
   );
 };
