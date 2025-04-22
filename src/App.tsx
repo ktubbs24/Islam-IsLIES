@@ -1,3 +1,4 @@
+
 import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -13,6 +14,14 @@ const Index = lazy(() => import("./pages/Index"));
 const HomePage = lazy(() => import("./pages/home/HomePage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const FolderOverview = lazy(() => import("./pages/content/overview")); // Import the dynamic overview page
+
+// Import folder page components from the backup files
+const HomeFolderPage = lazy(() => import("./pages/home/HomeFolderPage"));
+const FaithInJesusFolderPage = lazy(() => import("./pages/faith-in-jesus/FaithInJesusFolderPage"));
+const FaithInMohammadFolderPage = lazy(() => import("./pages/faith-in-mohammad/FaithInMohammadFolderPage"));
+const FaithInAllahFolderPage = lazy(() => import("./pages/faith-in-allah/FaithInAllahFolderPage"));
+const BlogFolderPage = lazy(() => import("./pages/blog/BlogFolderPage"));
+const ResourcesFolderPage = lazy(() => import("./pages/resources/ResourcesFolderPage"));
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -37,6 +46,14 @@ const App = () => {
 
                   {/* Dynamic Folder Routes */}
                   <Route path="/content/:folder" element={<FolderOverview />} />
+
+                  {/* Folder Pages */}
+                  <Route path="/content/home" element={<HomeFolderPage />} />
+                  <Route path="/content/faith-in-jesus" element={<FaithInJesusFolderPage />} />
+                  <Route path="/content/faith-in-mohammad" element={<FaithInMohammadFolderPage />} />
+                  <Route path="/content/faith-in-allah" element={<FaithInAllahFolderPage />} />
+                  <Route path="/content/blog" element={<BlogFolderPage />} />
+                  <Route path="/content/resources" element={<ResourcesFolderPage />} />
 
                   {/* Catch-All Route */}
                   <Route path="*" element={<NotFound />} />

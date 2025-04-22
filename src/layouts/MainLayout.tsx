@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, Link } from "react-router-dom";
 import Sidebar from "@/components/Sidebar";
@@ -122,9 +123,13 @@ const MainLayout = () => {
     audio.play().catch(e => console.log('Audio play error:', e));
   };
 
+  const handleSidebarToggle = (isOpen: boolean) => {
+    setIsSidebarOpen(isOpen);
+  };
+
   return (
     <div className={`min-h-screen flex dim-transition ${theme}`}>
-      <Sidebar onToggle={isOpen => setIsSidebarOpen(isOpen)} />
+      <Sidebar onToggle={handleSidebarToggle} />
       <div className={cn(
         "flex-1 min-w-0 transition-all duration-300 flex flex-col",
         isSidebarOpen ? "md:ml-80" : "ml-0"
@@ -158,8 +163,7 @@ const MainLayout = () => {
         <ChevronUp size={20} />
       </button>
 
-      <style>
-        {`
+      <style dangerouslySetInnerHTML={{ __html: `
         .logo-glow-animation {
           animation: logoPulseGlow 0.5s ease-in-out;
         }
@@ -187,8 +191,7 @@ const MainLayout = () => {
             padding-right: 15px;
           }
         }
-        `}
-      </style>
+      `}} />
     </div>
   );
 };

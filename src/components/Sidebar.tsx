@@ -24,6 +24,10 @@ interface SidebarItemProps {
   level?: number;
 }
 
+interface SidebarProps {
+  onToggle?: (isOpen: boolean) => void;
+}
+
 const SidebarItem = ({ title, path, icon, children, level = 0 }: SidebarItemProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -77,13 +81,17 @@ const SidebarItem = ({ title, path, icon, children, level = 0 }: SidebarItemProp
   );
 };
 
-const Sidebar = () => {
+const Sidebar = ({ onToggle }: SidebarProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const sidebarRef = useRef(null);
 
   const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen) {
+    const newIsOpen = !isOpen;
+    setIsOpen(newIsOpen);
+    if (onToggle) {
+      onToggle(newIsOpen);
+    }
+    if (!newIsOpen) {
       document.documentElement.classList.add("sidebar-collapsed");
     } else {
       document.documentElement.classList.remove("sidebar-collapsed");
@@ -128,6 +136,20 @@ const Sidebar = () => {
           ))}
         </div>
       </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        .sidebar-transition {
+          transition: transform 0.3s ease-in-out;
+        }
+        .sidebar-collapsed .main-content {
+          margin-left: 0;
+        }
+        @media (max-width: 768px) {
+          .main-content {
+            margin-left: 0 !important;
+          }
+        }
+      `}} />
     </>
   );
 };

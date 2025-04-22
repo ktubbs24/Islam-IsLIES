@@ -1,93 +1,64 @@
-import { useState, useRef, useEffect } from "react";
-import { Download, Check, FileText } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
 
-interface DocDownloadProps {
+import React from 'react';
+import { Download } from 'lucide-react';
+import { Button } from './ui/button';
+import { toast } from './ui/use-toast';
+
+export interface DocDownloadProps {
   documentTitle: string;
-  content: string; // Pass the content directly as a prop
+  content?: string;
+  contentId?: string;
 }
 
-const DocDownload = ({ documentTitle, content }: DocDownloadProps) => {
-  const [showNotification, setShowNotification] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  // Create audio element on mount
-  useEffect(() => {
-    audioRef.current = new Audio("/download-sound.mp3");
-    audioRef.current.volume = 0.5;
-
-    return () => {
-      if (audioRef.current) {
-        audioRef.current = null;
+const DocDownload: React.FC<DocDownloadProps> = ({ documentTitle, content, contentId }) => {
+  const handleDownload = () => {
+    try {
+      // Use either provided content or find by contentId
+      let downloadContent = content;
+      
+      if (!downloadContent && contentId) {
+        // Logic to retrieve content by ID if needed
+        downloadContent = `Content for ${contentId}`; 
       }
-    };
-  }, []);
+      
+      if (!downloadContent) {
+        throw new Error('No content available for download');
+      }
 
-  const handleDownload = (format: string) => {
-    // Play sound
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play().catch((err) => console.error("Error playing sound:", err));
+      const blob = new Blob([downloadContent], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${documentTitle.replace(/[^a-z0-9]/gi, '-').toLowerCase()}.md`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      toast({
+        title: "Download started",
+        description: `${documentTitle} is being downloaded as Markdown.`
+      });
+    } catch (error) {
+      console.error('Download error:', error);
+      toast({
+        title: "Download failed",
+        description: "There was an error downloading the document.",
+        variant: "destructive"
+      });
     }
-
-    // Show notification
-    setShowNotification(true);
-    setTimeout(() => setShowNotification(false), 3000);
-
-    // Create a downloadable file
-    const blob = new Blob([content], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${documentTitle.replace(/\s+/g, "-").toLowerCase()}.${format}`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
   };
 
   return (
-    <div className="relative">
-      {showNotification && (
-        <div className="absolute -top-12 right-1/2 transform translate-x-1/2 bg-background border border-border shadow-lg rounded-md px-4 py-2 z-10 animate-float flex items-center">
-          <Check className="h-4 w-4 text-primary mr-2" />
-          <span className="text-sm">Free to download, no need for credit.</span>
-        </div>
-      )}
-
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="sm">
-            <Download className="mr-2 h-4 w-4" />
-            Download
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-48">
-          <DropdownMenuItem onClick={() => handleDownload("md")}>
-            <FileText className="mr-2 h-4 w-4" />
-            <span>Markdown (.md)</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleDownload("txt")}>
-            <FileText className="mr-2 h-4 w-4" />
-            <span>Text (.txt)</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleDownload("docx")}>
-            <FileText className="mr-2 h-4 w-4" />
-            <span>Word (.docx)</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => handleDownload("pdf")}>
-            <FileText className="mr-2 h-4 w-4" />
-            <span>PDF (.pdf)</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+    <Button 
+      variant="outline" 
+      size="sm" 
+      className="flex items-center gap-1 text-xs" 
+      onClick={handleDownload}
+    >
+      <Download className="h-3 w-3" />
+      <span>Download</span>
+    </Button>
   );
 };
 
