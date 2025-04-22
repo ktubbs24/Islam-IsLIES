@@ -20,4 +20,9 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      external: ["use-debounce"], // Exclude "use-debounce" from the bundle
+    },
+  },
 }));
