@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, Cross, Flame, XOctagon } from 'lucide-react';
@@ -296,7 +297,7 @@ const Index = () => {
         </div>
       </section>
 
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .hero-section {
           min-height: calc(100vh - 80px);
           background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
@@ -349,7 +350,7 @@ const Index = () => {
         .floating {
           animation: float 6s ease-in-out infinite;
         }
-      `}</style>
+      `}} />
     </div>
   );
 };

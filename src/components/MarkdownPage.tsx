@@ -9,7 +9,7 @@ import { Button } from './ui/button';
 import { FileDown } from 'lucide-react';
 
 interface MarkdownPageProps {
-  contentType: 'home' | 'blog' | 'docs';
+  contentType?: 'home' | 'blog' | 'docs';
   folderPath?: string;
   showNavigation?: boolean;
   showBreadcrumbs?: boolean;
@@ -18,7 +18,7 @@ interface MarkdownPageProps {
 }
 
 const MarkdownPage: React.FC<MarkdownPageProps> = ({
-  contentType,
+  contentType = 'home',
   folderPath = '',
   showNavigation = true,
   showBreadcrumbs = true,
