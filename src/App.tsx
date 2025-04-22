@@ -1,13 +1,15 @@
-import { lazy, Suspense } from "react"; // ONLY ADD THIS LINE
+import { lazy, Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
+import { HelmetProvider, Helmet } from "react-helmet-async"; // Import HelmetProvider and Helmet
 
 import MainLayout from "./layouts/MainLayout";
-// REPLACE THESE IMPORTS WITH LAZY VERSIONS:
+
+// Lazy-loaded components
 const Index = lazy(() => import("./pages/Index"));
 const HomePage = lazy(() => import("./pages/home/HomePage"));
 const BlogFolderPage = lazy(() => import("./pages/blog/BlogFolderPage"));
@@ -23,27 +25,40 @@ const BlogArchives = lazy(() => import("./components/BlogArchives"));
 
 const App = () => {
   const queryClient = new QueryClient();
-  
+
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          {/* ONLY ADD THIS SUSPENSE WRAPPER */}
-          <Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
-            <Routes>
-              <Route element={<MainLayout />}>
-                {/* ALL YOUR EXISTING ROUTES REMAIN EXACTLY THE SAME */}
-                <Route path="/" element={<Index />} />
-                <Route path="/home" element={<HomePage />} />
-                {/* ... keep all other routes exactly as they are ... */}
-              </Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </BrowserRouter>
-      </TooltipProvider>
+      <HelmetProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <Helmet>
+            {/* Add the <link> tags dynamically */}
+            <link rel="preconnect" href="https://fonts.gstatic.com" />
+            <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+          </Helmet>
+          <BrowserRouter>
+            <Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
+              <Routes>
+                <Route element={<MainLayout />}>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/home" element={<HomePage />} />
+                  <Route path="/blog" element={<BlogFolderPage />} />
+                  <Route path="/docs/faith-in-jesus" element={<FaithInJesusFolderPage />} />
+                  <Route path="/docs/faith-in-mohammad" element={<FaithInMohammadFolderPage />} />
+                  <Route path="/docs/faith-in-allah" element={<FaithInAllahFolderPage />} />
+                  <Route path="/resources" element={<ResourcesFolderPage />} />
+                  <Route path="/faq" element={<FAQPage />} />
+                  <Route path="/tags" element={<TagPage />} />
+                  <Route path="/markdown" element={<MarkdownPage />} />
+                  <Route path="/archives" element={<BlogArchives />} />
+                </Route>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </TooltipProvider>
+      </HelmetProvider>
     </QueryClientProvider>
   );
 };
