@@ -1,105 +1,84 @@
 
-import { useEffect, useState } from 'react';
+import { remark } from 'remark';
+import html from 'remark-html';
+import matter from 'gray-matter';
 import fs from 'fs';
 import path from 'path';
-import matter from 'gray-matter';
+
+export interface FrontMatter {
+  title: string;
+  date: string;
+  updateDate?: string;
+  excerpt?: string;
+  author?: string;
+  slug?: string;
+  imageSrc?: string;
+  categories?: string[];
+  tags?: string[];
+  disclaimer?: string;
+  [key: string]: any;
+}
 
 export interface MarkdownContent {
-  slug: string;
   content: string;
-  frontmatter: {
-    title: string;
-    date: string;
-    lastUpdated?: string;
-    excerpt?: string;
-    author?: string;
-    category?: string;
-    tags?: string[];
-    [key: string]: any;
-  };
-  filePath: string;
+  frontMatter: FrontMatter;
 }
 
-// Function to convert wiki-style links to markdown links
-export function convertWikiLinks(content: string): string {
-  const wikiLinkRegex = /\[\[(.*?)\]\]/g;
-  return content.replace(wikiLinkRegex, (_, text) => {
-    // Convert spaces to hyphens for the URL
-    const slug = text.toLowerCase().replace(/\s+/g, '-');
-    return `[${text}](/${slug})`;
-  });
-}
-
-// Client-side function to fetch markdown content
-export function useMarkdownContent(filePath: string) {
-  const [content, setContent] = useState<MarkdownContent | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    async function fetchContent() {
-      try {
-        const response = await fetch(`/content/${filePath}`);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch markdown: ${response.status}`);
-        }
-        
-        const rawContent = await response.text();
-        const { data, content } = matter(rawContent);
-        
-        setContent({
-          slug: path.basename(filePath, '.md'),
-          content: convertWikiLinks(content),
-          frontmatter: {
-            title: data.title || 'Untitled',
-            date: data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
-            lastUpdated: data.lastUpdated ? new Date(data.lastUpdated).toISOString() : undefined,
-            excerpt: data.excerpt || '',
-            author: data.author || 'Unknown',
-            category: data.category || 'Uncategorized',
-            tags: data.tags || [],
-            ...data
-          },
-          filePath
-        });
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching markdown content:", err);
-        setError(err instanceof Error ? err : new Error(String(err)));
-        setLoading(false);
-      }
-    }
-
-    fetchContent();
-  }, [filePath]);
-
-  return { content, loading, error };
-}
-
-// Function to get all markdown files in a directory (client-side version)
-export async function getAllMarkdownFiles(directory: string): Promise<string[]> {
+// Helper function to read markdown files
+export const getMarkdownContent = (filePath: string): MarkdownContent | null => {
   try {
-    const response = await fetch(`/api/list-markdown?directory=${directory}`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch markdown files list: ${response.status}`);
+    // Check if file exists
+    if (!fs.existsSync(filePath)) {
+      console.error(`File not found: ${filePath}`);
+      return null;
     }
     
-    const data = await response.json();
-    return data.files || [];
+    // Read the file
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    
+    // Extract front matter and content
+    const { data, content } = matter(fileContents);
+    
+    // Convert markdown to HTML
+    const processedContent = remark()
+      .use(html)
+      .processSync(content)
+      .toString();
+    
+    // Return the processed content and front matter
+    return {
+      content: processedContent,
+      frontMatter: data as FrontMatter
+    };
   } catch (error) {
-    console.error("Error fetching markdown files:", error);
+    console.error(`Error processing markdown file: ${filePath}`, error);
+    return null;
+  }
+};
+
+// Function to get all markdown files from a directory
+export const getAllMarkdownFiles = (directory: string): string[] => {
+  try {
+    const files = fs.readdirSync(directory);
+    return files.filter(file => file.endsWith('.md'));
+  } catch (error) {
+    console.error(`Error reading directory: ${directory}`, error);
     return [];
   }
-}
+};
 
-// Function to get all markdown content from files in a directory (client-side version)
-export async function getAllMarkdownContent(directory: string): Promise<MarkdownContent[]> {
-  const files = await getAllMarkdownFiles(directory);
-  const contentPromises = files.map(async (filePath) => {
-    const { content } = await useMarkdownContent(path.join(directory, filePath));
-    return content;
-  });
+// Function to get all markdown content from a directory
+export const getAllMarkdownContent = (directory: string): MarkdownContent[] => {
+  const files = getAllMarkdownFiles(directory);
   
-  const contents = await Promise.all(contentPromises);
-  return contents.filter((content): content is MarkdownContent => content !== null);
-}
+  return files
+    .map(file => {
+      const filePath = path.join(directory, file);
+      return getMarkdownContent(filePath);
+    })
+    .filter((content): content is MarkdownContent => content !== null)
+    .sort((a, b) => {
+      // Sort by date, newest first
+      return new Date(b.frontMatter.date).getTime() - new Date(a.frontMatter.date).getTime();
+    });
+};

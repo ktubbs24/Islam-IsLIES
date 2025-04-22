@@ -82,7 +82,7 @@ const NotFound = () => {
             transform: scale(1);
           }
         }
-      `}} />
+      ` }} />
     </div>
   );
 };
