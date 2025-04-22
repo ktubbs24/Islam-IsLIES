@@ -2,10 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
-// ▼▼▼ ADD THIS NEW IMPORT ▼▼▼
-import { imageOptimizer } from "vite-plugin-image-optimizer";
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
@@ -16,14 +13,7 @@ export default defineConfig(({ mode }) => ({
   },
   plugins: [
     react(),
-    // ▼▼▼ ADD THE NEW OPTIMIZER HERE (AFTER REACT, BEFORE COMPONENT TAGGER) ▼▼▼
-    imageOptimizer({
-      jpg: { quality: 70 },
-      png: { quality: 70 },
-      webp: { lossless: false },
-    }),
-    mode === 'development' &&
-    componentTagger(),
+    mode === 'development' && componentTagger(),
   ].filter(Boolean),
   resolve: {
     alias: {
